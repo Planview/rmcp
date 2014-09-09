@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RMCP Charts</title>
+	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.2.0+2/darkly/bootstrap.css">
+	<link rel="stylesheet" href="app/bower_components/fontawesome/css/font-awesome.css">
+	<script src="app/bower_components/d3/d3.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="app/bower_components/underscore/underscore.js" type="text/javascript"></script>
+	<style type="text/css" media="screen">
+		#bar-chart {background-color: #fff;}
+	</style>
+</head>
+<body>
+<div class="container">
+<header id="header" class="page-header">
+	<h1>This is a header</h1>
+</header><!-- /header -->
+<main>
+	<div id="bar-chart"></div>
+</main>
+</div>
+<script>
+		var dimensions = {
+			height: 500,
+			width: 800,
+			paddingHorizontal: 10,
+			paddingVertical: 10,
+			yAxisMinWidth: 300,
+			calloutMinWidth: 200,
+			yAxisProportion: 0.4,
+			calloutProportion: 0.2,
+			titleHeight: 54,
+			legendHeight: 100,
+			calloutPaddingLeft: 50,
+			otherInfoHeight: 60,
+			innerHeight: function () { return this.height - 2 * this.paddingVertical; },
+			innerWidth: function () { return this.width - 2 * this.paddingHorizontal; },
+			calloutWidth: function () {
+				return Math.round(
+					Math.max(
+						this.calloutMinWidth,
+						(this.innerWidth() * this.calloutProportion)
+					)
+				);
+			},
+			yAxisWidth: function () {
+				return Math.round(
+					Math.max(
+						this.yAxisMinWidth,
+						(this.innerWidth() - this.calloutWidth()) * this.yAxisProportion
+					)
+				);
+			},
+			dataWidth: function () {
+				return this.innerWidth() - this.calloutWidth() - 
+					this.yAxisWidth() - this.calloutPaddingLeft;
+			},
+			yAxisLeft: function () { return this.paddingHorizontal;	},
+			yAxisRight: function () { return this.yAxisLeft() + this.yAxisWidth(); },
+			dataLeft: function () { return this.yAxisRight(); },
+			dataRight: function ()  { return this.dataLeft() + this.dataWidth(); },
+			calloutLeft: function () { return this.dataRight() + this.calloutPaddingLeft; },
+			calloutRight: function () { return this.width - this.paddingHorizontal; },
+			centerHorizontal: function () { return Math.round(this.width / 2); },
+			titleTop: function () { return this.paddingVertical; },
+			titleBottom: function () { return this.titleTop() + this.titleHeight; },
+			titleUnderline: function () {return this.titleBottom() + this.paddingVertical * 2; },
+			legendTop: function () { return this.titleUnderline() + this.paddingVertical; },
+			legendBottom: function () { return this.legendTop() + this.legendHeight; },
+			otherInfoBottom: function () { return this.height - this.paddingVertical; },
+			otherInfoTop: function () { return this.otherInfoBottom() - this.otherInfoHeight; },
+			dataTop: function () { return this.legendBottom() + this.paddingVertical; },
+			dataBottom: function () { return this.otherInfoTop(); },
+			dataHeight: function () { return this.dataBottom() - this.dataTop(); },
+			calloutTop: function () { return this.legendTop(); },
+			calloutBottom: function () { return this.dataBottom(); },
+			calloutHeight: function () { return this.calloutBottom() - this.calloutTop(); },
+			legendLeft: function () { return this.yAxisLeft(); },
+			legendRight: function () { return this.dataRight(); }
+		};
+
+		var $container = $('#bar-chart');
+		dimensions.width = $container.width();
+		dimensions.height = 9 * dimensions.width / 16;
+		var hexagonPath = "M18.536,12.353L2.378,21.681c-1.234,0.714-2.755,0.714-3.99,0l-16.157-9.328c-1.235-0.712-1.996-2.03-1.996-3.456V-9.759c0-1.425,0.76-2.743,1.996-3.455l16.157-9.329c1.235-0.712,2.756-0.712,3.99,0l16.158,9.329c1.234,0.712,1.994,2.3,1.994,3.455V8.897C20.53,10.323,19.771,11.641,18.536,12.353"
+
+		var sampleSize = 480;
+		var dataset = [
+			{
+				title: "Insufficient visibility into resource capacity",
+				datum: 191
+			},
+			{
+				title: "Lack of a combined, holistic view of both resource capacity and pipeline demand",
+				datum: 241
+			},
+			{
+				title: "Ineffective demand prioritization and governance process",
+				datum: 125
+			},
+			{
+				title: "Insufficient visibility into pipeline demand",
+				datum: 194
+			},
+			{
+				title: "Unable to run what-if scenarios",
+				datum: 72
+			}
+		];
+		var dataKey = function (d) {
+			return d.title;
+		}
+
+		var svg = d3.select("#bar-chart").append("svg").attr("height", dimensions.height).attr("width", dimensions.width);
+		var yScale	= d3.scale.ordinal().domain(d3.range(dataset.length)).rangeRoundBands([dimensions.dataTop(), dimensions.dataBottom()], 0.6,0.2);
+		var xScale = d3.scale.linear().domain([0, d3.max(dataset, function (d) {
+			return d.datum / sampleSize;
+		})]).range([0, dimensions.dataWidth()]);
+		var percentFormat = d3.format('%');
+		var yAxis = d3.svg.axis()
+			.scale(yScale)
+			.orient("left")
+			.tickFormat(function(d){return d.title;});
+
+		var wrapLines = function (text, width) {
+			console.log(width);
+			  text.each(function() {
+			    var text = d3.select(this),
+			        words = text.text().split(/\s+/).reverse(),
+			        word,
+			        line = [],
+			        lineNumber = 0,
+			        lineHeight = 1.5, // ems
+			        y = text.attr("y"),
+			        x = text.attr("x"),
+			        dy = parseFloat(text.attr("dy")) || 0,
+			        tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+			    while (word = words.pop()) {
+			      line.push(word);
+			      tspan.text(line.join(" "));
+			      if (tspan.node().getComputedTextLength() > width) {
+			        line.pop();
+			        tspan.text(line.join(" "));
+			        line = [word];
+			        tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+			      }
+			    }
+			  });
+		}
+
+		var title = svg.append("g");
+		title.append("text")	//	Title Text
+			.text("Capacity Planning Pain Points")
+			.attr("y", dimensions.titleBottom())
+			.attr("x", dimensions.centerHorizontal())
+			.style({
+				'font-family': "'Roboto Slab', serif",
+				'text-anchor': 'middle',
+				'fill': '#58585b',
+				'font-size': '42px'
+			});
+		title.append("path")	//	Underline the title
+			.attr("d", function () {
+				var path = "";
+				path += "M" + dimensions.yAxisLeft() + "," + dimensions.titleUnderline();
+				path += "L" + dimensions.calloutRight() + "," + dimensions.titleUnderline();
+				return path;				
+			})
+			.style({
+				'stroke': '#58585b',
+				'stroke-width': '2px'
+			});
+
+		var calloutBox = svg.append("g");
+		calloutBox.append("rect")
+			.attr("x", function () {
+				return dimensions.calloutLeft();
+			})
+			.attr("y", function () {
+				return dimensions.calloutTop();
+			})
+			.attr("width", function () {
+				return dimensions.calloutWidth();
+			})
+			.attr("height", function () {
+				return dimensions.calloutHeight();
+			})
+			.style({
+				'fill': 'rgba(88, 88, 91, 0.1)',
+				'stroke-width': '0'
+			})
+
+		var chartData = svg.append("g");
+		chartData.selectAll("rect")	//	Bars
+			.data(dataset, dataKey)
+			.enter()
+			.append("rect")
+			.attr("y", function (d, i) {
+				return yScale(i);
+			})
+			.attr("x", dimensions.dataLeft())
+			.attr("height", yScale.rangeBand())
+			.attr("width", function (d) {
+				return xScale(d.datum / sampleSize);
+			})
+			.style({
+				'stroke': '#203368',
+				'stroke-width': 1,
+				'fill': '#203368'
+			});
+		chartData.selectAll("text")
+			.data(dataset, dataKey)
+			.enter()
+			.append("text")
+			.text(function (d) {
+				return percentFormat(d.datum / sampleSize);
+			})
+			.attr("x", function (d) {
+				return dimensions.dataLeft() + xScale(d.datum / sampleSize) / 2;
+			})
+			.attr("y", function (d,i) {
+				return yScale(i) - dimensions.paddingVertical;
+			})
+			.style({
+				'text-anchor': 'middle',
+				'font-family': 'Open Sans',
+				'font-size': '18px',
+				'fill': '#58585b'
+			})
+
+		var yAxisGroup = svg.append("g");
+		yAxisGroup.append("path")	//	Y-axis line
+			.attr("d", function () {
+				var path = "";
+				path += "M" + dimensions.yAxisRight() + "," + dimensions.dataTop();
+				path += "L" + dimensions.yAxisRight() + "," + dimensions.dataBottom();
+				return path;
+			})
+			.style({
+				'stroke': '#000',
+				'stroke-width': '1px'
+			});
+		yAxisGroup.selectAll("text")	//	Labels
+			.data(dataset, dataKey)
+			.enter()
+			.append("text")
+			.attr("x", function () {
+				return dimensions.yAxisRight() - dimensions.paddingHorizontal;
+			})
+			.attr("y", function (d, i) {
+				return yScale(i) + yScale.rangeBand() / 2;
+			})
+			.text(function (d) {
+				return d.title;
+			})
+			.call(wrapLines, (dimensions.yAxisWidth() - dimensions.paddingHorizontal)/1.1)
+			.style({
+				'text-anchor': 'end',
+				'fill': '#58585b',
+				'font-family': 'Open Sans',
+				'font-size': '16px',
+				'alignment-baseline': 'middle'
+			});
+
+		var legend = svg.append("g");
+		legend.append("path")
+			.attr("d", hexagonPath)
+			.style({
+				'fill': '#203368',
+				'stroke-width': '1px',
+				'stroke': '#203368'
+			})
+			.attr('transform', function () {
+				return 'translate(' + (21 * 0.6 + dimensions.legendLeft()) +
+					',' + Math.round((dimensions.legendTop() + dimensions.legendBottom()) / 2) + ')'
+					+ 'scale(0.6)';
+			});
+		legend.append("text")
+			.text("Total Sample (n=480)")
+			.attr("x", function () {
+				return dimensions.legendLeft() + 41 * 0.6 + dimensions.paddingHorizontal;
+			})
+			.attr("y", function () {
+				return Math.round((dimensions.legendTop() + dimensions.legendBottom()) / 2);
+			})
+			.style({
+				'fill': '#58585b',
+				'font-family': 'Open Sans',
+				'font-size': '18px',
+				'alignment-baseline': 'middle'
+			});
+</script>
+</body>
+</html>

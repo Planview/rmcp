@@ -19,5 +19,8 @@ define([
 			'myApp.directives',
 			'myApp.controllers',
 			'ngCookies'
-		]);
+		])
+		.run(['MarketoInfo', function(MarketoInfo){
+			MarketoInfo.get();
+		}]);
 });

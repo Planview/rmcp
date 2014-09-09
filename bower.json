@@ -25,6 +25,10 @@
     "fontawesome": "~4.1.0",
     "cookies-js": "~0.4.0",
     "angular-cookies": "~1.2.22",
-    "underscore": "~1.6.0"
+    "underscore": "~1.6.0",
+    "angular-resource": "~1.2.22",
+    "d3": "~3.4.11",
+    "r2d3": "~0.2.0",
+    "headroom.js": "~0.7.0"
   }
 }

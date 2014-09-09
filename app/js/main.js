@@ -7,10 +7,15 @@ require.config({
 		angularRoute: '../bower_components/angular-route/angular-route',
 		angularMocks: '../bower_components/angular-mocks/angular-mocks',
 		text: '../bower_components/requirejs-text/text',
-		munchkin: '//munchkin.marketo.net/munchkin',
+		vendorMunchkin: '//munchkin.marketo.net/munchkin',
 		Cookies: '../bower_components/cookies-js/dist/cookies.min',
 		underscore: '../bower_components/underscore/underscore',
-		angularCookies: '../bower_components/angular-cookies/angular-cookies.min'
+		angularCookies: '../bower_components/angular-cookies/angular-cookies.min',
+		SmartForms: '//www.reachforce.com/smartforms/v3-0/SmartForms',
+		d3: '../bower_components/d3/d3.min',
+		r2d3: '../bower_components/r2d3/r2d3.min',
+		Headroom: '../bower_components/headroom.js/dist/headroom.min',
+		jqHeadroom: '../bower_components/headroom.js/dist/jQuery.headroom.min'
 	},
 	shim: {
 		'angular' : {
@@ -24,8 +29,18 @@ require.config({
 		'angularCookies': {
 			deps: ['angular']
 		},
-		'munchkin': {
+		'vendorMunchkin': {
 			'exports': 'Munchkin'
+		},
+		'SmartForms': {
+			deps: ['shims/smartforms'],
+			'exports': 'sf$'
+		},
+		'Headroom': {
+			'exports': 'Headroom'
+		},
+		'jqHeadroom': {
+			deps: ['jquery', 'Headroom']
 		}
 	},
 	priority: [
@@ -36,13 +51,25 @@ require.config({
 //http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
 window.name = "NG_DEFER_BOOTSTRAP!";
 
+if (!Modernizr.svg || !Modernizr.inlinesvg) {
+	require.config({
+		map: {
+			'*': {
+				'd3': 'r2d3'
+			}
+		}
+	});
+}
+
 require( [
 	'angular',
 	'app',
 	'routes',
-	'munchkin'
-], function(angular, app, routes, munchkin) {
-	munchkin.init('587-QLI-337');
+	'munchkin',
+	'jquery',
+	'jqHeadroom'
+], function(angular, app, routes, Munchkin, $) {
+	$("#navbar").headroom({offset: 200});
 
 	var $html = angular.element(document.getElementsByTagName('html')[0]);
 

@@ -1,0 +1,42 @@
+@import "variables";
+
+@import "../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
+@import "../bower_components/fontawesome/scss/font-awesome";
+
+
+body {
+	padding-top: 50px;
+}
+.headroom {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	transition: all .5s ease-in-out;
+}
+.headroom--unpinned {
+	top: -100px;
+}
+.headroom--pinned {
+	top: 0;
+}
+.callout {
+	padding-top: 50px; 
+	padding-bottom: 50px; 
+	border-bottom: 1px #eee solid;
+}
+.callout:last-of-type {
+	border-bottom: 0;
+}
+#header {
+	margin-bottom: 0;
+}
+.subnav {
+	padding: 10px 0; 
+	background-color: #ddd;
+}
+.site-footer {
+	background-color: #666; 
+	padding: 50px 0; 
+	color: #fff;
+}

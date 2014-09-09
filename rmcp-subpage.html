@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RMCP Charts</title>
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.6.0/headroom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.6.0/jQuery.headroom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.4.0/holder.js"></script>
+	<style type="text/css" media="screen">
+		body {padding-top: 50px;}
+    .headroom {position: fixed;top: 0;left: 0;right: 0;transition: all .5s ease-in-out;}
+    .headroom--unpinned {top: -100px;}
+    .headroom--pinned {top: 0;}
+    .callout {padding-top: 50px; padding-bottom: 50px; border-bottom: 1px #eee solid;}
+    .callout:last-of-type {border-bottom: 0;}
+    #header {margin-bottom: 0;}
+    .subnav {padding: 10px 0; background-color: #ddd;}
+    .site-footer {background-color: #666; padding: 50px 0; color: #fff;}
+
+	</style>
+</head>
+<body>
+<nav id="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Planview</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="navbar-right">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#" title="">The Resource Dilemma</a></li>
+        <li><a href="#" title="">Explore the Findings</a></li>
+        <li><a href="#" title="">Get the Report</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <span class="fa fa-chevron-down"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Assess Your Company's Maturity</a></li>
+            <li><a href="#">About the Research</a></li>
+            <li class="divider"></li>
+            <li><a href="#">The RMCP Dilemma (Infographic)</a></li>
+            <li><a href="#">Explore the Findings</a></li>
+            <li><a href="#">Get the Report</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Planview Home</a></li>
+          </ul>
+        </li>
+      </ul>
+        
+      </div>
+    </div><!-- /.navbar-collapse -->
+  </div>
+</nav>
+<header id="header" class="jumbotron">
+	<div class="container">
+	<h1>This is a header</h1>
+  <p>Echo Park before they sold out biodiesel art party readymade. Narwhal fap actually paleo mlkshk pour-over shabby chic vegan farm-to-table letterpress church-key pop-up.</p>
+  <ul class="list-inline">
+    <li><a class="btn btn-xs btn-default"><span class="fa fa-twitter-square"></span> <span class="share-description">Share on Twitter</span></a></li>
+    <li><a class="btn btn-xs btn-default"><span class="fa fa-facebook-square"></span> <span class="share-description">Share on Facebook</span></a></li>
+    <li><a class="btn btn-xs btn-default"><span class="fa fa-linkedin-square"></span> <span class="share-description">Share on LinkedIn</span></a></li>
+  </ul>
+	</div>
+</header><!-- /header -->
+
+  <nav class="subnav">
+<div class="container">
+    <ul class="nav nav-pills nav-justified">
+      <li><a href="#first">Capacity Planning Pain Points</a></li>
+      <li><a href="#second">Resource Management Pain Points</a></li>
+      <li><a href="#third">RMCP Business Risks</a></li>
+    </ul>
+    </div>
+  </nav>
+
+<div class="container">
+<main>
+  <section id="first" class="row callout">
+   <div class="img-callout col-sm-6 col-sm-push-6 text-center">
+     <img src="http://placehold.it/400x400" alt="" class="img-responsive img-circle center-block">
+   </div>
+   <article class="col-sm-6 col-sm-pull-6">
+     <h2>Something here</h2>
+     <p class="lead">Echo Park before they sold out biodiesel art party readymade. Narwhal fap actually paleo mlkshk pour-over shabby chic vegan farm-to-table letterpress church-key pop-up. Vegan ennui plaid street art, +1 Marfa selvage. Farm-to-table before they sold out Echo Park beard, chambray single-origin coffee paleo McSweeney's blog synth stumptown.</p>
+   </article>
+  </section>
+  <section id="second" class="row callout">
+   <div class="img-callout col-sm-6 text-center">
+     <img src="http://placehold.it/400x400" alt="" class="img-responsive img-circle center-block">
+   </div>
+   <article class="col-sm-6">
+     <h2>Something here</h2>
+     <p class="lead">Echo Park before they sold out biodiesel art party readymade. Narwhal fap actually paleo mlkshk pour-over shabby chic vegan farm-to-table letterpress church-key pop-up. Vegan ennui plaid street art, +1 Marfa selvage. Farm-to-table before they sold out Echo Park beard, chambray single-origin coffee paleo McSweeney's blog synth stumptown.</p>
+   </article>
+  </section>
+  <section id="third" class="row callout">
+   <div class="img-callout col-sm-6 col-sm-push-6 text-center">
+     <img src="http://placehold.it/400x400" alt="" class="img-responsive img-circle center-block">
+   </div>
+   <article class="col-sm-6 col-sm-pull-6">
+     <h2>Something here</h2>
+     <p class="lead">Echo Park before they sold out biodiesel art party readymade. Narwhal fap actually paleo mlkshk pour-over shabby chic vegan farm-to-table letterpress church-key pop-up. Vegan ennui plaid street art, +1 Marfa selvage. Farm-to-table before they sold out Echo Park beard, chambray single-origin coffee paleo McSweeney's blog synth stumptown.</p>
+   </article>
+  </section>
+  <section class="callout row">
+    <p class="text-center">
+      <a href="#" class="btn btn-lg btn-success">Get the Report</a>
+    </p>
+  </section>
+</main>
+</div>
+<footer class="site-footer">
+<div class="container">
+  <p class="text-center">Something goes here</p>
+</div>
+</footer>
+<script>
+  $(document).ready(function () { 
+    $("#navbar").headroom({offset: 200});
+  });
+</script>
+</body>
+</html>

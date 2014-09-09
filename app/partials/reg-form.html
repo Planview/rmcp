@@ -1,0 +1,10 @@
+<form accept-charset="utf-8" name="WEBForm" id="WEBForm">
+	<input type="email" name="EmailAddress" id="EmailAddress" value="" placeholder="" required ng-model="model.Email">
+	<input type="text" name="FirstName" id="FirstName" value="" placeholder="" ng-model="model.FirstName" required>
+	<input type="text" name="LastName" id="LastName" value="" placeholder="" ng-model="model.LastName" required>
+	<input type="text" name="Company" id="Company" value="" placeholder="" ng-model="model.Company">
+	<input type="text" name="Country" id="Country" value="" placeholder="" ng-model="model.Country">
+	<input type="text" name="WorkPhone" id="WorkPhone" value="" placeholder="" ng-model="model.WorkPhone">
+	<input type="hidden" id="{{field}}" ng-repeat="field in sfFields" name="{{field}}" value="" ng-model="model[field]">
+	<button type="submit">Text</button>
+</form>

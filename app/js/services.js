@@ -1,37 +1,39 @@
 'use strict';
 
-define(['angular', 'Cookies', 'underscore'], function (angular, Cookies, _) {
+define(['angular', 'Cookies', 'underscore', 'angularCookies'], function (angular, Cookies, _) {
 	
 	/* Services */
 
 	// Demonstrate how to register services
 	// In this case it is a simple value service.
-	angular.module('myApp.services', [])
-		.value('version', '0.1')
-		.factory('apiToken', ['$http', function($http){
-			var getToken = function () {
-				return $http.get('/token.json.php');
-			}
+	angular.module('myApp.services', ['ngCookies'])
+		.factory('userConfirmed', function () {
 			return {
-				getToken: getToken
+				status: false,
+				confirm: function () { this.status = true; }
 			}
-		}])
-		.factory('marketoCookie', function () {
-			return {
+		})
+		.factory('MarketoInfo', ['$http', '$q', '$cookieStore', function ($http, $q, $cookieStore){
+			var object = {
+				userInfo: null,
+				receivedData: false,
 				get: function() {
-					return Cookies.get('_mkto_trk');
-				},
-				getObject: function() {
-					var cookie = this.get();
-					if (!cookie) return null;
-					return _.chain(cookie.split('&')).map(function(val) {return val.split(':')}).object().value();
-				},
-				getToken: function() {
-					var cookieData = this.getObject();
-					if (!cookieData) return null;
-					return cookieData.token;
+					return $http.get('/token.json.php', {params: {action: 'lead'}, withCredentials: true, cache: true});
+				} 
+			}
+			object.get().success(function (data) {
+				object.userInfo = data;
+				object.receivedData = true;
+				return data;
+			});
+			return object;
+		}])
+		.factory('MunckinHash', ['$http', function ($http) {
+			return {
+				get: function (email) {
+					return $http.get('/token.json.php', {params: {action: 'hash', key: email}, cache: false});
 				}
 			}
-		});
+		}]);
 
 });

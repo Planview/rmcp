@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Title</title>
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<style type="text/css" media="screen">
+		#bar-chart {overflow-x: auto;}
+	</style>
+</head>
+<body class="container">
+<header class="page-header">
+	<h1>Business Risks</h1>
+</header>
+<main>
+	<div id="bar-chart"></div>
+</main>
+<footer>
+<div class="btn-group">
+	<button class="overall btn btn-default">Overall</button>
+	<button class="services btn btn-default">Services</button>
+	<button class="pd btn btn-default">Product Development</button>
+	<button class="it btn btn-default">IT</button>
+	<button class="enterprise btn btn-default">Enterprise</button>
+</div>
+</footer>
+<script>
+var drawRMCPChart = function (container, data, sample, title, set) {
+	var containerSelector = container,
+		dataset = data,
+		sampleSize = sample,
+		titleText = title;
+		setName = set;
+
+	var dimensions = {
+		height: 500,
+		width: 800,
+		paddingHorizontal: 10,
+		paddingVertical: 10,
+		yAxisMinWidth: 300,
+		yAxisProportion: 0.4,
+		titleHeight: 82,
+		dataPadding: 70,
+		otherInfoHeight: 60,
+		spaceBetweenBars: 10,
+		minWidth: 650,
+		innerHeight: function () {
+			return this.height - 2 * this.paddingVertical;
+		},
+		innerWidth: function () {
+			return this.width - 2 * this.paddingHorizontal;
+		},
+		yAxisWidth: function () {
+			return Math.round(
+				Math.max(
+					this.yAxisMinWidth,
+					this.innerWidth() *	this.yAxisProportion
+				)
+			);
+		},
+		dataWidth: function () {
+			return this.innerWidth() - this.yAxisWidth() - this.dataPadding;
+		},
+		yAxisLeft: function () { return this.paddingHorizontal;	},
+		yAxisRight: function () {
+			return this.yAxisLeft() + this.yAxisWidth();
+		},
+		dataLeft: function () { return this.yAxisRight(); },
+		dataRight: function ()  {
+			return this.dataLeft() + this.dataWidth();
+		},
+		centerHorizontal: function () { return Math.round(this.width / 2); },
+		titleTop: function () { return this.paddingVertical; },
+		titleBottom: function () {
+			return this.titleTop() + this.titleHeight;
+		},
+		titleUnderline: function () {
+			return this.titleBottom() + this.paddingVertical * 2;
+		},
+		otherInfoBottom: function () {
+			return this.height - this.paddingVertical;
+		},
+		otherInfoTop: function () {
+			return this.otherInfoBottom() - this.otherInfoHeight;
+		},
+		dataTop: function () {
+			return this.titleUnderline() + this.paddingVertical * 4;
+		},
+		dataBottom: function () { return this.otherInfoTop(); },
+		dataHeight: function () { return this.dataBottom() - this.dataTop(); },
+	};
+	dimensions.width =
+		Math.max($(containerSelector).width(), dimensions.minWidth);
+	dimensions.height = Math.max(9 * dimensions.width / 16, 600);
+	var hexagonPath = "M18.536,12.353L2.378,21.681c-1.234,0.714-2.755," +
+		"0.714-3.99,0l-16.157-9.328c-1.235-0.712-1.996-2.03-1.996-3.456" +
+		"V-9.759c0-1.425,0.76-2.743,1.996-3.455l16.157-9.329c1.235-0.712," +
+		"2.756-0.712,3.99,0l16.158,9.329c1.234,0.712,1.994,2.3,1.994,3.455" +
+		"V8.897C20.53,10.323,19.771,11.641,18.536,12.353"
+
+	var svg = d3.select(containerSelector)
+		.append("svg")
+		.attr("height", dimensions.height)
+		.attr("width", dimensions.width);
+	var yScale = d3.scale.ordinal()
+		.domain(d3.range(dataset.length))
+		.rangeRoundBands(
+			[dimensions.dataTop(), dimensions.dataBottom()], 0.36, 0.28);
+	var xScale = d3.scale.linear()
+		.domain([0, d3.max(dataset, function (d) {
+				return d.datum / sampleSize;
+			})])
+		.range(
+			[0, dimensions.dataWidth()]);
+
+	var percentFormat = d3.format('%');
+
+	var resizeText = function (text, width, max) {
+		  text.each(function() {
+		    var text = d3.select(this),
+		    	current = max;
+
+		   	if (text.selectAll("tspan").empty()) {
+				do {
+					text.style("font-size", current + "px");
+					current -= 2;
+				} while (text.node().getComputedTextLength() > width);
+		   	} else {
+		   		text.selectAll("tspan")
+		   			.each(function () {
+		   				var tspan = d3.select(this);
+						do {
+							tspan.style("font-size", current + "px");
+							current -= 2;
+						} while (tspan.node().getComputedTextLength() > width);
+						current += 2;
+		   			})
+		   			.style("font-size", current + "px");
+		   	}
+		  });
+	};
+
+	var wrapLines = function (text, width) {
+		if (width === 0) return;
+		  text.each(function() {
+		    var text = d3.select(this),
+		        words = text.text().split(/\s+/).reverse(),
+		        word,
+		        line = [],
+		        lineNumber = 0,
+		        lineHeight = 1.5, // ems
+		        y = text.attr("y"),
+		        x = text.attr("x"),
+		        dy = parseFloat(text.attr("dy")) || 0,
+		        tspan = text.text(null).append("tspan")
+		        	.attr("x", x)
+		        	.attr("y", y)
+		        	.attr("dy", dy + "em")
+		        	.style("alignment-baseline",
+		        		text.style("alignment-baseline"));
+				
+		    while (word = words.pop()) {
+		      line.push(word);
+		      tspan.text(line.join(" "));
+		      if (tspan.node().getComputedTextLength() > width) {
+		        line.pop();
+		        tspan.text(line.join(" "));
+		        line = [word];
+		        tspan = text.append("tspan")
+		        	.attr("x", x)
+		        	.attr("y", y)
+		        	.attr("dy", ++lineNumber * lineHeight + dy + "em")
+		        	.text(word)
+		        	.style("alignment-baseline",
+		        		text.style("alignment-baseline"));
+		      }
+		    }
+		  });
+	};
+
+	var wrapTwoLinesUp = function (text, width) {
+		text.each(function() {
+			var text = d3.select(this),
+				lineOne = text.text().split(/\s+/),
+				lineTwo = [],
+				lineNumber = 0,
+				lineHeight = 1.3, // ems
+				y = text.attr("y"),
+				x = text.attr("x"),
+				tspanOne = text.text(null).append("tspan")
+					.attr("x", x)
+					.attr("y", y)
+					.attr("dy", -1 * lineHeight + "em")
+					.text(lineOne.join(" "));
+		        tspanTwo = text.append("tspan")
+					.attr("x", x)
+					.attr("y", y);
+			
+			if (tspanOne.node().getComputedTextLength() < width) {
+				tspanTwo.remove();
+				return;
+			}
+
+			while (tspanOne.node().getComputedTextLength() >
+					tspanTwo.node().getComputedTextLength()) {
+				lineTwo.unshift(lineOne.pop());
+				tspanOne.text(lineOne.join(" "));
+				tspanTwo.text(lineTwo.join(" "));
+			}
+		});
+	};
+
+	var reWrapLines = function (text, width) {
+		if (width === 0 || (typeof width === "number" && isNaN(width))) return;
+
+		text.each(function () {
+			var text = d3.select(this),
+				tspans = text.selectAll("tspan"),
+				content = '';
+
+				if (tspans.empty()) return;
+
+				tspans.each(function () {
+					content += d3.select(this).text() + " "
+				});
+
+				text.text(content.substring(0,content.length-1));
+		});
+		wrapLines(text, width);
+	};
+
+	var title = svg.append("g");
+	title.append("text")	//	Title Text
+		.text(titleText)
+		.attr("y", dimensions.titleBottom())
+		.attr("x", dimensions.centerHorizontal())
+		.style({
+			'font-family': "'Roboto Slab', serif",
+			'text-anchor': 'middle',
+			'fill': '#58585b',
+			'font-size': '36px',
+			'opacity': 1
+		})
+		.call(wrapTwoLinesUp, dimensions.innerWidth())
+		.call(resizeText, dimensions.innerWidth(), 36);
+	title.append("path")	//	Underline the title
+		.attr("d", function () {
+			var path = "";
+			path += "M" + dimensions.yAxisLeft() + "," +
+				dimensions.titleUnderline();
+			path += "l" + dimensions.innerWidth() + ", 0";
+			return path;				
+		})
+		.style({
+			'stroke': '#58585b',
+			'stroke-width': '2px'
+		});
+
+	var yAxisGroup = svg.append("g");
+	yAxisGroup.append("path")	//	Y-axis line
+		.attr("d", function () {
+			var path = "";
+			path += "M" + (dimensions.yAxisRight() - 1) + "," +
+				dimensions.dataTop();
+			path += "L" + (dimensions.yAxisRight() - 1) + "," +
+				dimensions.dataBottom();
+			return path;
+		})
+		.style({
+			'stroke': '#000',
+			'stroke-width': '1px'
+		});
+	yAxisGroup.selectAll("text")	//	Labels
+		.data(dataset)
+		.enter()
+		.append("text")
+		.style({
+			'text-anchor': 'end',
+			'fill': '#58585b',
+			'font-family': 'Open Sans',
+			'font-size': '14px',
+			'alignment-baseline': 'middle',
+			'opacity': 1
+		})
+		.attr("x", function () {
+			return dimensions.yAxisRight() - dimensions.paddingHorizontal;
+		})
+		.attr("y", function (d, i) {
+			return yScale(i) + yScale.rangeBand() / 2;
+		})
+		.text(function (d) {
+			return d.label;
+		})
+		.call(wrapLines, 
+			(dimensions.yAxisWidth() - dimensions.paddingHorizontal)/1.1);
+
+	var chartData = svg.append("g");
+	chartData.selectAll("rect")	//	Bars
+		.data(dataset)
+		.enter()
+		.append("rect")
+		.attr("x", dimensions.dataLeft())
+		.attr("y", function (d, i) {
+			return yScale(i);
+		})
+		.attr("height", yScale.rangeBand())
+		.attr("width", function (d) {
+			return xScale(d.datum / sampleSize);
+		})
+		.attr("data-toggle", "tooltip")
+		.attr("title", function (d, i) {
+			return d.datum + " out of " + sampleSize +
+				" companies surveyed voiced this as a business risk";
+		})
+		.style({
+			// 'stroke': '#203368',
+			'stroke-width': 0,
+			'fill': '#48C6EA'
+		})
+		.on("mouseover", function() {
+			d3.select(this)
+				.style("filter", "url(#drop-shadow)");
+		})
+		.on("mouseout", function(d) {
+			d3.select(this)
+				.style("filter", "");
+		});
+
+	chartData.selectAll("text")
+		.data(dataset)
+		.enter()
+		.append("text")
+		.text(function (d, i) {
+			return percentFormat(d.datum / sampleSize);
+		})
+		.attr("x", function (d, i) {
+			return dimensions.dataLeft() +
+				xScale(d.datum / sampleSize) +
+				dimensions.paddingHorizontal;
+		})
+		.attr("y", function (d,i) {
+			return yScale(i) + yScale.rangeBand() / 2;
+		})
+		.style({
+			'text-anchor': 'left',
+			'font-family': 'Open Sans',
+			'fill': '#58585b',
+			'alignment-baseline': 'middle',
+			'opacity': 1
+		})
+		.call(resizeText, dimensions.dataPadding, Math.min(
+				Math.round(yScale.rangeBand() * 0.8),
+				18
+			));
+
+	var finePrint = svg.append("g")
+		.append("text")
+		.text("n=" + sampleSize)
+		.attr("x", dimensions.dataLeft())
+		.attr("y", (dimensions.otherInfoTop() +
+			dimensions.otherInfoHeight / 2))
+		.style({
+			'font-size': '14px',
+			'font-family': 'Open Sans',
+			'fill': '#ccc'
+		});
+
+	// filters go in defs element
+	var defs = svg.insert("defs");
+	var filter = defs.append("filter")
+	    .attr("id", "drop-shadow")
+	    .attr("height", "130%");
+	filter.append("feGaussianBlur")
+	    // .attr("in", "SourceAlpha")
+	    .attr("stdDeviation", 3)
+	    .attr("result", "blur");
+	filter.append("feOffset")
+	    .attr("in", "blur")
+	    .attr("dx", 0)
+	    .attr("dy", 0)
+	    .attr("result", "offsetBlur");
+	var feMerge = filter.append("feMerge");
+
+	feMerge.append("feMergeNode")
+	    .attr("in", "offsetBlur")
+	feMerge.append("feMergeNode")
+	    .attr("in", "SourceGraphic");
+
+	this.changeData = function (newDataset, newSampleSize, newTitleText,
+			newSet) {
+		if (newSet === setName) return;
+		dataset = newDataset;
+		sampleSize = newSampleSize;
+		titleText = newTitleText;
+		setName = newSet;
+
+		if (title.selectAll("text").text() !== newTitleText) {
+			$(title.selectAll("text")[0][0])
+				.animate({'opacity': 0}, { complete: function () {
+						title.selectAll("text")
+							.text(newTitleText)
+							.attr("x", dimensions.centerHorizontal())
+							.call(wrapTwoLinesUp, dimensions.innerWidth())
+							.call(resizeText, dimensions.innerWidth(), 36);
+						$(this).animate({'opacity': 1});
+					}});
+		}
+
+		xScale.domain([0, d3.max(dataset, function (d) {
+				return d.datum / sampleSize;
+			})]);
+		yScale.domain(d3.range(newDataset.length));
+
+		chartData.selectAll("rect")
+			.data(newDataset)
+			.exit()
+			.transition()
+			.attr("width", 0)
+			.remove();
+
+		chartData.selectAll("rect")
+			.data(newDataset)
+			.attr("data-original-title", function (d, i) {
+				return d.datum + " out of " + sampleSize +
+					" companies surveyed voiced this as a business risk";
+			})
+			.transition()
+			.attr("width", 0)
+			.transition()
+			.delay(250)
+			.duration(10)
+			.attr("y", function (d, i) {
+				return yScale(i);
+			})
+			.attr("height", yScale.rangeBand())
+			.transition()
+			.duration(500)
+			.delay(function (d, i) {
+				return 260 + 500 * i / newDataset.length;
+			})
+			.attr("width", function (d) {
+				return xScale(d.datum / newSampleSize)
+			});
+
+		chartData.selectAll("rect")
+			.data(newDataset)
+			.enter()
+			.append("rect")
+			.attr("x", dimensions.dataLeft())
+			.attr("y", function (d, i) {
+				return yScale(i);
+			})
+			.attr("height", yScale.rangeBand())
+			.attr("width", 0)
+			.attr("data-toggle", "tooltip")
+			.attr("data-original-title", function (d, i) {
+				return d.datum + " out of " + sampleSize +
+					" companies surveyed voiced this as a business risk";
+			})
+			.style({
+				// 'stroke': '#203368',
+				'stroke-width': 0,
+				'fill': '#48C6EA'
+			})
+			.on("mouseover", function() {
+				d3.select(this)
+					.style("filter", "url(#drop-shadow)");
+			})
+			.on("mouseout", function(d) {
+				d3.select(this)
+					.style("filter", "");
+			})
+			.transition()
+			.delay(function (d, i) {
+				return 260 + 500 * i / newDataset.length;
+			})
+			.attr("width", function (d) {
+				return xScale(d.datum / newSampleSize);
+			});
+
+		chartData.selectAll("text")
+			.data(newDataset)
+			.exit()
+			.transition()
+			.attr("x", dimensions.dataLeft() +
+				dimensions.paddingHorizontal)
+			.style("opacity", 0)
+			.remove();
+
+		chartData.selectAll("text")
+			.data(newDataset)
+			.transition()
+			.attr("x", dimensions.dataLeft() +
+				dimensions.paddingHorizontal)
+			.style("opacity", 0)
+			.transition()
+			.delay(250)
+			.duration(10)
+			.attr("y", function (d, i) {
+				return yScale(i) + yScale.rangeBand() / 2;
+			})
+			.text(function (d, i) {
+				return percentFormat(d.datum / sampleSize);
+			})
+			.transition()
+			.duration(500)
+			.delay(function (d, i) {
+				return 260 + 500 * i / newDataset.length;
+			})
+			.style("opacity", 1)
+			.attr("x", function (d, i) {
+				return dimensions.dataLeft() +
+					xScale(d.datum / sampleSize) +
+					dimensions.paddingHorizontal;
+			});
+
+		chartData.selectAll("text")
+			.data(newDataset)
+			.enter()
+			.append("text")
+			.text(function (d, i) {
+				return percentFormat(d.datum / sampleSize);
+			})
+			.attr("y", function (d,i) {
+				return yScale(i) + yScale.rangeBand() / 2;
+			})
+			.attr("x", dimensions.dataLeft() +
+				dimensions.paddingHorizontal)
+			.style({
+				'text-anchor': 'left',
+				'font-family': 'Open Sans',
+				'fill': '#58585b',
+				'alignment-baseline': 'middle',
+				'opacity': 0
+			})
+			.call(resizeText, dimensions.dataPadding, Math.min(
+					Math.round(yScale.rangeBand() * 0.8),
+					18
+				))
+			.transition()
+			.delay(function (d, i) {
+				return 260 + 500 * i / newDataset.length;
+			})
+			.style("opacity", 1)
+			.attr("x", function (d, i) {
+				return dimensions.dataLeft() +
+					xScale(d.datum / sampleSize) +
+					dimensions.paddingHorizontal;
+			});
+
+		yAxisGroup.selectAll("text")
+			.data(newDataset)
+			.exit()
+			.transition()
+			.style("opacity", 0)
+			// .attr("x", (-1 * dimensions.paddingHorizontal))
+			.remove();
+
+		yAxisGroup.selectAll("text")
+			.data(newDataset)
+			.transition()
+			.style("opacity", 0)
+			.transition()
+			.delay(250)
+			.duration(10)
+			.attr("y", function (d, i) {
+				return yScale(i) + yScale.rangeBand() / 2;
+			})
+			.text(function (d, i) {
+				return d.label;
+			})
+			.each("end", function () {
+				d3.select(this).call(wrapLines, 
+					(dimensions.yAxisWidth() -
+						dimensions.paddingHorizontal)/1.1);
+			})
+			.transition()
+			.delay(function (d, i) {
+				return 260 + 500 * i / newDataset.length;
+			})
+			.duration(500)
+			.style("opacity", 1);
+			// .attr("x", dimensions.yAxisRight() - dimensions.paddingHorizontal);
+
+		yAxisGroup.selectAll("text")
+			.selectAll("tspan")
+			.data(newDataset)
+			.transition()
+			.style("opacity", 0);
+			// .attr("x", (-1 * dimensions.paddingHorizontal));
+
+		yAxisGroup.selectAll("text")
+			.data(newDataset)
+			.enter()
+			.append("text")
+			.style({
+				'text-anchor': 'end',
+				'fill': '#58585b',
+				'font-family': 'Open Sans',
+				'font-size': '14px',
+				'alignment-baseline': 'middle',
+				'opacity': 0
+			})
+			.attr("x", (-1 * dimensions.paddingHorizontal))
+			.attr("y", function (d, i) {
+				return yScale(i) + yScale.rangeBand() / 2;
+			})
+			.text(function (d) {
+				return d.label;
+			})
+			.call(wrapLines, 
+				(dimensions.yAxisWidth() - dimensions.paddingHorizontal)/1.1)
+			.transition()
+			.delay(function (d, i) {
+				return 260 + 500 * i / newDataset.length;
+			})
+			.duration(500)
+			.style("opacity", 1)
+			// .attr("x", dimensions.yAxisRight() - dimensions.paddingHorizontal);
+
+		finePrint.text("n=" + sampleSize);
+
+		$(containerSelector + ' rect')
+			.tooltip({
+				'trigger': 'hover',
+				'container': containerSelector + ' .hovers'
+			});
+	}
+
+	this.resizeChart = function () {
+		var width = $(containerSelector).width();
+		dimensions.width = Math.max(width, dimensions.minWidth);
+		svg.attr("width", dimensions.width);
+
+		// Adjust the scales
+		xScale.range([0, dimensions.dataWidth()]);
+
+		title.selectAll("text")	//	Title Text
+			.call(resizeText, dimensions.innerWidth(), 36)
+			.selectAll("tspan")
+			.attr("y", dimensions.titleBottom())
+			.attr("x", dimensions.centerHorizontal());
+		title.selectAll("path")	//	Underline the title
+			.attr("d", function () {
+				var path = "";
+				path += "M" + dimensions.yAxisLeft() + "," +
+				dimensions.titleUnderline();
+				path += "l" + dimensions.innerWidth() + ", 0";
+				return path;				
+			});	
+
+		yAxisGroup.selectAll("path")	//	Y-axis line
+			.attr("d", function () {
+				var path = "";
+				path += "M" + (dimensions.yAxisRight() - 1) + "," +
+					dimensions.dataTop();
+				path += "L" + (dimensions.yAxisRight() - 1) + "," +
+					dimensions.dataBottom();
+				return path;
+			});
+		yAxisGroup.selectAll("text")
+			.call(reWrapLines, (dimensions.yAxisWidth() -
+				dimensions.paddingHorizontal)/1.1)
+			.attr("x", function () {
+				return dimensions.yAxisRight() - dimensions.paddingHorizontal;
+			})
+			.selectAll("tspan")
+			.attr("x", function () {
+				return dimensions.yAxisRight() - dimensions.paddingHorizontal;
+			});
+
+		chartData.selectAll("rect")
+			.attr("x", dimensions.dataLeft())
+			.attr("width", function (d, i) {
+				return xScale(d.datum / sampleSize);
+			});
+
+		chartData.selectAll("text")
+			.attr("x", function (d, i) {
+				return dimensions.dataLeft() +
+					xScale(d.datum / sampleSize) +
+					dimensions.paddingHorizontal;
+			});
+
+		finePrint.attr("x", dimensions.dataLeft());
+	};
+
+	d3.select(containerSelector).append("div").attr("class", "hovers");
+	var context = this;
+	setTimeout(function () {
+		context.resizeChart();
+	}, 10);
+	$(containerSelector + ' rect')
+		.tooltip({
+			'trigger': 'hover',
+			'container': containerSelector + ' .hovers'
+		});
+
+	return this;
+};
+
+var overall = {},
+	services = {},
+	pd = {},
+	it = {},
+	enterprise = {};
+overall.title = "Business Risks of NOT Addressing Resource Management and Capacity Planning";
+overall.labels = [
+	"Loss of revenue",
+	"Dissatisfied customers or clients",
+	"Loss of Market Share",
+	"Increased project costs",
+	"Compromised quality affecting customer/client satisfaction",
+	"High staff turnover",
+	"Inability to compete effectively",
+	"Inability to complete projects on time",
+	"Inability to innovate fast enough",
+	"Missed business opportunities",
+	"No business risks at this time",
+	"Other (please specify)"
+];
+overall.dataPoints = [113, 148, 41, 174, 146, 59, 91, 219, 161, 180, 16, 10];
+overall.sample = 480;
+overall.set = "overall";
+
+services.dataPoints = [4,1,13,21,24,29,32,39,47,47,54,55];
+services.sample = 130;
+services.title = "PROFESSIONAL SERVICES Business Risks of NOT Addressing Resource Management and Capacity Planning";
+services.labels = [
+	"No business risks at this time",
+	"Other", 
+	"Loss of Market Share",
+	"Inability to innovate fast enough",
+	"High staff turnover",
+	"Inability to compete effectively",
+	"Inability to complete projects on time",
+	"Increased project costs",
+	"Dissatisfied customers or clients",
+	"Compromised quality affecting customer/client satisfaction",
+	"Missed business opportunities",
+	"Loss of revenue"
+];
+services.set = "services";
+
+pd.dataPoints = [5, 2, 9, 13, 18, 23, 29, 30, 30, 44, 62, 62];
+pd.sample = 116;
+pd.title = "PRODUCT DEVELOPMENT Business Risks of NOT Addressing Resource Management and Capacity Planning";
+pd.labels = [
+	"No business risks at this time",
+	"Other",
+	"Loss of Market Share",
+	"High staff turnover",
+	"Inability to compete effectively",
+	"Increased project costs",
+	"Loss of revenue",
+	"Dissatisfied customers or clients",
+	"Compromised quality affecting customer/client satisfaction",
+	"Missed business opportunities",
+	"Inability to complete projects on time",
+	"Inability to innovate fast enough"
+];
+pd.set = "pd";
+
+it.dataPoints = [2, 3, 7, 9, 10, 23, 29, 36, 38, 45, 64, 77];
+it.sample = 118;
+it.title = "IT Business Risks of NOT Addressing Resource Management and Capacity Planning";
+it.labels = [
+	"No business risks at this time",
+	"Other",
+	"Loss of Market Share",
+	"High staff turnover",
+	"Loss of revenue",
+	"Inability to compete effectively",
+	"Missed business opportunities",
+	"Compromised quality affecting customer/client satisfaction",
+	"Dissatisfied customers or clients",
+	"Inability to innovate fast enough",
+	"Increased project costs",
+	"Inability to complete projects on time"
+];
+it.set = "it";
+
+enterprise.dataPoints = [2, 3, 9, 10, 11, 14, 26, 27, 30, 38, 41, 42];
+enterprise.title = "EPMO Business Risks of NOT Addressing Resource Management and Capacity Planning";
+enterprise.sample = 88;
+enterprise.labels = [
+	"No business risks at this time",
+	"Other ",
+	"High staff turnover",
+	"Loss of Market Share",
+	"Loss of revenue",
+	"Inability to compete effectively",
+	"Inability to innovate fast enough",
+	"Compromised quality affecting customer/client satisfaction",
+	"Dissatisfied customers or clients",
+	"Increased project costs",
+	"Inability to complete projects on time",
+	"Missed business opportunities"
+];
+enterprise.set = "enterprise";
+
+overall.dataset = _
+	.chain(_.zip(overall.dataPoints, overall.labels))
+	.map(function (data) {
+		return {
+			datum: data[0],
+			label: data[1]
+		};
+	})
+	.sortBy(function (data) { return -1 * data.datum; })
+	.first(6)
+	.value();
+services.dataset = _
+	.chain(_.zip(services.dataPoints, services.labels))
+	.map(function (data) {
+		return {
+			datum: data[0],
+			label: data[1]
+		};
+	})
+	.sortBy(function (data) { return -1 * data.datum; })
+	.first(6)
+	.value();
+pd.dataset = _
+	.chain(_.zip(pd.dataPoints, pd.labels))
+	.map(function (data) {
+		return {
+			datum: data[0],
+			label: data[1]
+		};
+	})
+	.sortBy(function (data) { return -1 * data.datum; })
+	.first(6)
+	.value();
+it.dataset = _
+	.chain(_.zip(it.dataPoints, it.labels))
+	.map(function (data) {
+		return {
+			datum: data[0],
+			label: data[1]
+		};
+	})
+	.sortBy(function (data) { return -1 * data.datum; })
+	.first(6)
+	.value();
+enterprise.dataset = _
+	.chain(_.zip(enterprise.dataPoints, enterprise.labels))
+	.map(function (data) {
+		return {
+			datum: data[0],
+			label: data[1]
+		};
+	})
+	.sortBy(function (data) { return -1 * data.datum; })
+	.first(6)
+	.value();
+
+
+var chart = drawRMCPChart("#bar-chart", overall.dataset, overall.sample, overall.title, overall.set);
+$('.overall').on('click', function () { chart.changeData(overall.dataset, overall.sample, overall.title, overall.set); });
+$('.services').on('click', function () { chart.changeData(services.dataset, services.sample, services.title, services.set); });
+$('.pd').on('click', function () { chart.changeData(pd.dataset, pd.sample, pd.title, pd.set); });
+$('.it').on('click', function () { chart.changeData(it.dataset, it.sample, it.title, it.set); });
+$('.enterprise').on('click', function () { chart.changeData(enterprise.dataset, enterprise.sample, enterprise.title, enterprise.set); });
+$(window).on('resize', chart.resizeChart);
+
+</script>
+</body>
+</html>

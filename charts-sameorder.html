@@ -1,0 +1,1064 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RMCP Charts</title>
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<style type="text/css" media="screen">
+		#bar-chart {overflow-x: auto;}
+	</style>
+</head>
+<body>
+<div class="container">
+<header id="header" class="page-header">
+	<h1>Capacity Planning Pain Points</h1>
+</header><!-- /header -->
+<div class="row">
+<main class="col-sm-10">
+	<div id="bar-chart"></div>
+</main>
+<footer class="col-sm-2" style="padding-top: 100px">
+	<div class="btn-group-vertical" data-toggle="buttons">
+	  <label class="total-data btn btn-primary active">
+	    <input type="radio" name="options" id="option1" checked> Overall Data
+	  </label>
+	  <label class="maturity-data btn btn-primary">
+	    <input type="radio" name="options" id="option2"> Maturity Data
+	  </label>
+	  <label class="services-data btn btn-primary">
+	    <input type="radio" name="options" id="option3"> Services Data
+	  </label>
+	  <label class="pd-data btn btn-primary">
+	    <input type="radio" name="options" id="option3"> PD Data
+	  </label>
+	  <label class="it-data btn btn-primary">
+	    <input type="radio" name="options" id="option3"> IT Data
+	  </label>
+	  <label class="enterprise-data btn btn-primary">
+	    <input type="radio" name="options" id="option3"> Enterprise Data
+	  </label>
+	</div>
+</footer>
+	
+</div>
+</div>
+<script>
+		var drawRMCPChart = function (container, data, sample, title, callout) {
+			var containerSelector = container,
+				dataset = data,
+				sampleSize = sample,
+				titleText = title;
+
+			var dimensions = {
+				height: 500,
+				width: 800,
+				paddingHorizontal: 10,
+				paddingVertical: 10,
+				yAxisMinWidth: 300,
+				calloutMinWidth: 200,
+				yAxisProportion: 0.4,
+				calloutProportion: 0.2,
+				titleHeight: 54,
+				legendHeight: 100,
+				calloutPaddingLeft: 50,
+				otherInfoHeight: 60,
+				spaceBetweenBars: 10,
+				minWidth: 650,
+				hideCallout: 940,
+				showCalloutBox: true,
+				innerHeight: function () { return this.height - 2 * this.paddingVertical; },
+				innerWidth: function () { return this.width - 2 * this.paddingHorizontal; },
+				calloutWidth: function () {
+					return this.showCalloutBox ? Math.round(
+						Math.max(
+							this.calloutMinWidth,
+							(this.innerWidth() * this.calloutProportion)
+						)
+					) : 0;
+				},
+				yAxisWidth: function () {
+					return Math.round(
+						Math.max(
+							this.yAxisMinWidth,
+							(this.innerWidth() - this.calloutWidth()) * this.yAxisProportion
+						)
+					);
+				},
+				dataWidth: function () {
+					return this.innerWidth() - this.calloutWidth() - 
+						this.yAxisWidth() - (this.showCalloutBox ? this.calloutPaddingLeft : 0);
+				},
+				yAxisLeft: function () { return this.paddingHorizontal;	},
+				yAxisRight: function () { return this.yAxisLeft() + this.yAxisWidth(); },
+				dataLeft: function () { return this.yAxisRight(); },
+				dataRight: function ()  { return this.dataLeft() + this.dataWidth(); },
+				calloutLeft: function () { return this.dataRight() + this.calloutPaddingLeft; },
+				calloutRight: function () { return this.width - this.paddingHorizontal; },
+				centerHorizontal: function () { return Math.round(this.width / 2); },
+				titleTop: function () { return this.paddingVertical; },
+				titleBottom: function () { return this.titleTop() + this.titleHeight; },
+				titleUnderline: function () {return this.titleBottom() + this.paddingVertical * 2; },
+				legendTop: function () { return this.titleUnderline() + this.paddingVertical; },
+				legendBottom: function () { return this.legendTop() + this.legendHeight; },
+				otherInfoBottom: function () { return this.height - this.paddingVertical; },
+				otherInfoTop: function () { return this.otherInfoBottom() - this.otherInfoHeight; },
+				dataTop: function () { return this.legendBottom() + this.paddingVertical; },
+				dataBottom: function () { return this.otherInfoTop(); },
+				dataHeight: function () { return this.dataBottom() - this.dataTop(); },
+				calloutTop: function () { return this.legendTop(); },
+				calloutBottom: function () { return this.dataBottom(); },
+				calloutHeight: function () { return this.calloutBottom() - this.calloutTop(); },
+				legendLeft: function () { return this.yAxisLeft(); },
+				legendRight: function () { return this.dataRight(); }
+			};
+
+			var $container = $(containerSelector);
+			dimensions.width = Math.max($container.width(), dimensions.minWidth);;
+			dimensions.height = Math.max(9 * dimensions.width / 16, 600);
+			dimensions.showCalloutBox = (typeof callout !== 'undefined') ? callout : true;
+			var hexagonPath = "M18.536,12.353L2.378,21.681c-1.234,0.714-2.755,0.714-3.99,0l-16.157-9.328c-1.235-0.712-1.996-2.03-1.996-3.456V-9.759c0-1.425,0.76-2.743,1.996-3.455l16.157-9.329c1.235-0.712,2.756-0.712,3.99,0l16.158,9.329c1.234,0.712,1.994,2.3,1.994,3.455V8.897C20.53,10.323,19.771,11.641,18.536,12.353"
+			
+			var dataKey = function (d) {
+				return d.id;
+			}
+
+			var svg = d3.select(containerSelector).append("svg").attr("height", dimensions.height).attr("width", dimensions.width);
+
+			var yScale	= d3.scale.ordinal().domain(d3.range(dataset.length)).rangeRoundBands([dimensions.dataTop(), dimensions.dataBottom()], 0.6,0.25);
+			
+			var xScale = d3.scale.linear().domain([0, d3.max(dataset, function (d) {
+				var sum = 0;
+				for (var i = sampleSize.length - 1; i >= 0; i--) {
+					sum += d.data[i] / sampleSize[i].quantity;
+				};
+				return sum;
+			})]).range([0, dimensions.dataWidth() - (sampleSize.length - 1) * dimensions.spaceBetweenBars]);
+
+			var colors = d3.scale.ordinal().domain(d3.range(sampleSize.length)).range(['#203368', '#48C6EA', '#1B75BB']);
+
+			var legendSpacing = d3.scale.ordinal().domain(d3.range(sampleSize.length)).rangeRoundBands([dimensions.legendLeft(), dimensions.legendRight()], 0.1);
+
+			var percentFormat = d3.format('%');
+
+			var resizeText = function (text, width, max) {
+				  text.each(function() {
+				    var text = d3.select(this),
+				    	current = max;
+
+				    do {
+				    	text.style("font-size", current + "px");
+				    	current -= 2;
+				    } while (text.node().getComputedTextLength() > width);
+				  });
+			}
+
+			var wrapLines = function (text, width) {
+				if (width === 0) return;
+				  text.each(function() {
+				    var text = d3.select(this),
+				        words = text.text().split(/\s+/).reverse(),
+				        word,
+				        line = [],
+				        lineNumber = 0,
+				        lineHeight = 1.5, // ems
+				        y = text.attr("y"),
+				        x = text.attr("x"),
+				        dy = parseFloat(text.attr("dy")) || 0,
+				        tspan = text.text(null).append("tspan").attr("x", x).attr("y", y).attr("dy", dy + "em");
+						
+				    while (word = words.pop()) {
+				      line.push(word);
+				      tspan.text(line.join(" "));
+				      if (tspan.node().getComputedTextLength() > width) {
+				        line.pop();
+				        tspan.text(line.join(" "));
+				        line = [word];
+				        tspan = text.append("tspan").attr("x", x).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+				      }
+				    }
+				  });
+			}
+
+			var reWrapLines = function (text, width) {
+				if (width === 0 || (typeof width === "number" && isNaN(width))) return;
+
+				text.each(function () {
+					var text = d3.select(this),
+						tspans = text.selectAll("tspan"),
+						content = '';
+
+						if (tspans.empty()) return;
+
+						tspans.each(function () {
+							content += d3.select(this).text() + " "
+						});
+
+						text.text(content.substring(0,content.length-1));
+				});
+				wrapLines(text, width);
+			}
+
+			var title = svg.append("g");
+			(function (title) {
+				title.append("text")	//	Title Text
+					.text(titleText)
+					.attr("y", dimensions.titleBottom())
+					.attr("x", dimensions.centerHorizontal())
+					.style({
+						'font-family': "'Roboto Slab', serif",
+						'text-anchor': 'middle',
+						'fill': '#58585b',
+						'font-size': '42px'
+					})
+					.call(resizeText, dimensions.innerWidth(), 42);
+				title.append("path")	//	Underline the title
+					.attr("d", function () {
+						var path = "";
+						path += "M" + dimensions.yAxisLeft() + "," + dimensions.titleUnderline();
+						path += "L" + dimensions.calloutRight() + "," + dimensions.titleUnderline();
+						return path;				
+					})
+					.style({
+						'stroke': '#58585b',
+						'stroke-width': '2px'
+					});	
+			})(title);
+
+			var legend = svg.append("g");
+			(function (legend) {
+				var centerVertical = Math.round((dimensions.legendTop() + dimensions.legendBottom()) / 2);
+					legend.selectAll("path").data(sampleSize).enter()
+						.append("path")
+						.attr("d", hexagonPath)
+						.style("fill", function (d, i) {
+							return colors(i);
+						})
+						.style({
+							'stroke-width': '1px',
+							'stroke': '#203368'
+						})
+						.attr('transform', function (d, i) {
+							return 'translate(' + (21 * 0.6 + legendSpacing(i)) +
+								',' + centerVertical + ')'
+								+ 'scale(0.6)';
+						});
+
+					legend.selectAll("text.legend").data(sampleSize).enter()
+						.append("text")
+						.attr("class", "legend")
+						.text(function (d, i) {
+							return d.title + " (n=" + d.quantity + ")";
+						})
+						.attr("x", function (d, i) {
+							return legendSpacing(i) + 41 * 0.6 + dimensions.paddingHorizontal;
+						})
+						.attr("y", function () {
+							return centerVertical;
+						})
+						.style({
+							'fill': '#58585b',
+							'font-family': 'Open Sans',
+							'font-size': '14px',
+							'alignment-baseline': 'middle'
+						});
+			})(legend);
+
+			var yAxisGroup = svg.append("g");
+			(function (yAxisGroup) {
+				yAxisGroup.append("path")	//	Y-axis line
+					.attr("d", function () {
+						var path = "";
+						path += "M" + dimensions.yAxisRight() + "," + dimensions.dataTop();
+						path += "L" + dimensions.yAxisRight() + "," + dimensions.dataBottom();
+						return path;
+					})
+					.style({
+						'stroke': '#000',
+						'stroke-width': '1px'
+					});
+				yAxisGroup.selectAll("text")	//	Labels
+					.data(dataset, dataKey)
+					.enter()
+					.append("text")
+					.attr("x", function () {
+						return dimensions.yAxisRight() - dimensions.paddingHorizontal;
+					})
+					.attr("y", function (d, i) {
+						return yScale(i) + yScale.rangeBand() / 2;
+					})
+					.text(function (d) {
+						return d.title;
+					})
+					.call(wrapLines, (dimensions.yAxisWidth() - dimensions.paddingHorizontal)/1.1)
+					.style({
+						'text-anchor': 'end',
+						'fill': '#58585b',
+						'font-family': 'Open Sans',
+						'font-size': '14px',
+						'alignment-baseline': 'middle'
+					});			
+			})(yAxisGroup);
+
+			var chartData = svg.append("g");
+			var groups = chartData.selectAll("g")	//	Bar Groups
+				.data(dataset, dataKey)
+				.enter()
+				.append("g")
+				.each(function (d, i) {
+					console.log(d);
+					console.log(i);
+				})
+
+			for (var currentSet = 0, sets = sampleSize.length; currentSet < sets; currentSet++) {
+
+				groups.append("rect")
+					.attr("y", function (d, i) {
+						return yScale(i);
+					})
+					.attr("x", function (d, i) {
+						var left = dimensions.dataLeft();
+						if (currentSet === 0) return left;
+						for (var j = 0; j < currentSet; j++) {
+							left += dimensions.spaceBetweenBars + xScale(d.data[j]/ sampleSize[j].quantity);
+						}
+						return left;
+					})
+					.attr("height", yScale.rangeBand())
+					.attr("width", function (d) {
+						return xScale(d.data[currentSet] / sampleSize[currentSet].quantity);
+					})
+					.attr("class", function () {
+						return "set" + currentSet;
+					})
+					.attr("data-toggle", "tooltip")
+					.attr("title", function (d) {
+						return d.data[currentSet] + " out of " +sampleSize[currentSet].quantity + " " + sampleSize[currentSet].title.toLowerCase() + " companies surveyed experience pain in this area";
+					})
+					.style({
+						'stroke': '#203368',
+						'stroke-width': 1,
+						'fill': colors(currentSet)
+					})
+				   .on("mouseover", function() {
+				   		d3.select(this)
+				   			.style("filter", "url(#drop-shadow)");
+				   })
+				   .on("mouseout", function(d) {
+					   d3.select(this)
+					   		.style("filter", "");
+				   });
+
+				groups.append("text")
+					.text(function (d) {
+						return percentFormat(d.data[currentSet] / sampleSize[currentSet].quantity);
+					})
+					.attr("x", function (d) {
+						var left = dimensions.dataLeft();
+						if (currentSet !== 0) {
+							for (var j = 0; j < currentSet; j++) {
+								left += dimensions.spaceBetweenBars + xScale(d.data[j]/ sampleSize[j].quantity);
+							}							
+						}
+						return left + xScale(d.data[currentSet] / sampleSize[currentSet].quantity) / 2;
+					})
+					.attr("y", function (d,i) {
+						return yScale(i) - dimensions.paddingVertical;
+					})
+					.attr("class", function () {
+						return "label" + currentSet;
+					})
+					.style({
+						'text-anchor': 'middle',
+						'font-family': 'Open Sans',
+						'font-size': '18px',
+						'fill': '#58585b'
+					});
+			}
+
+			var calloutBox = svg.append("g");
+			(function (calloutBox) {
+				var calloutCenter = dimensions.calloutLeft() + dimensions.calloutWidth() / 2;
+
+				if (!dimensions.showCalloutBox) {
+					calloutBox.style("display", "none");
+				}
+
+				calloutBox.append("rect")
+					.attr("x", function () {
+						return dimensions.calloutLeft();
+					})
+					.attr("y", function () {
+						return dimensions.calloutTop();
+					})
+					.attr("width", function () {
+						return dimensions.calloutWidth();
+					})
+					.attr("height", function () {
+						return dimensions.calloutHeight();
+					})
+					.style({
+						'fill': 'rgba(88, 88, 91, 0.1)',
+						'stroke-width': '0'
+					});
+
+				calloutBox.append("text")
+					.attr("class", "title")
+					.text("Difference between the low and high maturity samples")
+					.attr("x", calloutCenter)
+					.attr("y", (dimensions.legendTop() + dimensions.paddingVertical * 3))
+					.call(wrapLines, dimensions.calloutWidth() / 1.5)
+					.style({
+						'fill': '#58585b',
+						'font-family': "Open Sans",
+						'font-size': '16px',
+						'text-anchor': 'middle',
+						'alignment-baseline': 'top'
+					})
+
+				calloutBox.selectAll("text.difference")
+					.data(dataset, dataKey)
+					.enter()
+					.append("text")
+					.attr("class", "difference")
+					.attr("x", calloutCenter)
+					.attr("y", function (d, i) {
+						return yScale(i) + yScale.rangeBand() - 10;
+					})
+					.style({
+						'fill': '#58585b',
+						'font-family': "Roboto Slab",
+						'font-size': '24px',
+						'text-anchor': 'middle'
+					})
+					.text(function (d) {
+						last = sampleSize.length - 1;
+						return percentFormat(Math.abs((d.data[0] / sampleSize[0].quantity) - (d.data[last] / sampleSize[last].quantity)));
+					});
+			})(calloutBox);
+
+			(function () {
+				// filters go in defs element
+				var defs = svg.append("defs");
+
+				// create filter with id #drop-shadow
+				// height=130% so that the shadow is not clipped
+				var filter = defs.append("filter")
+				    .attr("id", "drop-shadow")
+				    .attr("height", "130%");
+
+				// SourceAlpha refers to opacity of graphic that this filter will be applied to
+				// convolve that with a Gaussian with standard deviation 3 and store result
+				// in blur
+				filter.append("feGaussianBlur")
+				    // .attr("in", "SourceAlpha")
+				    .attr("stdDeviation", 3)
+				    .attr("result", "blur");
+
+				// translate output of Gaussian blur to the right and downwards with 2px
+				// store result in offsetBlur
+				filter.append("feOffset")
+				    .attr("in", "blur")
+				    .attr("dx", 0)
+				    .attr("dy", 0)
+				    .attr("result", "offsetBlur");
+
+				// overlay original SourceGraphic over translated blurred opacity by using
+				// feMerge filter. Order of specifying inputs is important!
+				var feMerge = filter.append("feMerge");
+
+				feMerge.append("feMergeNode")
+				    .attr("in", "offsetBlur")
+				feMerge.append("feMergeNode")
+				    .attr("in", "SourceGraphic");
+			})();
+
+			this.changeData = function (newDataset, newSampleSize, newTitleText, newCallout) {
+				var oldSampleLength = sampleSize.length;
+
+				dataset = newDataset;
+				sampleSize = newSampleSize;
+				titleText = newTitleText;
+				dimensions.showCalloutBox = (typeof newCallout !== 'undefined') ? newCallout : true;
+
+				if (title.selectAll("text").text() !== newTitleText) {
+					$(title.selectAll("text")[0][0]).animate({'opacity': 0}, { complete: function () {
+						title.selectAll("text").text(newTitleText).call(resizeText, dimensions.innerWidth(), 42);
+						$(this).animate({'opacity': 1});
+					}});
+				}
+
+				if (!dimensions.showCalloutBox) {
+					calloutBox.style("display", "none");
+				} else {
+					calloutBox.style("display", "");
+				}
+
+				var centerVertical = Math.round((dimensions.legendTop() + dimensions.legendBottom()) / 2);
+				var calloutCenter = dimensions.calloutLeft() + dimensions.calloutWidth() / 2;
+
+				xScale.domain([0, d3.max(newDataset, function (d) {
+					var sum = 0;
+					for (var i = newSampleSize.length - 1; i >= 0; i--) {
+						sum += d.data[i] / newSampleSize[i].quantity;
+					};
+					return sum;
+				})]).range([0, dimensions.dataWidth() - (newSampleSize.length - 1) * dimensions.spaceBetweenBars]);
+
+				legendSpacing.domain(d3.range(sampleSize.length)).rangeRoundBands([dimensions.legendLeft(), dimensions.legendRight()], 0.1);
+
+				for (var currentSet = 0, sets = newSampleSize.length; currentSet < sets; currentSet++) {
+					chartData.selectAll(".set" + currentSet).data(newDataset, dataKey)
+						.attr("data-original-title", function (d) {
+							return d.data[currentSet] + " out of " + newSampleSize[currentSet].quantity + " " + newSampleSize[currentSet].title.toLowerCase() + " companies surveyed experience pain in this area";
+						})
+						.transition()
+						.attr("x", function (d, i) {
+							var left = dimensions.dataLeft();
+							if (currentSet === 0) return left;
+							for (var j = 0; j < currentSet; j++) {
+								left += dimensions.spaceBetweenBars + xScale(d.data[j]/ newSampleSize[j].quantity);
+							}
+							return left;
+						})
+						.attr("width", function (d) {
+							return xScale(d.data[currentSet] / newSampleSize[currentSet].quantity);
+						});
+					chartData.selectAll(".set" + currentSet).data(newDataset, dataKey)
+						.enter().append("rect")
+						.attr("y", function (d, i) {
+							return yScale(i);
+						})
+						.attr("x", function (d, i) {
+							var left = dimensions.dataLeft();
+							if (currentSet === 0) return left;
+							for (var j = 0; j < currentSet; j++) {
+								left += dimensions.spaceBetweenBars + xScale(d.data[j]/ sampleSize[j].quantity);
+							}
+							return left;
+						})
+						.attr("height", yScale.rangeBand())
+						.attr("width", function (d) {
+							return xScale(d.data[currentSet] / sampleSize[currentSet].quantity);
+						})
+						.attr("class", function () {
+							return "set" + currentSet;
+						})
+						.attr("data-toggle", "tooltip")
+						.attr("title", function (d) {
+							return d.data[currentSet] + " out of " +sampleSize[currentSet].quantity + " " + sampleSize[currentSet].title.toLowerCase() + " companies surveyed experience pain in this area";
+						})
+						.style({
+							'stroke': '#203368',
+							'stroke-width': 1,
+							'fill': colors(currentSet)
+						})
+					   .on("mouseover", function() {
+					   		d3.select(this)
+					   			.style("filter", "url(#drop-shadow)");
+					   })
+					   .on("mouseout", function(d) {
+						   d3.select(this)
+						   		.style("filter", "");
+					   });
+
+					chartData.selectAll(".label" + currentSet).data(newDataset, dataKey).transition()
+						.text(function (d) {
+							return percentFormat(d.data[currentSet] / newSampleSize[currentSet].quantity);
+						})
+						.attr("x", function (d) {
+							var left = dimensions.dataLeft();
+							if (currentSet !== 0) {
+								for (var j = 0; j < currentSet; j++) {
+									left += dimensions.spaceBetweenBars + xScale(d.data[j]/ newSampleSize[j].quantity);
+								}							
+							}
+							return left + xScale(d.data[currentSet] / newSampleSize[currentSet].quantity) / 2;
+						});
+
+					chartData.selectAll(".label" + currentSet).data(newDataset, dataKey).enter().append("text")
+						.text(function (d) {
+							return percentFormat(d.data[currentSet] / sampleSize[currentSet].quantity);
+						})
+						.attr("x", function (d) {
+							var left = dimensions.dataLeft();
+							if (currentSet !== 0) {
+								for (var j = 0; j < currentSet; j++) {
+									left += dimensions.spaceBetweenBars + xScale(d.data[j]/ sampleSize[j].quantity);
+								}							
+							}
+							return left + xScale(d.data[currentSet] / sampleSize[currentSet].quantity) / 2;
+						})
+						.attr("y", function (d,i) {
+							return yScale(i) - dimensions.paddingVertical;
+						})
+						.attr("class", function () {
+							return "label" + currentSet;
+						})
+						.style({
+							'text-anchor': 'middle',
+							'font-family': 'Open Sans',
+							'font-size': '18px',
+							'fill': '#58585b'
+						});
+				};
+
+
+				$(containerSelector + ' rect').tooltip({ 'trigger': 'hover', 'container': containerSelector + ' .hovers' });
+
+				if (oldSampleLength > sampleSize.length) {
+					for (var removeSet = sampleSize.length; removeSet < oldSampleLength; removeSet++) {
+						chartData.selectAll(".set" + removeSet).remove();
+						chartData.selectAll(".label" + removeSet).remove();
+					}
+				}
+
+				yAxisGroup.selectAll("path")	//	Y-axis line
+					.attr("d", function () {
+						var path = "";
+						path += "M" + dimensions.yAxisRight() + "," + dimensions.dataTop();
+						path += "L" + dimensions.yAxisRight() + "," + dimensions.dataBottom();
+						return path;
+					});
+				yAxisGroup.selectAll("text")
+					.attr("x", function () {
+						return dimensions.yAxisRight() - dimensions.paddingHorizontal;
+					})
+					.call(reWrapLines, (dimensions.yAxisWidth() - dimensions.paddingHorizontal)/1.1);	
+
+				calloutBox.selectAll("rect")
+					.attr("x", function () {
+						return dimensions.calloutLeft();
+					})
+					.attr("y", function () {
+						return dimensions.calloutTop();
+					})
+					.attr("width", function () {
+						return dimensions.calloutWidth();
+					})
+					.attr("height", function () {
+						return dimensions.calloutHeight();
+					});
+
+				calloutBox.selectAll("text.title")
+					.attr("x", calloutCenter)
+					.attr("y", (dimensions.legendTop() + dimensions.paddingVertical * 3))
+					.call(reWrapLines, dimensions.calloutWidth() / 1.5);
+
+				calloutBox.selectAll("text.difference")
+					.attr("x", calloutCenter)
+					.attr("y", function (d, i) {
+						return yScale(i) + yScale.rangeBand() - 10;
+					})
+					.data(newDataset, dataKey)
+					.text(function (d) {
+						var last = newSampleSize.length - 1;
+						return percentFormat(Math.abs((d.data[0] / newSampleSize[0].quantity) - (d.data[last] / newSampleSize[last].quantity)));
+					});
+
+				legend.selectAll("text.legend").data(sampleSize)
+					.text(function (d, i) {
+						return  d.title + " (n=" + d.quantity + ")";
+					})
+					.attr('x', function (d, i) {
+						return legendSpacing(i) + 41 * 0.6 + dimensions.paddingHorizontal;
+					});
+
+				legend.selectAll("path").data(sampleSize)
+					.attr('transform', function (d, i) {
+						return 'translate(' + (21 * 0.6 + legendSpacing(i)) +
+							',' + centerVertical + ') '
+							+ 'scale(0.6)';
+					});
+
+				legend.selectAll("path").data(sampleSize).enter()
+					.append("path")
+					.attr("d", hexagonPath)
+					.style("fill", function (d, i) {
+						return colors(i);
+					})
+					.style({
+						'stroke-width': '1px',
+						'stroke': '#203368'
+					})
+					.attr('transform', function (d, i) {
+						return 'translate(' + (21 * 0.6 + legendSpacing(i)) +
+							',' + centerVertical + ') '
+							+ 'scale(0.6)';
+					});
+
+				legend.selectAll("text.legend").data(sampleSize).enter()
+					.append("text")
+					.attr("class", "legend")
+					.text(function (d, i) {
+						return d.title + " (n=" + d.quantity + ")";
+					})
+					.attr("x", function (d, i) {
+						return legendSpacing(i) + 41 * 0.6 + dimensions.paddingHorizontal;
+					})
+					.attr("y", function () {
+						return centerVertical;
+					})
+					.style({
+						'fill': '#58585b',
+						'font-family': 'Open Sans',
+						'font-size': '14px',
+						'alignment-baseline': 'middle'
+					});
+
+				legend.selectAll("path").data(sampleSize).exit().remove();
+				legend.selectAll("text.legend").data(sampleSize).exit().remove();
+			}
+
+			d3.select(window).on("resize", function () {
+				console.log(sampleSize.length);
+				var width = $(containerSelector).width();
+
+
+				dimensions.width = Math.max(width, dimensions.minWidth);
+
+				svg.attr("width", dimensions.width);
+
+				if (width < dimensions.hideCallout) {
+					calloutBox.style({
+						'display': 'none'
+					});
+					dimensions.calloutMinWidth = 0;
+					dimensions.calloutProportion = 0;
+					dimensions.calloutPaddingLeft = 0;
+				} else {
+					if (dimensions.showCalloutBox) {
+						calloutBox.style({
+							'display': ''
+						});						
+					}
+
+					dimensions.calloutMinWidth = 200;
+					dimensions.calloutProportion = 0.2;
+					dimensions.calloutPaddingLeft = 50;
+				}
+
+				// Adjust the scales
+				xScale.range([0, dimensions.dataWidth() - (sampleSize.length - 1) * dimensions.spaceBetweenBars]);
+				legendSpacing.rangeRoundBands([dimensions.legendLeft(), dimensions.legendRight()], 0.1);
+
+
+				title.selectAll("text")	//	Title Text
+					.attr("y", dimensions.titleBottom())
+					.attr("x", dimensions.centerHorizontal())
+					.call(resizeText, dimensions.innerWidth(), 42);
+				title.selectAll("path")	//	Underline the title
+					.attr("d", function () {
+						var path = "";
+						path += "M" + dimensions.yAxisLeft() + "," + dimensions.titleUnderline();
+						path += "L" + dimensions.calloutRight() + "," + dimensions.titleUnderline();
+						return path;				
+					});	
+
+
+				var centerVertical = Math.round((dimensions.legendTop() + dimensions.legendBottom()) / 2);
+				legend.selectAll("path")
+					.attr('transform', function (d, i) {
+						return 'translate(' + (21 * 0.6 + legendSpacing(i)) +
+							',' + centerVertical + ')'
+							+ 'scale(0.6)';
+					});
+
+				legend.selectAll("text.legend")
+					.attr("x", function (d, i) {
+						return legendSpacing(i) + 41 * 0.6 + dimensions.paddingHorizontal;
+					})
+					.attr("y", function () {
+						return centerVertical;
+					});
+
+
+				yAxisGroup.selectAll("path")	//	Y-axis line
+					.attr("d", function () {
+						var path = "";
+						path += "M" + dimensions.yAxisRight() + "," + dimensions.dataTop();
+						path += "L" + dimensions.yAxisRight() + "," + dimensions.dataBottom();
+						return path;
+					});
+				yAxisGroup.selectAll("text")
+					.call(reWrapLines, (dimensions.yAxisWidth() - dimensions.paddingHorizontal)/1.1)
+					.attr("x", function () {
+						return dimensions.yAxisRight() - dimensions.paddingHorizontal;
+					})
+					.selectAll("tspan")
+					.attr("x", function () {
+						return dimensions.yAxisRight() - dimensions.paddingHorizontal;
+					});
+
+
+				for (var currentSet = 0, sets = sampleSize.length; currentSet < sets; currentSet++) {
+
+					chartData.selectAll("rect.set" + currentSet)
+						.attr("x", function (d, i) {
+							var left = dimensions.dataLeft();
+							if (currentSet === 0) return left;
+							for (var j = 0; j < currentSet; j++) {
+								left += dimensions.spaceBetweenBars + xScale(d.data[j]/ sampleSize[j].quantity);
+							}
+							return left;
+						})
+						.attr("width", function (d) {
+							return xScale(d.data[currentSet] / sampleSize[currentSet].quantity);
+						});
+
+					chartData.selectAll("text.label" + currentSet)
+						.attr("x", function (d) {
+							var left = dimensions.dataLeft();
+							if (currentSet !== 0) {
+								for (var j = 0; j < currentSet; j++) {
+									left += dimensions.spaceBetweenBars + xScale(d.data[j]/ sampleSize[j].quantity);
+								}							
+							}
+							return left + xScale(d.data[currentSet] / sampleSize[currentSet].quantity) / 2;
+						});
+
+					}
+				var calloutCenter = dimensions.calloutLeft() + dimensions.calloutWidth() / 2;
+
+				calloutBox.selectAll("rect")
+					.attr("x", function () {
+						return dimensions.calloutLeft();
+					})
+					.attr("width", function () {
+						return dimensions.calloutWidth();
+					});
+
+				calloutBox.selectAll("text.title")
+					.attr("x", calloutCenter)
+					.call(reWrapLines, dimensions.calloutWidth() / 1.5);
+
+				calloutBox.selectAll("text.difference")
+					.attr("x", calloutCenter);
+			});
+
+			d3.select(containerSelector).append("div").attr("class", "hovers");
+			$(window).trigger('resize');
+
+			return this;
+		};
+
+		var total = {},
+			maturity = {},
+			pd = {},
+			services = {},
+			it = {},
+			enterprise = {};
+
+		total.samples = [{quantity: 480, title: "Total Sample", id:"total"}];
+		total.title = "Capacity Planning Pain Points";
+		total.data = [
+			{
+				id: "holisticView",
+				title: "Lack of a combined, holistic view of both resource capacity and pipeline demand",
+				data: [241] 
+			},
+			{
+				id: "whatIf",
+				title: "Unable to run what-if scenarios",
+				data: [208]
+			},
+			{
+				id: "pipelineDemand",
+				title: "Insufficient visibility into pipeline demand",
+				data: [194]
+			},
+			{
+				id: "resourceCapacity",
+				title: "Insufficient visibility into resource capacity",
+				data: [191]
+			},			{
+				id: "demandPrioritization",
+				title: "Ineffective demand prioritization and governance process",
+				data: [190]
+			}
+		];
+		total.callout = false;
+
+		pd.samples = [{quantity: 39, title: "Low Maturity", id: 'low'}, {quantity: 45, title: "Medium Maturity", id: 'mid'}, {quantity: 31, title:"High Maturity", id: 'high'}];
+		pd.title = "PD Capacity Planning Pain Points";
+		pd.data = [
+			{
+				id: "holisticView",
+				title: "Lack of a combined, holistic view of both resource capacity and pipeline demand",
+				data: [29,23,5] 
+			},
+			{
+				id: "whatIf",
+				title: "Unable to run what-if scenarios",
+				data: [21,24,11]
+			},
+			{
+				id: "pipelineDemand",
+				title: "Insufficient visibility into pipeline demand",
+				data: [25,14,7]
+			},
+			{
+				id: "resourceCapacity",
+				title: "Insufficient visibility into resource capacity",
+				data: [30,16,2]
+			},
+			{
+				id: "demandPrioritization",
+				title: "Ineffective demand prioritization and governance process",
+				data: [24,18,5]
+			}
+		];
+		pd.callout = true;
+
+		maturity.samples = [{quantity: 180, title: "Low Maturity", id: 'low'}, {quantity: 152, title: "Medium Maturity", id: 'mid'}, {quantity: 146, title:"High Maturity", id: 'high'}];
+		maturity.title = "Capacity Planning Pain Points by Maturity Level";
+		maturity.data = [
+			{
+				id: "holisticView",
+				title: "Lack of a combined, holistic view of both resource capacity and pipeline demand",
+				data: [130,82,28] 
+			},
+			{
+				id: "whatIf",
+				title: "Unable to run what-if scenarios",
+				data: [94,73,40]
+			},
+			{
+				id: "pipelineDemand",
+				title: "Insufficient visibility into pipeline demand",
+				data: [100,59,34]
+			},
+			{
+				id: "resourceCapacity",
+				title: "Insufficient visibility into resource capacity",
+				data: [124,52,14]
+			},
+			{
+				id: "demandPrioritization",
+				title: "Ineffective demand prioritization and governance process",
+				data: [103,57,29]
+			}
+		];
+		maturity.callout = true;
+
+		services.samples = [{quantity: 41, title: "Low Maturity", id: 'low'}, {quantity: 39, title: "Medium Maturity", id: 'mid'}, {quantity: 50, title:"High Maturity", id: 'high'}];
+		services.title = "Professional Services Capacity Planning Pain Points";
+		services.data = [
+			{
+				id: "holisticView",
+				title: "Lack of a combined, holistic view of both resource capacity and pipeline demand",
+				data: [27, 20, 12] 
+			},
+			{
+				id: "whatIf",
+				title: "Unable to run what-if scenarios",
+				data: [16, 15, 11]
+			},
+			{
+				id: "pipelineDemand",
+				title: "Insufficient visibility into pipeline demand",
+				data: [21, 16, 17]
+			},
+			{
+				id: "resourceCapacity",
+				title: "Insufficient visibility into resource capacity",
+				data: [20, 11, 4]
+			},
+			{
+				id: "demandPrioritization",
+				title: "Ineffective demand prioritization and governance process",
+				data: [18, 15, 15]
+			}
+		];
+		services.callout = true;
+
+		it.samples = [{quantity: 48, title: "Low Maturity", id: 'low'}, {quantity: 45, title: "Medium Maturity", id: 'mid'}, {quantity: 25, title:"High Maturity", id: 'high'}];
+		it.title = "IT Capacity Planning Pain Points";
+		it.data = [
+			{
+				id: "holisticView",
+				title: "Lack of a combined, holistic view of both resource capacity and pipeline demand",
+				data: [37, 29, 5] 
+			},
+			{
+				id: "whatIf",
+				title: "Unable to run what-if scenarios",
+				data: [27, 25, 9]
+			},
+			{
+				id: "pipelineDemand",
+				title: "Insufficient visibility into pipeline demand",
+				data: [24, 23, 6]
+			},
+			{
+				id: "resourceCapacity",
+				title: "Insufficient visibility into resource capacity",
+				data: [37, 19, 5]
+			},
+			{
+				id: "demandPrioritization",
+				title: "Ineffective demand prioritization and governance process",
+				data: [33, 17, 3]
+			}
+		];
+		it.callout = true;
+
+		enterprise.samples = [{quantity: 39, title: "Low Maturity", id: 'low'}, {quantity: 15, title: "Medium Maturity", id: 'mid'}, {quantity: 34, title:"High Maturity", id: 'high'}];
+		enterprise.title = "Enterprise Capacity Planning Pain Points";
+		enterprise.data = [
+			{
+				id: "holisticView",
+				title: "Lack of a combined, holistic view of both resource capacity and pipeline demand",
+				data: [28, 7, 4] 
+			},
+			{
+				id: "whatIf",
+				title: "Unable to run what-if scenarios",
+				data: [22, 7, 8]
+			},
+			{
+				id: "pipelineDemand",
+				title: "Insufficient visibility into pipeline demand",
+				data: [22, 4, 2]
+			},
+			{
+				id: "resourceCapacity",
+				title: "Insufficient visibility into resource capacity",
+				data: [30, 6, 3]
+			},
+			{
+				id: "demandPrioritization",
+				title: "Ineffective demand prioritization and governance process",
+				data: [24, 4, 5]
+			}
+		];
+		enterprise.callout = true;
+
+
+		var chart = drawRMCPChart("#bar-chart", total.data, total.samples, total.title, total.callout);
+
+		var setChartData = function (chart, data) {
+			chart.changeData(data.data, data.samples, data.title, data.callout);
+		}
+
+		d3.selectAll(".total-data")
+			.on("click", function () { setChartData(chart, total); });
+		d3.selectAll(".maturity-data")
+			.on("click", function () { setChartData(chart, maturity); });
+		d3.selectAll(".services-data")
+			.on("click", function () { setChartData(chart, services); });
+		d3.selectAll(".pd-data")
+			.on("click", function () { setChartData(chart, pd); });
+		d3.selectAll(".it-data")
+			.on("click", function () { setChartData(chart, it); });
+		d3.selectAll(".enterprise-data")
+			.on("click", function () { setChartData(chart, enterprise); });
+
+
+</script>
+</body>
+</html>
