@@ -1,6 +1,6 @@
 'use strict';
 
-define(['angular', 'Cookies', 'underscore', 'angularCookies'], function (angular, Cookies, _) {
+define(['angular', 'underscore', 'angularCookies'], function (angular, _) {
 	
 	/* Services */
 
