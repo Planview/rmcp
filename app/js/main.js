@@ -15,7 +15,8 @@ require.config({
 		d3: '../bower_components/d3/d3.min',
 		r2d3: '../bower_components/r2d3/r2d3.min',
 		Headroom: '../bower_components/headroom.js/dist/headroom.min',
-		jqHeadroom: '../bower_components/headroom.js/dist/jQuery.headroom.min'
+		jqHeadroom: '../bower_components/headroom.js/dist/jQuery.headroom.min',
+		bootstrap: '../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap'
 	},
 	shim: {
 		'angular' : {
@@ -41,6 +42,9 @@ require.config({
 		},
 		'jqHeadroom': {
 			deps: ['jquery', 'Headroom']
+		},
+		'bootstrap': {
+			deps: ['jquery']
 		}
 	},
 	priority: [
@@ -67,9 +71,15 @@ require( [
 	'routes',
 	'munchkin',
 	'jquery',
-	'jqHeadroom'
+	'jqHeadroom',
+	'bootstrap'
 ], function(angular, app, routes, Munchkin, $) {
-	$("#navbar").headroom({offset: 200});
+	$("#navbar").headroom({
+		offset: 200,
+		onUnpin: function () {
+			$('#navbar').find('.dropdown.open').removeClass('open');
+		}
+	});
 
 	var $html = angular.element(document.getElementsByTagName('html')[0]);
 
