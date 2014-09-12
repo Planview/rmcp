@@ -22,49 +22,8 @@
 
 <div class="container">
 <main>
-  <section id="first" class="row callout">
-   <div class="img-callout col-sm-6 col-sm-push-6 text-center">
-     <img src="http://placehold.it/400x400" alt="" class="img-responsive img-circle center-block">
-   </div>
-   <article class="col-sm-6 col-sm-pull-6">
-     <div ng-hide="haveUserInfo()">
-		Tell us a bit about yourself
-		<div class="rmcp-reg-form" model="userInfo" callback="sendRegistration()"></div>
-		</div>
-		<div ng-show="showMarketoBox()">
-			Welcome, {{marketoInfo.userInfo.FirstName}} {{marketoInfo.userInfo.LastName}}!!
-
-			<a ng-click="wrongUser()" href="#">Not you?</a>
-			<button ng-click="confirmUser()">Go to the Report</button>
-		</div>
-		<div ng-show="showCookieBox()">
-			Welcome back, {{cookie().FirstName}} {{cookie().LastName}}!!
-
-			<a ng-click="wrongUser()" href="#">Not you?</a>
-			<button ng-click="confirmUser()">Go to the Report</button>
-		</div>
-		<div ng-show="userConfirmed.status">
-		<h1>Thanks!</h1>	
-		</div>
-   </article>
-  </section>
-  <section id="second" class="row callout">
-   <div class="img-callout col-sm-6 text-center">
-     <img src="http://placehold.it/400x400" alt="" class="img-responsive img-circle center-block">
-   </div>
-   <article class="col-sm-6">
-     <h2>Something here</h2>
-     <p class="lead">Echo Park before they sold out biodiesel art party readymade. Narwhal fap actually paleo mlkshk pour-over shabby chic vegan farm-to-table letterpress church-key pop-up. Vegan ennui plaid street art, +1 Marfa selvage. Farm-to-table before they sold out Echo Park beard, chambray single-origin coffee paleo McSweeney's blog synth stumptown.</p>
-   </article>
-  </section>
-  <section id="third" class="row callout">
-   <div class="img-callout col-sm-6 col-sm-push-6 text-center">
-     <img src="http://placehold.it/400x400" alt="" class="img-responsive img-circle center-block">
-   </div>
-   <article class="col-sm-6 col-sm-pull-6">
-     <h2>Something here</h2>
-     <p class="lead">Echo Park before they sold out biodiesel art party readymade. Narwhal fap actually paleo mlkshk pour-over shabby chic vegan farm-to-table letterpress church-key pop-up. Vegan ennui plaid street art, +1 Marfa selvage. Farm-to-table before they sold out Echo Park beard, chambray single-origin coffee paleo McSweeney's blog synth stumptown.</p>
-   </article>
+  <section class="callout row">
+    <div class="rmcp-bar-chart" data-chart-data="currentChartData()"></div>
   </section>
   <section class="callout row">
     <p class="text-center">
