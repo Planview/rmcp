@@ -11,9 +11,9 @@ function soap_call( $type, $params ) {
 	//Most of this code came from: http://developers.marketo.com/documentation/soap/requestcampaign/
 	$errorText = '';
  
-	$marketoSoapEndPoint	 = $_GLOBALS['marketoSoapEndPoint'];
-	$marketoUserId			 = $_GLOBALS['marketoUserId'];
-	$marketoSecretKey		 = $_GLOBALS['marketoSecretKey'];
+	$marketoSoapEndPoint	 = $GLOBALS['marketoSoapEndPoint'];
+	$marketoUserId			 = $GLOBALS['marketoUserId'];
+	$marketoSecretKey		 = $GLOBALS['marketoSecretKey'];
 
 	$marketoNameSpace        = "http://www.marketo.com/mktows/";
      
