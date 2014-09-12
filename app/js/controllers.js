@@ -6,7 +6,7 @@ define(['angular', 'Cookies', 'munchkin', 'services', 'smartforms', 'sf-fields',
 	
 	return angular.module('myApp.controllers', ['myApp.services', 'ngCookies'])
 		// Sample controller where service is being used
-		.controller('RegistrationController', ['$scope', 'userConfirmed', 'MarketoInfo', 'MunckinHash', '$cookieStore',
+		.controller('RegistrationCtrl', ['$scope', 'userConfirmed', 'MarketoInfo', 'MunckinHash', '$cookieStore',
 			function ($scope, userConfirmed, MarketoInfo, MunckinHash, $cookieStore) {
 				$scope.userInfo = null;
 				$scope.marketoInfo = MarketoInfo;
@@ -78,8 +78,13 @@ define(['angular', 'Cookies', 'munchkin', 'services', 'smartforms', 'sf-fields',
 		.controller('InfographicCtrl', [function(){
 			
 		}])
-		.controller('DataCtrl', [function(){
-			
+		.controller('DataCtrl', ['$scope', 'ChartData', function ($scope, ChartData) {
+			$scope.chartData = ChartData;
+			$scope.currentSet = ChartData.defaultView;
+
+			$scope.currentChartData = function () {
+				return $scope.chartData[$scope.currentSet];
+			}
 		}])
 		.controller('ReportCtrl', [function(){
 			
