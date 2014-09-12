@@ -1,11 +1,12 @@
 'use strict';
 
-define(['d3', 'jquery'], function (d3, $) {
+define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 	var drawRMCPChart = function (container, data, sample, titleName, callout) {
 		var containerSelector = container,
 			dataset = data,
 			sampleSize = sample,
-			titleText = titleName;
+			titleText = titleName,
+			chartObject = {};
 
 		var dimensions = {
 			height: 500,
@@ -140,7 +141,7 @@ define(['d3', 'jquery'], function (d3, $) {
 				[0, dimensions.dataWidth()]);
 		var colors = d3.scale.ordinal()
 			.domain(d3.range(sampleSize.length))
-			.range(['#203368', '#48C6EA', '#1B75BB']);
+			.range(['#203368', '#1B75BB', '#48C6EA']);
 		var legendSpacing = d3.scale.ordinal()
 			.domain(d3.range(sampleSize.length))
 			.rangeRoundBands(
@@ -461,7 +462,7 @@ define(['d3', 'jquery'], function (d3, $) {
 		feMerge.append("feMergeNode")
 		    .attr("in", "SourceGraphic");
 
-		this.changeData = function (newDataset, newSampleSize, newTitleText, newCallout) {
+		chartObject.changeData = function (newDataset, newSampleSize, newTitleText, newCallout) {
 			dataset = newDataset;
 			sampleSize = newSampleSize;
 			titleText = newTitleText;
@@ -712,14 +713,14 @@ define(['d3', 'jquery'], function (d3, $) {
 						'scale(0.6)';
 				});
 
-			$(containerSelector + ' rect')
+			$(containerSelector).find('rect')
 				.tooltip({
 					'trigger': 'hover',
-					'container': containerSelector + ' .hovers'
+					'container': '.hovers'
 				});
 		};
 
-		d3.select(window).on("resize", function () {
+		chartObject.resizeChart = function () {
 			var width = $(containerSelector).width();
 			dimensions.width = Math.max(width, dimensions.minWidth);
 			svg.attr("width", dimensions.width);
@@ -824,17 +825,21 @@ define(['d3', 'jquery'], function (d3, $) {
 
 			calloutBox.selectAll("text.difference")
 				.attr("x", dimensions.calloutCenterHorizontal());
-		});
+		};
 
 		d3.select(containerSelector).append("div").attr("class", "hovers");
-		$(window).trigger('resize');
-		$(containerSelector + ' rect')
+		setTimeout(function () {
+			chartObject.resizeChart();
+		}, 10);
+		$(containerSelector).find('rect')
 			.tooltip({
 				'trigger': 'hover',
-				'container': containerSelector + ' .hovers'
+				'container': '.hovers'
 			});
 
-		return this;
+		return chartObject;
 	};
-	return drawRMCPChart;
+	return function (container, data, sample, titleName, callout) { 
+		return drawRMCPChart(container, data, sample, titleName, callout);
+	};
 });
