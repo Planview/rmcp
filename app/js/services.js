@@ -7,12 +7,17 @@ define(['angular', 'underscore', 'angularCookies'], function (angular, _) {
 	// Demonstrate how to register services
 	// In this case it is a simple value service.
 	angular.module('myApp.services', ['ngCookies'])
-		.factory('userConfirmed', function () {
+		.factory('userConfirmed', ['$location', function ($location) {
 			return {
 				status: false,
-				confirm: function () { this.status = true; }
+				confirm: function () {
+					Munchkin.munchkinFunction('visitWebPage', {
+						url: $location.absUrl(), params: 'registered=true'
+					});
+					this.status = true;
+				}
 			}
-		})
+		}])
 		.factory('MarketoInfo', ['$http', '$q', '$cookieStore', function ($http, $q, $cookieStore){
 			var object = {
 				userInfo: null,
