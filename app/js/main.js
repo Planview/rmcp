@@ -16,12 +16,17 @@ require.config({
 		r2d3: '../bower_components/r2d3/r2d3.min',
 		Headroom: '../bower_components/headroom.js/dist/headroom.min',
 		jqHeadroom: '../bower_components/headroom.js/dist/jQuery.headroom.min',
-		bootstrap: '../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap'
+		bootstrap: '../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
+		angulartics: '../bower_components/angulartics/dist/angulartics.min',
+		angularticsGa: '../bower_components/angulartics/dist/angulartics-ga.min',
+		angularticsMarketo: '../bower_components/angulartics/dist/angulartics-marketo.min',
+		googleAnalytics: '//www.google-analytics.com/analytics'
 	},
 	shim: {
 		'angular' : {
 			deps: ['jquery'],
-			'exports' : 'angular'},
+			'exports' : 'angular'
+		},
 		'angularRoute': ['angular'],
 		'angularMocks': {
 			deps:['angular'],
@@ -45,6 +50,15 @@ require.config({
 		},
 		'bootstrap': {
 			deps: ['jquery']
+		},
+		'angulartics': {
+			deps: ['angular']
+		},
+		'angularticsGa': {
+			deps: ['angular', 'angulartics', 'ga']
+		},
+		'angularticsMarketo': {
+			deps: ['angular', 'angulartics', 'munchkin']
 		}
 	},
 	priority: [
@@ -71,9 +85,11 @@ require( [
 	'routes',
 	'munchkin',
 	'jquery',
+	'ga',
 	'jqHeadroom',
 	'bootstrap'
-], function(angular, app, routes, Munchkin, $) {
+], function(angular, app, routes, Munchkin, $, ga) {
+
 	$("#navbar").headroom({
 		offset: 200,
 		onUnpin: function () {
