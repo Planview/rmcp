@@ -1,7 +1,6 @@
 'use strict';
 
-define(['angular', 'underscore', 'angularCookies'], function (angular, _) {
-	
+define(['angular', 'underscore', 'munchkin', 'chart-data', 'angularCookies'], function (angular, _, Munckin, chartData) {
 	/* Services */
 
 	// Demonstrate how to register services
@@ -25,7 +24,7 @@ define(['angular', 'underscore', 'angularCookies'], function (angular, _) {
 				get: function() {
 					return $http.get('/token.json.php', {params: {action: 'lead'}, withCredentials: true, cache: true});
 				} 
-			}
+			};
 			object.get().success(function (data) {
 				object.userInfo = data;
 				object.receivedData = true;
@@ -39,6 +38,9 @@ define(['angular', 'underscore', 'angularCookies'], function (angular, _) {
 					return $http.get('/token.json.php', {params: {action: 'hash', key: email}, cache: false});
 				}
 			}
+		}])
+		.factory("ChartData", [function () {
+			return chartData;
 		}]);
 
 });
