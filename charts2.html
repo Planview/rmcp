@@ -186,7 +186,7 @@ var drawRMCPChart = function (container, data, sample, title, callout) {
 			[0, dimensions.dataWidth()]);
 	var colors = d3.scale.ordinal()
 		.domain(d3.range(sampleSize.length))
-		.range(['#203368', '#48C6EA', '#1B75BB']);
+		.range(['#203368', '#1B75BB', '#48C6EA']);
 	var legendSpacing = d3.scale.ordinal()
 		.domain(d3.range(sampleSize.length))
 		.rangeRoundBands(
