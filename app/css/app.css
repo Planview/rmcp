@@ -2861,7 +2861,7 @@ tbody.collapse.in {
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 1000;
+  z-index: 900;
   display: none;
   float: left;
   min-width: 160px;
@@ -2942,7 +2942,7 @@ tbody.collapse.in {
   right: 0;
   bottom: 0;
   top: 0;
-  z-index: 990; }
+  z-index: 890; }
 
 .pull-right > .dropdown-menu {
   right: 0;
@@ -3426,7 +3426,7 @@ tbody.collapse.in {
       margin-left: 0; } }
 
 .navbar-static-top {
-  z-index: 1000;
+  z-index: 900;
   border-width: 0 0 1px; }
   @media (min-width: 768px) {
     .navbar-static-top {
@@ -3437,7 +3437,7 @@ tbody.collapse.in {
   position: fixed;
   right: 0;
   left: 0;
-  z-index: 1030;
+  z-index: 930;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
   @media (min-width: 768px) {
@@ -4615,7 +4615,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1050;
+  z-index: 950;
   -webkit-overflow-scrolling: touch;
   outline: 0; }
   .modal.fade .modal-dialog {
@@ -4655,7 +4655,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  z-index: 940;
   background-color: #000; }
   .modal-backdrop.fade {
     opacity: 0;
@@ -4720,7 +4720,7 @@ button.close {
     width: 900px; } }
 .tooltip {
   position: absolute;
-  z-index: 1070;
+  z-index: 970;
   display: block;
   visibility: visible;
   font-size: 12px;
@@ -4808,7 +4808,7 @@ button.close {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1060;
+  z-index: 960;
   display: none;
   max-width: 276px;
   padding: 1px;
@@ -6871,3 +6871,9 @@ body {
   background-color: #666;
   padding: 50px 0;
   color: #fff; }
+
+.divDisplayFrame {
+  padding: 15px;
+  box-sizing: content-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); }
