@@ -1,8 +1,8 @@
+/* global Modernizr */
 'use strict';
 
-define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-chart', 'stacked-bar-chart'],
-	function (angular, services, smartforms, sfFields, $, simpleBarChart, stackedBarChart) {
-
+define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-chart', 'stacked-bar-chart', 'underscore', 'munchkin', 'bootstrap', 'angularCookies'],
+	function (angular, services, smartforms, sfFields, $, simpleBarChart, stackedBarChart, _, Munchkin) {
 		/* Directives */
 		
 		angular.module('myApp.directives', ['myApp.services'])
@@ -11,21 +11,94 @@ define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-
 					templateUrl: 'app/partials/reg-form.html',
 					restrict: 'C',
 					//replace: true,
-					scope: {
-						model: '=',
-						callback: '&'
-					},
-					link: function (scope, element, attrs)  {
-						scope.sfFields = sfFields;
+					controller: ['$scope', 'MarketoInfo', 'userConfirmed', 'MunckinHash', '$cookieStore', function ($scope, MarketoInfo, userConfirmed, MunckinHash, $cookieStore) {
+						$scope.userInfo = {};
+						$scope.marketoInfo = MarketoInfo;
+						$scope.sfFields = sfFields;
+						$scope.userConfirmed = userConfirmed;
+
+						$scope.cookie = function ()  {
+							return $cookieStore.get("RMCPRegistered");
+						};
+
+						$scope.haveMarketoInfo = function () {
+							return $scope.marketoInfo.receivedData && $scope.marketoInfo.userInfo.HaveData;
+						};
+
+						$scope.haveCookieInfo = function () {
+							return !!$scope.cookie();
+						};
+
+						$scope.confirmUser = function () {
+							$scope.userConfirmed.confirm();
+							if (!$scope.haveCookieInfo()) {
+								$cookieStore.put("RMCPRegistered", {
+									'Email': $scope.marketoInfo.userInfo.Email,
+									'FirstName': $scope.marketoInfo.userInfo.FirstName,
+									'LastName': $scope.marketoInfo.userInfo.LastName
+								});
+							}
+							$scope.$emit("CONFIRM_REG");
+						};
+
+						$scope.sendRegistration = function () {
+							MunckinHash.get($scope.userInfo.Email).success(function (data) {
+								Munchkin.munchkinFunction('associateLead', $scope.userInfo, data.hashSig);
+								$cookieStore.put("RMCPRegistered", {
+									'Email': $scope.userInfo.Email,
+									'FirstName': $scope.userInfo.FirstName,
+									'LastName': $scope.userInfo.LastName
+								});
+								$scope.marketoInfo.userInfo = $scope.userInfo;
+							});
+							$scope.confirmUser();
+						};
+
+						$scope.wrongUser = function () {
+							$cookieStore.remove("RMCPRegistered");
+							$scope.marketoInfo.userInfo = {HaveData:false};
+						};
+
+						$scope.haveUserInfo = function () {
+							return $scope.haveCookieInfo() || $scope.haveMarketoInfo();
+						};
+
+						$scope.showMarketoBox = function () {
+							return $scope.haveMarketoInfo() && !$scope.haveCookieInfo() && !$scope.userConfirmed.status;
+						};
+
+						$scope.showCookieBox = function () {
+							return $scope.haveCookieInfo() && !$scope.userConfirmed.status;
+						};
+					}],
+					link: function (scope, element)  {
 						scope.internalCallback = function () {
 							element.find('input[type=hidden]').each(function () {
-								scope.model[$(this).attr('name')] = $(this).val();
+								scope.userInfo[$(this).attr('name')] = $(this).val();
 							});
-							scope.callback();
+							scope.sendRegistration();
+							element.find('.modal').modal('hide');
+						};
+						element.find('form').on('submit', smartforms.config(scope.internalCallback).submit);
+
+						if (!Modernizr.formattribute) {
+							element.find('button[type=submit]').on('click', function (e) {
+								e.preventDefault();
+								element.find('form').trigger('submit');
+							});
 						}
-						element.on('submit', smartforms.config(scope.internalCallback).submit);
+
+						scope.confirmClose = function () {
+							scope.confirmUser();
+							element.find('.modal').modal('hide');
+						};
+
+						scope.$on("REG_TRIGGERED", function () {
+							// scope.$emit("CONFIRM_REG");
+							element.find('.modal').modal('show');
+						});
 					}
-				}
+				};
 			}])
 			.directive('rmcpBarChart', ['userConfirmed', function (userConfirmed) {
 				return {
