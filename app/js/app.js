@@ -10,7 +10,7 @@ define([
 	'angularCookies',
 	'angularticsGa',
 	'angularticsMarketo'
-	], function (angular, filters, services, directives, controllers) {
+	], function (angular) {
 
 		// Declare app level module which depends on filters, and services
 		
@@ -25,7 +25,14 @@ define([
 			'angulartics.google.analytics',
 			'angulartics.marketo'
 		])
-		.run(['MarketoInfo', function(MarketoInfo){
+		.run(['MarketoInfo', '$rootScope', function(MarketoInfo, $rootScope){
 			MarketoInfo.get();
+			$rootScope.$on("TRIGGER_REG", function () {
+				$rootScope.$broadcast("REG_TRIGGERED");
+			});
+
+			$rootScope.$on("CONFIRM_REG", function () {
+				$rootScope.$broadcast("REG_CONFIRMED");
+			});
 		}]);
 });
