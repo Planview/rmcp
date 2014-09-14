@@ -1,10 +1,60 @@
-<form accept-charset="utf-8" name="WEBForm" id="WEBForm">
-	<input type="email" name="EmailAddress" id="EmailAddress" value="" placeholder="" required ng-model="model.Email">
-	<input type="text" name="FirstName" id="FirstName" value="" placeholder="" ng-model="model.FirstName" required>
-	<input type="text" name="LastName" id="LastName" value="" placeholder="" ng-model="model.LastName" required>
-	<input type="text" name="Company" id="Company" value="" placeholder="" ng-model="model.Company">
-	<input type="text" name="Country" id="Country" value="" placeholder="" ng-model="model.Country">
-	<input type="text" name="WorkPhone" id="WorkPhone" value="" placeholder="" ng-model="model.WorkPhone">
-	<input type="hidden" id="{{field}}" ng-repeat="field in sfFields" name="{{field}}" value="" ng-model="model[field]">
-	<button type="submit">Text</button>
-</form>
+<div class="modal fade" id="regModal" tabindex="-1" role="dialog" aria-labelledby="regModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="regModalLabel">Register Now for Full Access</h4>
+      </div>
+      <div class="modal-body">
+        <form accept-charset="utf-8" name="WEBForm" id="WEBForm" ng-hide="haveUserInfo()">
+			<div class="form-group">
+				<label for="EmailAddress">Email</label>
+				<input class="form-control" type="email" name="EmailAddress" id="EmailAddress" value="" placeholder="" required ng-userInfo="userInfo.Email">
+			</div>
+			<div class="form-group">
+				<label for="FirstName">First Name</label>			
+				<input class="form-control" type="text" name="FirstName" id="FirstName" value="" placeholder="" ng-userInfo="userInfo.FirstName" required>
+			</div>
+			<div class="form-group">
+				<label for="LastName">Last Name</label>			
+				<input class="form-control" type="text" name="LastName" id="LastName" value="" placeholder="" ng-userInfo="userInfo.LastName" required>
+			</div>
+			<div class="form-group">
+				<label for="Company">Company</label>			
+				<input class="form-control" type="text" name="Company" id="Company" value="" placeholder="" ng-userInfo="userInfo.Company">
+			</div>
+			<div class="form-group">
+				<label for="Country">Country</label>			
+				<input class="form-control" type="text" name="Country" id="Country" value="" placeholder="" ng-userInfo="userInfo.Country">
+			</div>
+			<div class="form-group">
+				<label for="WorkPhone">Work Phone</label>			
+				<input class="form-control" type="text" name="WorkPhone" id="WorkPhone" value="" placeholder="" ng-userInfo="userInfo.WorkPhone">
+			</div>		
+
+			<input class="form-control" type="hidden" id="{{field}}" ng-repeat="field in sfFields" name="{{field}}" value="" ng-userInfo="userInfo[field]">
+		</form>
+
+	    <div ng-show="showMarketoBox()">
+	      <p>Welcome, {{marketoInfo.userInfo.FirstName}} {{marketoInfo.userInfo.LastName}}!</p>
+
+		<p>
+	     	<button ng-click="confirmClose()" class="btn btn-success">Confirm Now for Full Access</button>
+			<a ng-click="wrongUser()" href="#" class="btn btn-link">Not you?</a>
+	     </p>
+	    </div>
+	    <div ng-show="showCookieBox()">
+	      <p>Welcome back, {{cookie().FirstName}} {{cookie().LastName}}!</p>
+		<p>
+	     	<button ng-click="confirmClose()"  class="btn btn-success">Confirm Now for Full Access</button>
+			<a ng-click="wrongUser()" href="#"  class="btn btn-link">Not you?</a>
+	     </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="submit" class="btn btn-primary" form="WEBForm" id="reg-form-submit" ng-hide="haveUserInfo()">Submit</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
