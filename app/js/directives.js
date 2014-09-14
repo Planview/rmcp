@@ -38,20 +38,23 @@ define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-
 						triggerRegistration: '&',
 					},
 					link: function (scope, element, attrs) {
-						var chart;
-						var navs = element.find('.switcher');
+						var chart, 
+							chartType = scope.chartData.type,
+							navs = element.find('.switcher');
 						scope.initialData = _.findWhere(scope.chartData.data, { isDefault: true });
 						scope.currentData = scope.initialData.shortName;
-						if (scope.chartData.type === "stacked") {
+						scope.navNames = function (groupId) {
+							return _.chain(scope.chartData.data).where({ group: groupId }).pluck('shortName').value();
+						};
+						scope.groups = [{ id: 0, name: "Group Data by:"}, { id: 1, name: "By Industry:"}];
+						if (chartType === "stacked") {
 							chart = stackedBarChart(element.find('.chart').get(0), scope.initialData.dataset,
 													scope.initialData.sample, scope.initialData.title,
 													scope.initialData.callout);
-						} else if (scope.chartData.type === "simple") {
+						} else if (chartType === "simple") {
 							chart = simpleBarChart(element.find('.chart').get(0), scope.initialData.dataset,
-													scope.initialData.sample, scope.initialData.title,
-													scope.initialData.callout);
+													scope.initialData.sample, scope.initialData.title);
 						}
-
 
 						$(window).on('resize', chart.resizeChart);
 						scope.changeData = function (shortName) {
@@ -60,7 +63,31 @@ define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-
 							chart.changeData(newData.dataset, newData.sample, newData.title, newData.callout);
 							scope.currentData = newData.shortName;
 						}
-						scope.isActive = function (shortName) { return shortName === scope.currentData; }
+
+						scope.isActive = function (shortName) { return shortName === scope.currentData; };
+
+						scope.$watch('chartData', function () {
+							var newDataName = _.findWhere(scope.chartData.data, { isDefault: true }).shortName;
+							
+							scope.currentData = newDataName;
+
+							if (scope.chartData.type === chartType) {
+								scope.changeData(newDataName);
+							} else {
+								element.find('.chart').html('');
+								chartType = scope.chartData.type;
+								var newData = _.findWhere(scope.chartData.data, {shortName: newDataName});
+
+								if (chartType === "stacked") {
+									chart = stackedBarChart(element.find('.chart').get(0), newData.dataset,
+															newData.sample, newData.title,
+															newData.callout);
+								} else if (chartType === "simple") {
+									chart = simpleBarChart(element.find('.chart').get(0), newData.dataset,
+															newData.sample, newData.title);
+								}
+							}
+						});
 					}
 				}
 			}]);

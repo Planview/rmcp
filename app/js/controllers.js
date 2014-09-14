@@ -84,7 +84,10 @@ define(['angular', 'Cookies', 'munchkin', 'services', 'smartforms', 'sf-fields',
 
 			$scope.currentChartData = function () {
 				return $scope.chartData[$scope.currentSet];
-			}
+			};
+			$scope.setDataSet = function (set) {
+				$scope.currentSet = set;
+			};
 		}])
 		.controller('ReportCtrl', [function(){
 			

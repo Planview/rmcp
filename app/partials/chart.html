@@ -1,8 +1,11 @@
 <div class="col-sm-3 col-md-2">
+	<div ng-repeat="group in groups">
+	<h4>{{group.name}}</h4>
 	<div class="list-group switcher">
-	  <a href="#" class="list-group-item" ng-class="{active:isActive(individual.shortName)}" ng-repeat="individual in chartData.data" ng-click="changeData(individual.shortName)">
-	    {{individual.shortName}}
+	  <a href="#" class="list-group-item" ng-class="{active:isActive(individual)}" ng-repeat="individual in navNames(group.id)" ng-click="changeData(individual)">
+	    {{individual}}
 	  </a>
+	</div>
 	</div>
 </div>
 <div class="col-sm-9 col-md-10">
