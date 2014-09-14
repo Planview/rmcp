@@ -110,16 +110,23 @@ define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-
 						set: '=',
 						triggerRegistration: '&',
 					},
-					link: function (scope, element, attrs) {
-						var chart, 
-							chartType = scope.chartData.type,
-							navs = element.find('.switcher');
+					controller: ['$scope', function (scope) {
 						scope.initialData = _.findWhere(scope.chartData.data, { isDefault: true });
 						scope.currentData = scope.initialData.shortName;
+						scope.userConfirmed = userConfirmed;
+						scope.groups = [{ id: 0, name: "Group Data by:"}, { id: 1, name: "By Industry:"}];
+
+						scope.isActive = function (shortName) { return shortName === scope.currentData; };
+
 						scope.navNames = function (groupId) {
 							return _.chain(scope.chartData.data).where({ group: groupId }).pluck('shortName').value();
 						};
-						scope.groups = [{ id: 0, name: "Group Data by:"}, { id: 1, name: "By Industry:"}];
+					}],
+					link: function (scope, element) {
+						var chart, 
+							chartType = scope.chartData.type,
+							queuedData = null;
+
 						if (chartType === "stacked") {
 							chart = stackedBarChart(element.find('.chart').get(0), scope.initialData.dataset,
 													scope.initialData.sample, scope.initialData.title,
@@ -133,11 +140,21 @@ define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-
 						scope.changeData = function (shortName) {
 							var newData = _.findWhere(scope.chartData.data, {shortName: shortName});
 
-							chart.changeData(newData.dataset, newData.sample, newData.title, newData.callout);
-							scope.currentData = newData.shortName;
-						}
+							if (newData.isLocked && !scope.userConfirmed.status) {
+								queuedData = shortName;
+								scope.$emit("TRIGGER_REG");
+							} else {
+								chart.changeData(newData.dataset, newData.sample, newData.title, newData.callout);
+								scope.currentData = newData.shortName;
+								queuedData = null;						
+							}
+						};
 
-						scope.isActive = function (shortName) { return shortName === scope.currentData; };
+						scope.$on("REG_CONFIRMED", function () {
+							if (queuedData !== null) {
+								scope.changeData(queuedData);
+							}
+						});
 
 						scope.$watch('chartData', function () {
 							var newDataName = _.findWhere(scope.chartData.data, { isDefault: true }).shortName;
@@ -162,6 +179,6 @@ define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-
 							}
 						});
 					}
-				}
+				};
 			}]);
 	});
