@@ -731,7 +731,6 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 				});
 				dimensions.calloutMinWidth = 0;
 				dimensions.calloutProportion = 0;
-				dimensions.calloutPaddingLeft = 0;
 			} else {
 				if (dimensions.showCalloutBox) {
 					calloutBox.style({
