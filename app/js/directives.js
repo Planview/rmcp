@@ -190,21 +190,21 @@ define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-
 					replace: true,
 					link: function (s, element) {
 						element.headroom({
-							offset: 200
+							offset: 300
 						});
 					}
 				};
 			})
-			.directive('rmcpImageBanner', function () {
+			.directive('rmcpIncludeStellar', function () {
 				return {
-					template: '<div class="image-banner" data-stellar-background-ratio="0.5"></div>',
 					restrict: 'C',
-					scope: {
-						bgClass: "@"
-					},
 					link: function (scope, element) {
-						element.css('position', 'relative').find('.image-banner').addClass(scope.bgClass);
-						console.log($.stellar);
+						$(window).data('plugin_stellar', null);
+
+						$.stellar({
+							horizontalScrolling: false,
+							verticalOffset: 40
+						});
 					}
 				};
 			});

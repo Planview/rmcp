@@ -65,7 +65,8 @@ body {
 }
 
 html, body {
-	height:100%;
+	min-height:100%;
+	height: 100%;
 }
 
 .btn-lg {
@@ -75,7 +76,7 @@ html, body {
 
 #cta-banner {
 	width: 100%;
-	z-index: 1;
+	z-index: 100;
 	position: fixed;
 	padding: {
 		top: 10px;
@@ -103,7 +104,8 @@ html, body {
 // hero banner
 #hero-banner {
 	margin-top: -$navbar-height;
-	height: 100vh;
+	height: 100%;
+	height: 101vh;
 	background: {
 		image: url('/app/img/into-darkness.png');
 		repeat: no-repeat;
@@ -120,7 +122,7 @@ html, body {
   			repeat: repeat-y;
   			position: 20px 5px;
   		}
-  		padding:48px 48px 48px 96px;
+  		padding:36px 48px 36px 96px;
 		  position: relative;
 		  top: 50%;
 		  transform: translateY(-50%);
@@ -153,6 +155,7 @@ html, body {
 	margin-top:-90px;
 	margin-bottom: -114px;
 	position: relative;
+	z-index: 2;
 }
 
 // jump button
@@ -186,18 +189,20 @@ html, body {
 // image banners: control size and background of each here using nth-of-type slector
 .image-banner {
 	height: 600px;
+	position: relative;
 	background: {
 		size: cover;
 		repeat: no-repeat;
 		attachment: fixed;
+		position: 50% 0;
 	}
-	&.backs-of-blurry-people {
+	&.backs-of-blurry-people, &.summer {
 		background-image: url('/app/img/backs-of-blurry-people.png');
 	}
-	&.where-are-the-blurry-people {
+	&.where-are-the-blurry-people, &.autumn {
 		background-image: url('/app/img/where-are-the-blurry-people.png');
 	}
-	&.blurry-people {
+	&.blurry-people, &.winter {
 		background-image: url('/app/img/blurry-people.png');
 	}
 }

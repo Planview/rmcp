@@ -96,7 +96,7 @@ require( [
 ], function(angular, app, routes, Munchkin, $) {
 
 	$("#navbar").headroom({
-		offset: 200,
+		offset: 300,
 		onUnpin: function () {
 			$('#navbar').find('.dropdown.open').removeClass('open');
 		}
@@ -120,7 +120,5 @@ require( [
           }
         }
       });
-
-      $.stellar();
 
 });
