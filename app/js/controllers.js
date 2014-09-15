@@ -27,6 +27,9 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 			$scope.setDataSet = function (set) {
 				$scope.currentSet = set;
 			};
+			$scope.isCurrentSet = function (set) {
+				return $scope.currentSet == set;
+			};
 		}])
 		.controller('ReportCtrl', [function(){
 			
