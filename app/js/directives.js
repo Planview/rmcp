@@ -128,7 +128,7 @@ define([
 						scope.initialData = _.findWhere(scope.chartData.data, { isDefault: true });
 						scope.currentData = scope.initialData.shortName;
 						scope.userConfirmed = userConfirmed;
-						scope.groups = [{ id: 0, name: "Group Data by:"}, { id: 1, name: "By Industry:"}];
+						scope.groups = [{ id: 0, name: "Group Data by:"}, { id: 1, name: "By Organizational Function:"}];
 
 						scope.isActive = function (shortName) { return shortName === scope.currentData; };
 
