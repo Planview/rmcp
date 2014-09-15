@@ -6,10 +6,6 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 	
 	return angular.module('myApp.controllers', ['myApp.services', 'ngCookies'])
 		// Sample controller where service is being used
-		.controller('RegistrationCtrl', [function () {
-
-			}
-		])
 		.controller('NavbarCtrl', ['$scope', '$location', function($scope, $location) {
 			$scope.isActive = function (route) {
 				return route === $location.path();
