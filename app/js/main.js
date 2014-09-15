@@ -21,7 +21,8 @@ require.config({
 		angulartics: '../bower_components/angulartics/dist/angulartics.min',
 		angularticsGa: '../bower_components/angulartics/dist/angulartics-ga.min',
 		angularticsMarketo: '../bower_components/angulartics/dist/angulartics-marketo.min',
-		googleAnalytics: '//www.google-analytics.com/analytics'
+		googleAnalytics: '//www.google-analytics.com/analytics',
+		stellarjs: '../bower_components/stellar.js/jquery.stellar.min'
 	},
 	shim: {
 		'angular' : {
@@ -60,6 +61,9 @@ require.config({
 		},
 		'angularticsMarketo': {
 			deps: ['angular', 'angulartics', 'munchkin']
+		},
+		'stellarjs': {
+			deps: ['jquery']
 		}
 	},
 	priority: [
@@ -87,7 +91,8 @@ require( [
 	'munchkin',
 	'jquery',
 	'jqHeadroom',
-	'bootstrap'
+	'bootstrap',
+	'stellarjs'
 ], function(angular, app, routes, Munchkin, $) {
 
 	$("#navbar").headroom({
@@ -115,5 +120,7 @@ require( [
           }
         }
       });
+
+      $.stellar();
 
 });

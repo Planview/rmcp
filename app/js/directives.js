@@ -1,7 +1,7 @@
 /* global Modernizr */
 'use strict';
 
-define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-chart', 'stacked-bar-chart', 'underscore', 'munchkin', 'bootstrap', 'angularCookies', 'jqHeadroom'],
+define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-chart', 'stacked-bar-chart', 'underscore', 'munchkin', 'bootstrap', 'angularCookies', 'jqHeadroom', 'stellarjs'],
 	function (angular, services, smartforms, sfFields, $, simpleBarChart, stackedBarChart, _, Munchkin) {
 		/* Directives */
 		
@@ -191,8 +191,21 @@ define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-
 					link: function (s, element) {
 						element.headroom({
 							offset: 200
-						})
+						});
 					}
-				}
+				};
+			})
+			.directive('rmcpImageBanner', function () {
+				return {
+					template: '<div class="image-banner" data-stellar-background-ratio="0.5"></div>',
+					restrict: 'C',
+					scope: {
+						bgClass: "@"
+					},
+					link: function (scope, element) {
+						element.css('position', 'relative').find('.image-banner').addClass(scope.bgClass);
+						console.log($.stellar);
+					}
+				};
 			});
 	});
