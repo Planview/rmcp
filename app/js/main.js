@@ -1,3 +1,4 @@
+/* global Modernizr */
 'use strict';
 
 require.config({
@@ -85,10 +86,9 @@ require( [
 	'routes',
 	'munchkin',
 	'jquery',
-	'ga',
 	'jqHeadroom',
 	'bootstrap'
-], function(angular, app, routes, Munchkin, $, ga) {
+], function(angular, app, routes, Munchkin, $) {
 
 	$("#navbar").headroom({
 		offset: 200,
@@ -102,4 +102,18 @@ require( [
 	angular.element().ready(function() {
 		angular.resumeBootstrap([app['name']]);
 	});
+
+      $('html').on('click', 'a[href*=#]:not([href=#])', function(event) {
+      	event.preventDefault();
+        if (location.pathname.replace(/^\//,'') === this.pathname.replace(/^\//,'') && location.hostname === this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html,body').animate({
+              scrollTop: target.offset().top - 150
+            }, 750);
+          }
+        }
+      });
+
 });

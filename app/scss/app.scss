@@ -7,18 +7,31 @@
 body {
 	padding-top: 50px;
 }
-.headroom {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	transition: all .2s ease-in-out;
-}
-.headroom--unpinned {
-	top: -51px;
-}
-.headroom--pinned {
-	top: 0;
+.navbar {
+	&.headroom {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		@include transition (all .4s ease-in-out);
+	}
+	&.headroom--unpinned {
+		top: -($navbar-height + 1px);
+	}
+	&.headroom--pinned {
+		top: 0;
+	}
+	.navbar-brand {
+		@include text-hide();
+		display: inline-block;
+		background: {
+			image: url('/app/img/planview-logo.png');
+			position: center center;
+			size: contain;
+			repeat: no-repeat;
+		}
+		width: 157px;
+	}
 }
 .callout {
 	padding-top: 50px; 
@@ -39,6 +52,9 @@ body {
 	background-color: #666; 
 	padding: 50px 0; 
 	color: #fff;
+	a {
+		color: $gray-lighter;
+	}
 }
 
 .divDisplayFrame {
@@ -47,3 +63,342 @@ body {
 	border-radius: 4px;
 	box-shadow: 0 5px 15px rgba(0,0,0,.5);
 }
+
+html, body {
+	height:100%;
+}
+
+.btn-lg {
+	text-transform:uppercase;
+}
+
+
+#cta-banner {
+	width: 100%;
+	z-index: 1;
+	position: fixed;
+	padding: {
+		top: 10px;
+		bottom: 10px;
+	}
+	@include box-sizing (border-box);
+	background-color: $gray-darker;
+	background-color: transparentize($gray-darker,.1);
+	@include transition (all .4s ease-in-out);
+	text-align: center;
+	.btn {
+		margin: 5px 10px;
+	}
+	&.headroom--top {
+		top: -100px;
+	}
+	&.headroom--not-top {
+		top: 0;
+		&.headroom--pinned {
+			top: $navbar-height;
+		}
+	}
+}
+
+// hero banner
+#hero-banner {
+	margin-top: -$navbar-height;
+	height: 100vh;
+	background: {
+		image: url('/app/img/into-darkness.png');
+		repeat: no-repeat;
+		size: cover;
+		position: bottom;
+	}
+  	border-bottom: 1px solid #ffffff;
+  	.container {
+  		max-width:730px;
+  		background: {
+  			image: url('../img/hex.png');
+  			color: #fff;
+  			color: rgba(255,255,255,.8);
+  			repeat: repeat-y;
+  			position: 20px 5px;
+  		}
+  		padding:48px 48px 48px 96px;
+		  position: relative;
+		  top: 50%;
+		  transform: translateY(-50%);
+  	}
+  	h1 {
+  		font-family: $font-family-serif;
+	  	color: $brand-danger;
+
+  	}
+  	h2 {
+  		color: $brand-danger;
+  		margin-top: 10px;
+  	}
+  	h3 {
+  		font-weight: 300;
+  		font-style: italic;
+  	}
+  	.hero-buttons {
+  		margin-top: 40px;
+  		.btn {
+  			margin: 0 20px 0 0;
+  		}
+  	}
+}
+
+// hex divider
+#hex-divider {
+	background: url('/app/img/hex-divider.png') no-repeat center;
+	height:205px;
+	margin-top:-90px;
+	margin-bottom: -114px;
+	position: relative;
+}
+
+// jump button
+.jump-button {
+	a {
+		color: #b9be10;
+		font-size: 3em;
+		padding: 25px;
+		display: inline-block;
+	}
+}
+
+//adding the hex background
+.jumbotron .jump-button {
+	width:87px;
+	height:60px;
+	margin: 20px auto -60px;
+	background: url('../img/hex-jump.png') no-repeat;
+	a {
+		color: #fff;
+		padding: 10px 0 0;
+		font-size: 2.5em;
+	}
+}
+
+// // rest of the page, enclosed in #wrap
+// main {
+// 	margin-top:-115px;
+// }
+
+// image banners: control size and background of each here using nth-of-type slector
+.image-banner {
+	height: 600px;
+	background: {
+		size: cover;
+		repeat: no-repeat;
+		attachment: fixed;
+	}
+	&.backs-of-blurry-people {
+		background-image: url('/app/img/backs-of-blurry-people.png');
+	}
+	&.where-are-the-blurry-people {
+		background-image: url('/app/img/where-are-the-blurry-people.png');
+	}
+	&.blurry-people {
+		background-image: url('/app/img/blurry-people.png');
+	}
+}
+
+
+// text banners
+.jumbotron.text-banner {
+	background: white;
+	padding-top: 80px;
+	padding-bottom: 60px;
+	margin-bottom: 0;
+	h2 {
+		font-size: 5em;
+		font-weight: 600;
+	}
+	img {
+		margin: 0 auto;
+	}
+	&:nth-of-type(even) {
+		.text-column {
+			float:right;
+		}
+		.image-column {
+			float:left;
+		}
+	}
+}
+
+// // footer
+// footer {
+// 	padding-top: 40px;
+// 	padding-bottom: 40px;
+// 	background: $gray-darker;
+// 	color: white;
+// 	.social-icons {
+// 		a {
+// 			font-size: 2em;
+// 			color: $gray-light;
+// 			padding: 0 5px;
+// 			&:hover {
+// 				color: $brand-danger;
+// 			}
+// 		}
+// 	}
+// }
+// // ie-specific styles
+// .ie {
+// 	#hero-banner .container {
+// 		margin-top: 40px;
+// 	}
+// 	#cta-banner .container {
+// 		display: block;
+// 		margin: 0 auto;
+// 		width: 460px;
+// 	}
+// }
+
+
+// // media queries
+
+// // vertical tablets, 768 - 991
+// @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+	
+// 	.navbar .navbar-nav > li > a {
+// 		font-size: 1em;
+// 	}
+
+// 	#hero-banner {
+// 		h1 {
+// 			font-size: 4em;
+// 		}
+// 		h2 {
+// 			font-size: 3em;
+// 		}
+// 	}
+	
+// 	.jumbotron.text-banner {
+// 		padding-top:60px;
+// 		h2, p {
+// 			text-align: center;
+// 		}
+// 		&:nth-of-type(even) {
+// 			.text-column {
+// 				float:none;
+// 			}
+// 			.image-column {
+// 				float:none;
+// 			}
+// 		}
+// 	}
+// }
+
+// // mobile 
+// @media (max-width: $screen-xs-max) { 
+// 	.navbar-inverse { 
+// 		margin-bottom: 0;
+// 		.navbar-toggle {
+// 			border: none;
+// 			color: white;
+// 			font-size: 1.5em;
+// 			padding: 0;
+// 			margin: 0;
+// 			background: none;
+// 			i {
+// 				font-size: 1.5em;
+// 				padding: 14px;
+// 				margin: 0;
+// 			}
+// 		}
+// 		.navbar-collapse {
+// 			background: $gray-darker;
+// 			width: 100%;
+// 			margin-top: 0;
+// 			max-height: none;
+// 			border: none;
+// 			position: absolute;
+// 		}
+// 	}
+
+// 	#cta-banner {
+// 		.btn {
+// 			font-size: 1.1em;
+// 			white-space: normal;
+// 			padding-top: 5px;
+// 			padding-bottom: 5px;
+// 			line-height: 1.3;
+// 			margin: 0 5px;
+// 		}
+// 		.container {
+// 			padding: 5px 2px;
+// 		}
+// 	}
+// 	#hero-banner {
+// 		.container {
+// 			background-image: none;
+// 			padding: 20px;
+// 			margin-left: 15px;
+// 			margin-right: 15px;
+// 			margin-top: -20px;
+// 			text-align: center;
+// 		}
+// 		h1 {
+// 			margin-top: 0;
+// 			font-size: 2em;
+// 		}
+// 		h2 {
+// 			font-size: 1.5em;
+// 		}
+// 		h3 {
+// 			font-size: 1.1em;
+// 			margin-top: 0;
+// 		}
+// 		.hero-buttons {
+// 			margin-top: 20px;
+// 			margin-left: -5px;
+// 			margin-right: -5px;
+// 			@include display(flex);
+// 		  	@include align-items(center);
+// 		  	@include flex-direction(row);
+// 		  	@include justify-content(center);
+// 			.btn {
+// 				font-size: .9em;
+// 				white-space: normal;
+// 				padding-top: 5px;
+// 				padding-bottom: 5px;
+// 				line-height: 1.3;
+// 				margin: 0 5px;
+// 			}
+// 		}
+// 	}
+// 	#hex-divider {
+// 		height: 100px;
+// 		margin-top: -50px;
+// 		background-size: cover;
+// 	}
+// 	.jump-button a {
+// 	font-size: 2.8em;
+// 	padding: 0;
+// 	}
+// 	.image-banner {
+// 		height: 300px;
+// 	}
+// 	.jumbotron.text-banner {
+// 		padding: 40px 0;
+// 		text-align: center;
+// 		h2 {
+// 			font-size: 3em;
+// 			margin-top: 0;
+// 		}
+// 		p {
+// 			font-size: 1.1em;
+// 		}
+// 		.jump-button {
+// 			margin: 20px auto -40px;
+// 		}
+// 	}
+// 	footer {
+// 		padding-top: 20px;
+// 		padding-bottom: 20px;
+// 		.social-icons {
+// 			text-align: center;
+// 		}
+// 	}
+// }

@@ -1,7 +1,7 @@
 /* global Modernizr */
 'use strict';
 
-define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-chart', 'stacked-bar-chart', 'underscore', 'munchkin', 'bootstrap', 'angularCookies'],
+define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-chart', 'stacked-bar-chart', 'underscore', 'munchkin', 'bootstrap', 'angularCookies', 'jqHeadroom'],
 	function (angular, services, smartforms, sfFields, $, simpleBarChart, stackedBarChart, _, Munchkin) {
 		/* Directives */
 		
@@ -180,5 +180,19 @@ define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-
 						});
 					}
 				};
-			}]);
+			}])
+			.directive('rmcpCtaBar', function () {
+				return {
+					template: '<div id="cta-banner"><div class="container">' +
+						'<a class="btn btn-danger btn-lg" role="button">Explore the Findings</a>' +
+						'<a class="btn btn-danger btn-lg" role="button">Get the Report</a></div></div>',
+					restrict: "C",
+					replace: true,
+					link: function (s, element) {
+						element.headroom({
+							offset: 200
+						})
+					}
+				}
+			});
 	});
