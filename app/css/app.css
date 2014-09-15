@@ -8755,6 +8755,7 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
   width: 157px;
+  margin-left: 10px;
 }
 
 .callout {
@@ -8777,12 +8778,20 @@ body {
 }
 
 .site-footer {
-  background-color: #666;
-  padding: 50px 0;
+  background-color: #363638;
+  padding: 20px 0;
   color: #fff;
 }
 .site-footer a {
   color: #f2f2f3;
+}
+.site-footer a:hover {
+  color: #ef7521;
+}
+@media screen and (min-width: 768px) {
+  .site-footer {
+    padding: 50px 0;
+  }
 }
 
 .divDisplayFrame {
@@ -8842,12 +8851,9 @@ html, body {
 }
 #hero-banner .container {
   max-width: 730px;
-  background-image: url("../img/hex.png");
+  text-align: center;
   background-color: #fff;
   background-color: rgba(255, 255, 255, 0.8);
-  background-repeat: repeat-y;
-  background-position: 20px 0;
-  padding: 42px 48px 42px 96px;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
@@ -8858,49 +8864,81 @@ html, body {
 }
 #hero-banner h2 {
   color: #ef7521;
-  margin-top: 10px;
-}
-#hero-banner h3 {
-  font-weight: 00;
-  font-style: italic;
 }
 #hero-banner .hero-buttons {
   margin-top: 40px;
 }
 #hero-banner .hero-buttons .btn {
-  margin: 0 20px 0 0;
+  margin: 0 20px 10px 0;
+}
+@media screen and (max-width: 767px) {
+  #hero-banner .container {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+@media screen and (min-width: 768px) {
+  #hero-banner .container {
+    background-image: url("../img/hex.png");
+    background-repeat: repeat-y;
+    background-position: 20px 0;
+    text-align: left;
+    padding: 42px 48px 42px 96px;
+  }
 }
 
 #hex-divider {
-  background: url("/app/img/hex-divider.png") no-repeat center;
-  height: 205px;
-  margin-top: -90px;
-  margin-bottom: -114px;
+  height: 100px;
+  margin-top: -50px;
+  margin-bottom: -49px;
   position: relative;
+  background-image: url("/app/img/hex-divider.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   z-index: 2;
+}
+@media screen and (min-width: 768px) {
+  #hex-divider {
+    height: 205px;
+    margin-top: -90px;
+    margin-bottom: -114px;
+    background-size: auto;
+  }
 }
 
 .jump-button a {
+  font-size: 2.8em;
+  padding: 0;
   color: #b9be10;
-  font-size: 3em;
-  padding: 25px;
   display: inline-block;
 }
+@media screen and (min-width: 768px) {
+  .jump-button a {
+    font-size: 3em;
+    padding: 25px;
+  }
+}
 
-.jumbotron .jump-button {
+.text-banner .jump-button {
+  margin: 20px auto -40px;
   width: 87px;
   height: 60px;
-  margin: 20px auto -60px;
   background: url("../img/hex-jump.png") no-repeat;
 }
-.jumbotron .jump-button a {
+.text-banner .jump-button a {
   color: #fff;
   padding: 10px 0 0;
   font-size: 2.5em;
 }
+@media screen and (min-width: 768px) {
+  .text-banner .jump-button {
+    margin: 20px auto -60px;
+  }
+}
 
 .image-banner {
-  height: 600px;
+  height: 300px;
   position: relative;
   background-size: cover;
   background-repeat: no-repeat;
@@ -8915,6 +8953,11 @@ html, body {
 }
 .image-banner.blurry-people, .image-banner.winter {
   background-image: url("/app/img/blurry-people.png");
+}
+@media screen and (min-width: 768px) {
+  .image-banner {
+    height: 600px;
+  }
 }
 
 .btn-twitter {
@@ -8985,22 +9028,32 @@ html, body {
 
 .jumbotron.text-banner {
   background: white;
-  padding-top: 80px;
-  padding-bottom: 60px;
   margin-bottom: 0;
+  text-align: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 .jumbotron.text-banner h2 {
-  font-size: 5em;
-  font-weight: 600;
+  font-size: 3em;
 }
-.jumbotron.text-banner img {
-  margin: 0 auto;
+.jumbotron.text-banner p {
+  font-size: 1.1em;
 }
-.jumbotron.text-banner:nth-of-type(even) .text-column {
-  float: right;
+@media screen and (min-width: 768px) {
+  .jumbotron.text-banner {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    text-align: left;
+  }
+  .jumbotron.text-banner h2 {
+    font-size: 5em;
+    font-weight: 700;
+  }
 }
-.jumbotron.text-banner:nth-of-type(even) .image-column {
-  float: left;
+@media screen and (min-width: 992px) {
+  .jumbotron.text-banner {
+    padding-top: 80px;
+  }
 }
 
 #header.jumbotron {
@@ -9013,13 +9066,20 @@ html, body {
 #header.jumbotron .container {
   margin-top: 20px;
   margin-bottom: 20px;
-  background-image: url("../img/hex.png");
   background-color: #fff;
   background-color: rgba(255, 255, 255, 0.8);
-  background-repeat: repeat-y;
-  background-position: 20px 0;
-  padding: 42px 48px 42px 96px;
 }
-#header.jumbotron .container h1 {
-  margin-top: 10px;
+@media screen and (max-width: 767px) {
+  #header.jumbotron .container {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
+@media screen and (min-width: 768px) {
+  #header.jumbotron .container {
+    background-image: url("../img/hex.png");
+    background-repeat: repeat-y;
+    background-position: 20px 0;
+    padding: 42px 48px 42px 96px;
+  }
 }
