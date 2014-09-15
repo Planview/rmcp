@@ -8,3 +8,4 @@ tmp
 credentials.php
 config.codekit
 .sass-cache
+app/js/min
