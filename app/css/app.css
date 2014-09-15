@@ -8773,7 +8773,7 @@ body {
 
 .subnav {
   padding: 10px 0;
-  background-color: #ddd;
+  background-color: #f2f2f3;
 }
 
 .site-footer {
@@ -8846,8 +8846,8 @@ html, body {
   background-color: #fff;
   background-color: rgba(255, 255, 255, 0.8);
   background-repeat: repeat-y;
-  background-position: 20px 5px;
-  padding: 36px 48px 36px 96px;
+  background-position: 20px 0;
+  padding: 42px 48px 42px 96px;
   position: relative;
   top: 50%;
   transform: translateY(-50%);
@@ -8861,7 +8861,7 @@ html, body {
   margin-top: 10px;
 }
 #hero-banner h3 {
-  font-weight: 300;
+  font-weight: 00;
   font-style: italic;
 }
 #hero-banner .hero-buttons {
@@ -8935,4 +8935,25 @@ html, body {
 }
 .jumbotron.text-banner:nth-of-type(even) .image-column {
   float: left;
+}
+
+#header.jumbotron {
+  background-image: url("/app/img/into-darkness.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
+  border-bottom: 1px solid #ffffff;
+}
+#header.jumbotron .container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-image: url("../img/hex.png");
+  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.8);
+  background-repeat: repeat-y;
+  background-position: 20px 0;
+  padding: 42px 48px 42px 96px;
+}
+#header.jumbotron .container h1 {
+  margin-top: 10px;
 }
