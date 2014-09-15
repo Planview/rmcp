@@ -1,7 +1,21 @@
 /* global Modernizr */
 'use strict';
 
-define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-chart', 'stacked-bar-chart', 'underscore', 'munchkin', 'bootstrap', 'angularCookies', 'jqHeadroom', 'stellarjs'],
+define([
+	'angular',
+	'services',
+	'smartforms',
+	'sf-fields',
+	'jquery',
+	'simple-bar-chart',
+	'stacked-bar-chart',
+	'underscore',
+	'munchkin',
+	'bootstrap',
+	'angularCookies',
+	'jqHeadroom',
+	'stellarjs',
+	'sharrre'],
 	function (angular, services, smartforms, sfFields, $, simpleBarChart, stackedBarChart, _, Munchkin) {
 		/* Directives */
 		
@@ -204,6 +218,61 @@ define(['angular', 'services', 'smartforms', 'sf-fields', 'jquery', 'simple-bar-
 						$.stellar({
 							horizontalScrolling: false,
 							verticalOffset: 40
+						});
+					}
+				};
+			})
+			.directive('rmcpShareButtons', function () {
+				return {
+					restrict: "C",
+					scope: {
+						shareText: "@"
+					},
+					template: '<ul class="list-inline"><li class="twitter"></li><li class="facebook"></li><li class="linkedin"></li></ul>',
+					controller: ['$scope', '$location', function ($scope, $location) {
+						$scope.url = $location.absUrl();
+					}],
+					link: function (scope, element) {
+						element.find('.twitter').sharrre({
+							share: {
+								twitter: true
+							},
+							url: scope.url,
+							text: scope.shareText,
+							enableHover: false,
+  							template: '<a class="btn btn-xs btn-twitter" href="#"><span class="fa fa-twitter"></span>&nbsp;&nbsp;Tweet</div></a>',
+							  buttons: { twitter: {via: 'planview'}},
+							  click: function(api, options){
+							    api.simulateClick();
+							    api.openPopup('twitter');
+							  }
+						});
+						element.find('.facebook').sharrre({
+						  share: {
+						    facebook: true
+						  },
+							url: scope.url,
+							text: scope.shareText,
+						  template: '<a class="btn btn-xs btn-facebook" href="#"><span class="fa fa-facebook"></span>&nbsp;&nbsp;Like</div></a>',
+						  enableHover: false,
+						  buttons: { facebook: {action: 'like'}},
+						  click: function(api, options){
+						    api.simulateClick();
+						    api.openPopup('facebook');
+						  }
+						});
+						element.find('.linkedin').sharrre({
+						  share: {
+						    linkedin: true
+						  },
+							url: scope.url,
+							text: scope.shareText,
+						  template: '<a class="btn btn-xs btn-linkedin" href="#"><span class="fa fa-linkedin"></span>&nbsp;&nbsp;Share</div></a>',
+						  enableHover: false,
+						  click: function(api, options){
+						    api.simulateClick();
+						    api.openPopup('linkedin');
+						  }
 						});
 					}
 				};

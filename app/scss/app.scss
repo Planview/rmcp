@@ -207,6 +207,16 @@ html, body {
 	}
 }
 
+.btn-twitter {
+	@include button-variant(#fff, #55ACEE, darken(#55ACEE, 5%));
+}
+.btn-facebook {
+	@include button-variant(#fff, #3B5998, darken(#3B5998, 5%));
+}
+.btn-linkedin {
+	@include button-variant(#fff, #007bb6, darken(#007bb6, 5%));
+}
+
 
 // text banners
 .jumbotron.text-banner {
