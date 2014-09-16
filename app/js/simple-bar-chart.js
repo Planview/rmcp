@@ -6,7 +6,8 @@ define(['d3', 'jquery'], function (d3, $) {
 			dataset = data,
 			sampleSize = sample,
 			titleText = titleName,
-			setName = set;
+			setName = set,
+			chartObject = {};
 
 		var dimensions = {
 			height: 500,
@@ -362,7 +363,7 @@ define(['d3', 'jquery'], function (d3, $) {
 		feMerge.append("feMergeNode")
 		    .attr("in", "SourceGraphic");
 
-		this.changeData = function (newDataset, newSampleSize, newTitleText,
+		chartObject.changeData = function (newDataset, newSampleSize, newTitleText,
 				newSet) {
 			if (newSet === setName) return;
 			dataset = newDataset;
@@ -592,14 +593,14 @@ define(['d3', 'jquery'], function (d3, $) {
 
 			finePrint.text("n=" + sampleSize);
 
-			$(containerSelector + ' rect')
+			$(containerSelector).find('rect')
 				.tooltip({
 					'trigger': 'hover',
 					'container': containerSelector + ' .hovers'
 				});
 		};
 
-		this.resizeChart = function () {
+		chartObject.resizeChart = function () {
 			var width = $(containerSelector).width();
 			dimensions.width = Math.max(width, dimensions.minWidth);
 			svg.attr("width", dimensions.width);
@@ -658,17 +659,18 @@ define(['d3', 'jquery'], function (d3, $) {
 		};
 
 		d3.select(containerSelector).append("div").attr("class", "hovers");
-		var context = this;
 		setTimeout(function () {
-			context.resizeChart();
+			chartObject.resizeChart();
 		}, 10);
-		$(containerSelector + ' rect')
+		$(containerSelector).find('rect')
 			.tooltip({
 				'trigger': 'hover',
-				'container': containerSelector + ' .hovers'
+				'container': '.hovers'
 			});
 
-		return this;
+		return chartObject;
 	};
-	return drawRMCPChart;
+	return function (container, data, sample, titleName, set) { 
+		return drawRMCPChart(container, data, sample, titleName, set);
+	};
 });

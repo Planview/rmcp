@@ -437,8 +437,8 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 			})
 			.text(function (d) {
 				var last = sampleSize.length - 1;
-				return percentFormat(Math.abs((d.data[0] / sampleSize[0].quantity) -
-					(d.data[last] / sampleSize[last].quantity)));
+				return percentFormat((d.data[0] / sampleSize[0].quantity) -
+					(d.data[last] / sampleSize[last].quantity));
 			});
 
 		// filters go in defs element
@@ -656,9 +656,9 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 				.data(newDataset, dataKey)
 				.text(function (d) {
 					var last = newSampleSize.length - 1;
-					return percentFormat(Math.abs((d.data[0] /
+					return percentFormat((d.data[0] /
 						newSampleSize[0].quantity) -
-						(d.data[last] / newSampleSize[last].quantity)));
+						(d.data[last] / newSampleSize[last].quantity));
 				});
 
 			legend.selectAll("text.legend").data(sampleSize).exit().remove();
