@@ -60,8 +60,34 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 				}
 			});
 		}])
-		.controller('AboutCtrl', [function(){
-			
+		.controller('AboutCtrl', ['$scope', function($scope){
+			$scope.demographics = [
+				{name: "Region", img: "/app/img/demographics/planview-rmcp-2014-breakdown-by-region-850.png", alt: "Alt Text"},
+				{name: "Industry", img: "/app/img/demographics/planview-rmcp-2014-breakdown-by-industry-850.png", alt: "Alt Text"},
+				{name: "Annual Worldwide Revenues", img: "/app/img/demographics/planview-rmcp-2014-annual-revenues-worldwide-850.png", alt: "Alt Text"},
+				{name: "Number of Employees Worldwide", img: "/app/img/demographics/planview-rmcp-2014-employees-worldwide-850.png", alt: "Alt Text"},
+				{name: "Job Level", img: "/app/img/demographics/planview-rmcp-2014-participant-job-level-850.png", alt: "Alt Text"},
+				{name: "Role in RMCP Process", img: "/app/img/demographics/planview-rmcp-2014-role-in-rmcp-process-850.png", alt: "Alt Text"},
+				{name: "Group Responsibilities", img: "/app/img/demographics/something.png", alt: "Alt Text"},
+				{name: "Group\u2019s Scope of Responsibility", img: "/app/img/demographics/planview-rmcp-2014-group-scope-of-responsibility-850.png", alt: "Alt Text"},
+			];
+			$scope.currentDemographic = $scope.demographics[0];
+
+			$scope.isCurrentDemographic = function (demographic) {
+				return demographic.name === $scope.currentDemographic.name;
+			};
+
+			$scope.setDemographic = function (demographic) {
+				$scope.currentDemographic = demographic;
+			};
+
+			$scope.getDemographicAltText = function () {
+				return $scope.currentDemographic.alt;
+			};
+
+			$scope.getDemographicImage = function () {
+				return $scope.currentDemographic.img;
+			};
 		}])
 		.controller('DefinitionsCtrl', [function(){
 			
