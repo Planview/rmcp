@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="regModalLabel">Register Now for Full Access</h4>
+        <h4 class="modal-title text-danger" id="regModalLabel">Registration for Full Access</h4>
       </div>
       <div class="modal-body">
         <form accept-charset="utf-8" name="WEBForm" id="WEBForm" ng-hide="haveUserInfo()">
@@ -73,6 +73,10 @@
 	     	<button ng-click="confirmClose()"  class="btn btn-success">Confirm Now for Full Access</button>
 			<a ng-click="wrongUser()" href="#"  class="btn btn-link">Not you?</a>
 	     </p>
+      </div>
+	    <div ng-show="userConfirmed.status">
+	      <p class="lead">Thank you for your interest in Resource Management and Capacity Planning.</p>
+	      <p class="lead">You now have full access to Explore the Findings and the RMCP Benchmark Study Report.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
