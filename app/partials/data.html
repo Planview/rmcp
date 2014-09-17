@@ -1,8 +1,8 @@
 <header id="header" class="jumbotron">
 	<div class="container">
-	<h1>This is a header</h1>
-  <p>Echo Park before they sold out biodiesel art party readymade. Narwhal fap actually paleo mlkshk pour-over shabby chic vegan farm-to-table letterpress church-key pop-up.</p>
-  <div class="rmcp-share-buttons"></div>
+	<h1>Explore the Findings</h1>
+  <p>Explore the data from the 2014 Resource Management and Capacity Planning Study. Filter top pain points and business risks by organization maturity level, market segment and more to see how your peers stack up.</p>
+  <div class="rmcp-share-buttons" data-share-text="This is some text"></div>
 	</div>
 </header><!-- /header -->
 
@@ -17,11 +17,14 @@
 <div class="container">
 <main>
   <section class="callout row">
+    <p class="lead">{{currentChartData().text}}</p>
+  </section>
+  <section class="callout row">
     <div class="rmcp-bar-chart" data-chart-data="currentChartData()" data-unlocked=""></div>
   </section>
   <section class="callout row">
     <p class="text-center">
-      <a href="#" class="btn btn-lg btn-success">Get the Report</a>
+      <a href="/report" class="btn btn-lg btn-success">Get the Report</a>
     </p>
   </section>
 </main>

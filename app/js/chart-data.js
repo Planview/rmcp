@@ -7,6 +7,7 @@ define([], function () {
 		cpPain: {
 			type: "stacked", 
 			name: "Capacity Planning Pain Points",
+			text: "By every measure, the more mature the organization, the less the capacity planning pain points are felt. The top performers are 59% less likely to experience insufficient visibility into resource capacity, making them more confident to be able to deliver on strategic projects.",
 			data: [
 				{
 					shortName: "Overall",
@@ -192,6 +193,7 @@ define([], function () {
 		rmPain: {
 			type: "stacked", 
 			name: "Resource Management Pain Points",
+			text: "Seventy seven percent of lower maturity organizations express that their top pain point is overcommitting resources. More mature organizations are 37% less likely to do so \u2013 proof the dilemma is solvable.",
 			data: [
 				{
 					shortName: "Overall",
@@ -404,6 +406,7 @@ define([], function () {
 		busRisks: {
 			type: "simple", 
 			name: "RMCP Business Risks",
+			text: "Almost half of all respondents identify the inability to compete projects on time as a top business risk of not addressing resource management and capacity planning . Missed business opportunities, increased project costs, the inability to innovate, customer dissatisfaction, and compromised quality are also strong concerns.",
 			data: [
 				{
 					shortName: "Overall",
