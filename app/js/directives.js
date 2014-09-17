@@ -103,7 +103,7 @@ define([
 								scope.userInfo[$(this).attr('name')] = $(this).val();
 							});
 							scope.sendRegistration();
-							// element.find('.modal').modal('hide');
+							element.find('.modal').modal('hide');
 						};
 						element.find('form').on('submit', smartforms.config(scope.internalCallback).submit);
 
@@ -116,14 +116,14 @@ define([
 
 						scope.confirmClose = function () {
 							scope.confirmUser();
-							// element.find('.modal').modal('hide');
-							// showThankYou();
+							element.find('.modal').modal('hide');
+							showThankYou();
 						};
 
 						scope.knownClose = function () {
 							scope.knownSubmit();
-							// element.find('.modal').modal('hide');
-							// showThankYou();
+							element.find('.modal').modal('hide');
+							showThankYou();
 						};
 
 						var showThankYou = function () {
