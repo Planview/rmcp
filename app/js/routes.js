@@ -27,6 +27,10 @@ define(['angular', 'app'], function(angular, app) {
 			templateUrl: 'app/partials/definitions.html',
 			controller: 'DefinitionsCtrl'
 		})
+		.when('/handbook', {
+			templateUrl: 'app/partials/handbook.html',
+			controller: 'HandbookCtrl'
+		})
 		.otherwise({redirectTo: '/'});
 	}]).config(['$locationProvider', function($locationProvider) {
 		$locationProvider.html5Mode(true);

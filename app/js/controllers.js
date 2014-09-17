@@ -63,5 +63,8 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 		}])
 		.controller('DefinitionsCtrl', [function(){
 			
+		}])
+		.controller('HandbookCtrl', [function(){
+			
 		}]);
 });
