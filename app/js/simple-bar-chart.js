@@ -292,7 +292,7 @@ define(['d3', 'jquery'], function (d3, $) {
 			.style({
 				// 'stroke': '#203368',
 				'stroke-width': 0,
-				'fill': '#48C6EA'
+				'fill': '#ef7521'
 			})
 			.on("mouseover", function() {
 				d3.select(this)
@@ -437,7 +437,7 @@ define(['d3', 'jquery'], function (d3, $) {
 				.style({
 					// 'stroke': '#203368',
 					'stroke-width': 0,
-					'fill': '#48C6EA'
+					'fill': '#ef7521'
 				})
 				.on("mouseover", function() {
 					d3.select(this)

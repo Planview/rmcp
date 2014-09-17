@@ -120,6 +120,16 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 			return d.id;
 		};
 
+		var colorSet = function (number) {
+			switch (number) {
+				case 1:
+					return ['#ef7521'];
+				case 3:
+				default:
+					return ['#203368', '#1B75BB', '#48C6EA'];
+			}
+		};
+
 		var svg = d3.select(containerSelector)
 			.append("svg")
 			.attr("height", dimensions.height)
@@ -141,7 +151,7 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 				[0, dimensions.dataWidth()]);
 		var colors = d3.scale.ordinal()
 			.domain(d3.range(sampleSize.length))
-			.range(['#203368', '#1B75BB', '#48C6EA']);
+			.range(colorSet(sampleSize.length));
 		var legendSpacing = d3.scale.ordinal()
 			.domain(d3.range(sampleSize.length))
 			.rangeRoundBands(
@@ -501,6 +511,7 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 			legendSpacing.domain(d3.range(sampleSize.length))
 				.rangeRoundBands(
 					[dimensions.legendLeft(), dimensions.legendRight()], 0.1);
+			colors.range(colorSet(sampleSize.length));
 
 			chartData.selectAll("g")
 				.data(newDataset, dataKey)
@@ -513,6 +524,9 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 						.remove();
 					group.selectAll("rect")
 						.data(newSampleSize)
+						.style("fill", function (d, i) {
+							return colors(i);
+						})
 						.transition()
 						.attr("y", function (d, i) {
 							return yScaleOuter(iData) + yScaleInner(i);
@@ -521,6 +535,11 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 						.attr("height", yScaleInner.rangeBand())
 						.attr("width", function (d, i) {
 							return xScale(dData.data[i] / d.quantity);
+						})
+						.attr("data-original-title", function (d, i) {
+							return dData.data[i] + " out of " + d.quantity + " " +
+								d.title.toLowerCase() +
+								" companies surveyed experience pain in this area";
 						});
 					group.selectAll("rect")
 						.data(newSampleSize)
@@ -700,6 +719,9 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 					return 'translate(' + (21 * 0.6 + legendSpacing(i)) +
 						',' + dimensions.legendCenterVertical() + ') ' +
 						'scale(0.6)';
+				})
+				.style("fill", function (d, i) {
+					return colors(i);
 				});
 			legend.selectAll("path").data(sampleSize).enter()
 				.append("path")
