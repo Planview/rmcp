@@ -480,9 +480,9 @@ $navbar-inverse-link-active-color:          $navbar-inverse-link-hover-color;
 // $state-warning-bg:               #fcf8e3
 // $state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%)
 
-// $state-danger-text:              #a94442
-// $state-danger-bg:                #f2dede
-// $state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%)
+$state-danger-text:              $brand-danger;
+$state-danger-bg:                lighten($brand-danger, 40%);
+$state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%);
 
 //== Tooltips
 //
