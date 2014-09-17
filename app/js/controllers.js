@@ -46,7 +46,7 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 
 			$scope.sendRequest = function () {
 				munchkin().munchkinFunction('visitWebPage', {
-					url: $location.absUrl(), params: 'report-requested=true'
+					url: $location.absUrl(), params: 'requested_report=true'
 				});
 				$scope.requestSent = true;
 			};
