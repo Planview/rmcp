@@ -82,13 +82,16 @@ function json_lead_from_cookie( $lead ) {
 		return json_encode(array('HaveData' => false));
 	}
 
-	$leadMap['HaveData'] = true;
+	$leadMap['HaveData'] = false;
 	$leadMap['Id'] = $leadData->Id;
 	$leadMap['Email'] = $leadData->Email;
 
 	foreach ( $leadData->leadAttributeList->attribute as $attribute ) {
 		if (in_array($attribute->attrName, $keysToAdd)) {
 			$leadMap[$attribute->attrName] = $attribute->attrValue;
+		}
+		if ($attribute->attrName == "Matched_Company_Name__c") {
+			$leadMap['HaveData'] = true;
 		}
 	}
 
@@ -99,7 +102,7 @@ function json_lead_from_cookie( $lead ) {
  * Returns an email hash for Munchkin
  */
 function email_hash($email){
-	return hash('sha1', $_GLOBALS['marketoMunchkinKey'] . $email);
+	return hash('sha1', $GLOBALS['marketoMunchkinKey'] . $email);
 }
 
 /**
