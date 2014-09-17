@@ -58,11 +58,34 @@
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
 
-	<div ng-view></div>
+	<div ng-view class="content">
+   <span class="loader"><span class="fa fa-circle-o-notch fa-spin text-danger"></span></span>
+  </div>
 
 	<footer class="site-footer">
 		<div class="container">
-		  <p class="text-center">Something goes here</p>
+        <nav class="text-center"><ul class="list-inline" ng-controller="NavbarCtrl">
+                  <li><a href="/" ng-class="{active:isActive('/')}">Home</a></li>
+                  <li><a href="/resource-dilemma" ng-class="{active:isActive('/resource-dilemma')}">Infographic</a></li>
+                  <li><a href="/explore-findings" ng-class="{active:isActive('/explore-findings')}">Explore the Findings</a></li>
+                  <li><a href="/report" ng-class="{active:isActive('/report')}">Get the Report</a></li>
+                  <li><a href="/handbook" ng-class="{active:isActive('/handbook')}">RMCP Handbook</a></li>
+                  <li><a href="/about-research" ng-class="{active:isActive('/about-research')}">About the Research</a></li>
+                  <li><a href="/maturity-levels" ng-class="{active:isActive('/maturity-levels')}">Assess Your Company&rsquo;s Maturity</a></li>
+                </ul></nav>
+		    <div class="row">
+          <div class="col-sm-6">
+             <img src="/app/img/planview-logo.png" alt="Planview">
+          </div>
+          <div class="col-sm-6 social-icons">
+            <ul class="list-inline lead"><li><a href="http://www.linkedin.com/company/planview"><i class="fa fa-linkedin-square"></i></a></li>
+                        <li><a href="https://twitter.com/planview"><i class="fa fa-twitter-square"></i></a></li>
+                        <li><a href="http://www.youtube.com/planviewvideos"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="https://www.facebook.com/pages/Planview-Inc/89422974772"><i class="fa fa-facebook-square"></i></a></li>
+                        <li><a href="http://www.planview.com/company/contact/"><i class="fa fa-envelope"></i></a></li></ul>
+          </div>
+        </div>
+        <p class="text-center">&copy; 2014 Planview, Inc., All Rights Reserved.</p>
 		</div>
 	</footer>
   <div class="rmcp-reg-form"></div>
