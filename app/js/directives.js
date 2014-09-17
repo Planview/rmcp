@@ -11,16 +11,18 @@ define([
 	'stacked-bar-chart',
 	'underscore',
 	'munchkin',
+	'countries',
 	'bootstrap',
 	'angularCookies',
 	'jqHeadroom',
 	'stellarjs',
 	'sharrre'],
-	function (angular, services, smartforms, sfFields, $, simpleBarChart, stackedBarChart, _, Munchkin) {
+	function (angular, services, smartforms, sfFields, $, simpleBarChart, stackedBarChart, _, munchkin, countries) {
 		/* Directives */
 		
 		angular.module('myApp.directives', ['myApp.services'])
 			.directive('rmcpRegForm', [function () {
+
 				return {
 					templateUrl: 'app/partials/reg-form.html',
 					restrict: 'C',
@@ -30,6 +32,7 @@ define([
 						$scope.marketoInfo = MarketoInfo;
 						$scope.sfFields = sfFields;
 						$scope.userConfirmed = userConfirmed;
+						$scope.countries = countries;
 
 						$scope.cookie = function ()  {
 							return $cookieStore.get("RMCPRegistered");
@@ -57,7 +60,7 @@ define([
 
 						$scope.sendRegistration = function () {
 							MunckinHash.get($scope.userInfo.Email).success(function (data) {
-								Munchkin.munchkinFunction('associateLead', $scope.userInfo, data.hashSig);
+								munchkin().munchkinFunction('associateLead', $scope.userInfo, data.hashSig);
 								$cookieStore.put("RMCPRegistered", {
 									'Email': $scope.userInfo.Email,
 									'FirstName': $scope.userInfo.FirstName,
@@ -84,6 +87,15 @@ define([
 						$scope.showCookieBox = function () {
 							return $scope.haveCookieInfo() && !$scope.userConfirmed.status;
 						};
+
+						$scope.knownSubmit = function () {
+							$scope.userInfo.Email = $scope.marketoInfo.userInfo.Email;
+							console.log($scope.userInfo);
+							MunckinHash.get($scope.userInfo.Email).success(function (data) {
+								munchkin().munchkinFunction('associateLead', $scope.userInfo, data.hashSig);
+							});
+							$scope.confirmUser();
+						};
 					}],
 					link: function (scope, element)  {
 						scope.internalCallback = function () {
@@ -104,6 +116,11 @@ define([
 
 						scope.confirmClose = function () {
 							scope.confirmUser();
+							element.find('.modal').modal('hide');
+						};
+
+						scope.knownClose = function () {
+							scope.knownSubmit();
 							element.find('.modal').modal('hide');
 						};
 

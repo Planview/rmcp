@@ -21,16 +21,31 @@
 			</div>
 			<div class="form-group">
 				<label for="Company">Company</label>			
-				<input class="form-control" type="text" name="Company" id="Company" value="" placeholder="" ng-model="userInfo.Company">
+				<input class="form-control" type="text" name="Company" id="Company" value="" placeholder="" ng-model="userInfo.Company" required>
 			</div>
 			<div class="form-group">
-				<label for="Country">Country</label>			
-				<input class="form-control" type="text" name="Country" id="Country" value="" placeholder="" ng-model="userInfo.Country">
+				<label for="Title">Title</label>			
+				<input class="form-control" type="text" name="Title" id="Title" value="" placeholder="" ng-model="userInfo.Title" required>
+			</div>
+			<div class="form-group">
+				<label for="Country">Country</label>
+ 				<select class="form-control" id="Country" ng-model="userInfo.Country" ng-options="country.code as country.name for country in countries" required>
+	      	    </select>
 			</div>
 			<div class="form-group">
 				<label for="WorkPhone">Work Phone</label>			
-				<input class="form-control" type="text" name="WorkPhone" id="WorkPhone" value="" placeholder="" ng-model="userInfo.WorkPhone">
+				<input class="form-control" type="text" name="WorkPhone" id="WorkPhone" value="" placeholder="" ng-model="userInfo.WorkPhone" required>
 			</div>		
+
+			<div class="form-group">
+		      <label for="marketSelect">What best describes your organizational needs regarding resource management and capacity planning?</label>
+		      <select class="form-control" id="marketSelect" ng-model="userInfo.Market__c_lead" required>
+      	      	<option value="">Choose One</option>
+      	      	<option value="IT">Prioritizing and optimizing timely IT project delivery across the portfolio/enterprise</option>
+      	      	<option value="PD">Driving product development, innovation and time-to-market</option>
+      	      	<option value="SRP">Delivering services to maximize resources, revenue and margins</option>
+      	      </select>
+  	      </div>	
 
 			<input class="form-control" type="hidden" id="{{field}}" ng-repeat="field in sfFields" name="{{field}}" value="" ng-model="userInfo[field]">
 		</form>
@@ -38,8 +53,17 @@
 	    <div ng-show="showMarketoBox()">
 	      <p>Welcome, {{marketoInfo.userInfo.FirstName}} {{marketoInfo.userInfo.LastName}}!</p>
 
+	      <div class="form-group">
+		      <label for="marketSelect">What best describes your organizational needs regarding resource management and capacity planning?</label>
+		      <select class="form-control" id="marketSelect" ng-model="userInfo.Market__c_lead" required>
+      	      	<option value="">Choose One</option>
+      	      	<option value="IT">Prioritizing and optimizing timely IT project delivery across the portfolio/enterprise</option>
+      	      	<option value="PD">Driving product development, innovation and time-to-market</option>
+      	      	<option value="SRP">Delivering services to maximize resources, revenue and margins</option>
+      	      </select>
+  	      </div>
 		<p>
-	     	<button ng-click="confirmClose()" class="btn btn-success">Confirm Now for Full Access</button>
+	     	<button ng-click="knownClose()" class="btn btn-success">Confirm Now for Full Access</button>
 			<a ng-click="wrongUser()" href="#" class="btn btn-link">Not you?</a>
 	     </p>
 	    </div>
