@@ -26,26 +26,9 @@
    <div class="img-callout col-sm-6 col-sm-push-6 text-center">
      <img src="http://placehold.it/400x400" alt="" class="img-responsive img-circle center-block">
    </div>
-   <article class="col-sm-6 col-sm-pull-6" ng-controller="RegistrationCtrl">
-     <div ng-hide="haveUserInfo()">
-		Tell us a bit about yourself
-		<div class="rmcp-reg-form" model="userInfo" callback="sendRegistration()"></div>
-		</div>
-		<div ng-show="showMarketoBox()">
-			Welcome, {{marketoInfo.userInfo.FirstName}} {{marketoInfo.userInfo.LastName}}!!
-
-			<a ng-click="wrongUser()" href="#">Not you?</a>
-			<button ng-click="confirmUser()">Go to the Report</button>
-		</div>
-		<div ng-show="showCookieBox()">
-			Welcome back, {{cookie().FirstName}} {{cookie().LastName}}!!
-
-			<a ng-click="wrongUser()" href="#">Not you?</a>
-			<button ng-click="confirmUser()">Go to the Report</button>
-		</div>
-		<div ng-show="userConfirmed.status">
-		<h1>Thanks!</h1>	
-		</div>
+   <article class="col-sm-6 col-sm-pull-6">
+     <button ng-click="requestReport()" ng-hide="requestSent">Get the Report</button>
+     <p ng-show="requestSent">You should receive an email shortly with your copy of the report</p>
    </article>
   </section>
   <section id="second" class="row callout">

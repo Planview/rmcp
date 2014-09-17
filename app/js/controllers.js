@@ -1,6 +1,6 @@
 'use strict';
 
-define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookies, Munchkin) {
+define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookies, munchkin) {
 
 	/* Controllers */
 	
@@ -28,11 +28,35 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 				$scope.currentSet = set;
 			};
 			$scope.isCurrentSet = function (set) {
-				return $scope.currentSet == set;
+				return $scope.currentSet === set;
 			};
 		}])
-		.controller('ReportCtrl', [function(){
-			
+		.controller('ReportCtrl', ['$scope', '$location', 'userConfirmed', function ($scope, $location, userConfirmed) {
+			$scope.requestPending = false;
+			$scope.requestSent = false;
+
+			$scope.requestReport = function () {
+				if (!userConfirmed.status) {
+					$scope.requestPending = true;
+					$scope.$emit("TRIGGER_REG");
+				} else {
+					$scope.sendRequest();
+				}
+			};
+
+			$scope.sendRequest = function () {
+				munchkin().munchkinFunction('visitWebPage', {
+					url: $location.absUrl(), params: 'report-requested=true'
+				});
+				$scope.requestSent = true;
+			};
+
+			$scope.$on("REG_CONFIRMED", function () {
+				if ($scope.requestPending) {
+					$scope.sendRequest();
+					$scope.requestPending = false;
+				}
+			});
 		}])
 		.controller('AboutCtrl', [function(){
 			
