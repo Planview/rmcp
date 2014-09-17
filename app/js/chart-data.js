@@ -152,12 +152,12 @@ define([], function () {
 					callout: true
 				},
 				{
-					shortName: "Professional Services",
+					shortName: "Services Organizations",
 					isDefault: false,
 					isLocked: true,
 					group: 1,
 					sample: [{quantity: 41, title: "Low Maturity", id: 'low'}, {quantity: 39, title: "Medium Maturity", id: 'mid'}, {quantity: 50, title:"High Maturity", id: 'high'}],
-					title: "Professional Services Capacity Planning Pain Points",
+					title: "Services Organizations Capacity Planning Pain Points",
 					dataset: [
 						{
 							id: "holisticView",
@@ -191,7 +191,7 @@ define([], function () {
 		},
 		rmPain: {
 			type: "stacked", 
-			name: "Resource Planning Pain Points",
+			name: "Resource Management Pain Points",
 			data: [
 				{
 					shortName: "Overall",
@@ -199,7 +199,7 @@ define([], function () {
 					isLocked: false,
 					group: 0,
 					sample: [{quantity: 480, title: "Total Sample", id:"total"}],
-					title: "Resource Planning Pain Points",
+					title: "Resource Management Pain Points",
 					dataset: [
 						
 						{
@@ -241,7 +241,7 @@ define([], function () {
 					isLocked: true,
 					group: 0,
 					sample: [{quantity: 142, title: "Low Maturity", id: 'low'}, {quantity: 175, title: "Medium Maturity", id: 'mid'}, {quantity: 158, title:"High Maturity", id: 'high'}],
-					title: "Resource Planning Pain Points by Maturity Level",
+					title: "Resource Management Pain Points by Maturity Level",
 					dataset: [
 						{
 							id: "overcommited",
@@ -282,7 +282,7 @@ define([], function () {
 					isLocked: true,
 					group: 1,
 					sample: [{quantity: 65, title: "Low Maturity", id: 'low'}, {quantity: 79, title: "Medium Maturity", id: 'mid'}, {quantity: 61, title:"High Maturity", id: 'high'}],
-					title: "IT/EPMO Resource Planning Pain Points",
+					title: "IT/EPMO Resource Management Pain Points",
 					dataset: [
 						{
 							id: "overcommited",
@@ -323,7 +323,7 @@ define([], function () {
 					isLocked: true,
 					group: 1,
 					sample: [{quantity: 39, title: "Low Maturity", id: 'low'}, {quantity: 47, title: "Medium Maturity", id: 'mid'}, {quantity: 28, title:"High Maturity", id: 'high'}],
-					title: "Product Development Resource Planning Pain Points",
+					title: "Product Development Resource Management Pain Points",
 					dataset: [
 						{
 							id: "overcommited",
@@ -359,12 +359,12 @@ define([], function () {
 					callout: true
 				},
 				{
-					shortName: "Professional Services",
+					shortName: "Services Organizations",
 					isDefault: false,
 					isLocked: true,
 					group: 1,
 					sample: [{quantity: 25, title: "Low Maturity", id: 'low'}, {quantity: 41, title: "Medium Maturity", id: 'mid'}, {quantity: 63, title:"High Maturity", id: 'high'}],
-					title: "Professional Services Resource Planning Pain Points",
+					title: "Services Organizations Resource Management Pain Points",
 					dataset: [
 						{
 							id: "overcommited",
@@ -457,12 +457,12 @@ define([], function () {
 					]
 				},
 				{
-					shortName: "Professional Services",
+					shortName: "Services Organizations",
 					isDefault: false,
 					isLocked: true,
 					group: 1,
 					sample: 130,
-					title: "Business Risks of NOT Addressing Resource Management and Capacity Planning",
+					title: "Services Organizations Business Risks of NOT Addressing Resource Management and Capacity Planning",
 					set: "services",
 					dataset: [
 						{"datum":55,"label":"Loss of revenue"},
