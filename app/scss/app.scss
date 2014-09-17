@@ -97,6 +97,7 @@ html {
 	min-height: 100%;
 	margin-bottom: -200px;
 	&.ng-scope {
+		min-height: 0;
 		margin-bottom: 0;
 	}
 }

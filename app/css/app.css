@@ -8830,6 +8830,7 @@ html {
   margin-bottom: -200px;
 }
 .content.ng-scope {
+  min-height: 0;
   margin-bottom: 0;
 }
 
