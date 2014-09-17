@@ -1,6 +1,6 @@
 'use strict';
 
-define(['angular', 'underscore', 'munchkin', 'chart-data', 'angularCookies'], function (angular, _, Munckin, chartData) {
+define(['angular', 'underscore', 'munchkin', 'chart-data', 'angularCookies'], function (angular, _, munchkin, chartData) {
 	/* Services */
 
 	// Demonstrate how to register services
@@ -10,12 +10,12 @@ define(['angular', 'underscore', 'munchkin', 'chart-data', 'angularCookies'], fu
 			return {
 				status: false,
 				confirm: function () {
-					Munchkin.munchkinFunction('visitWebPage', {
+					munchkin().munchkinFunction('visitWebPage', {
 						url: $location.absUrl(), params: 'registered=true'
 					});
 					this.status = true;
 				}
-			}
+			};
 		}])
 		.factory('MarketoInfo', ['$http', '$q', '$cookieStore', function ($http, $q, $cookieStore){
 			var object = {
@@ -37,7 +37,7 @@ define(['angular', 'underscore', 'munchkin', 'chart-data', 'angularCookies'], fu
 				get: function (email) {
 					return $http.get('/token.json.php', {params: {action: 'hash', key: email}, cache: false});
 				}
-			}
+			};
 		}])
 		.factory("ChartData", [function () {
 			return chartData;

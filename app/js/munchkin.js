@@ -4,5 +4,7 @@ define(['vendorMunchkin'], function (Munchkin) {
 		window.MUNCHKIN_INITIALIZED = true;
 	}
 
-	return window.Munchkin;
+	return function () {
+		return window.Munchkin;
+	};
 });
