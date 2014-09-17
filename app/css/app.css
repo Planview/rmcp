@@ -8919,11 +8919,18 @@ html {
 }
 @media screen and (min-width: 768px) {
   #hero-banner .container {
+    text-align: left;
+    padding: 42px 48px 42px 80px;
+    border-image-source: url("/app/img/hexborder.png");
+    border-image-repeat: round;
+    border-image-width: 0 0 0 15;
+    border-image-slice: 1 55;
+  }
+  .no-borderimage #hero-banner .container {
+    padding-left: 96px;
     background-image: url("../img/hex.png");
     background-repeat: repeat-y;
     background-position: 20px 0;
-    text-align: left;
-    padding: 42px 48px 42px 96px;
   }
 }
 
@@ -9117,9 +9124,18 @@ html {
 }
 @media screen and (min-width: 768px) {
   #header.jumbotron .container {
+    padding-left: 64px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-image-source: url("/app/img/hexborder.png");
+    border-image-repeat: round;
+    border-image-width: 0 0 0 15;
+    border-image-slice: 1 55;
+  }
+  .no-borderimage #header.jumbotron .container {
+    padding-left: 96px;
     background-image: url("../img/hex.png");
     background-repeat: repeat-y;
     background-position: 20px 0;
-    padding: 42px 48px 42px 96px;
   }
 }

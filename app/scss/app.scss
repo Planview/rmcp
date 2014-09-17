@@ -191,13 +191,22 @@ html {
 
   	@media screen and (min-width: $screen-sm-min) {
 	  	.container {
-	  		background: {
-	  			image: url('../img/hex.png');
-	  			repeat: repeat-y;
-	  			position: 20px 0;
-	  		}
 			text-align: left;
-	  		padding:42px 48px 42px 96px;
+	  		padding:42px 48px 42px 80px;
+			.no-borderimage & {
+				padding-left: 96px;
+				background: {
+		  			image: url('../img/hex.png');
+		  			repeat: repeat-y;
+		  			position: 20px 0;
+		  		}
+		  	}
+	  		border-image: {
+	  			source: url('/app/img/hexborder.png');
+	  			repeat: round;
+	  			width: 0 0 0 15;
+	  			slice: 1 55;
+	  		}
 	  	}  		
   	}
 }
@@ -347,12 +356,25 @@ html {
   			}
   		}
   		@media screen and (min-width: $screen-sm-min) {
-	  		background: {
-	  			image: url('../img/hex.png');
-	  			repeat: repeat-y;
-	  			position: 20px 0;
+	  		padding: {
+	  			left: 64px;
+	  			top: 10px;
+	  			bottom: 10px;
 	  		}
-	  		padding:42px 48px 42px 96px;
+	  		border-image: {
+	  			source: url('/app/img/hexborder.png');
+	  			repeat: round;
+	  			width: 0 0 0 15;
+	  			slice: 1 55;
+	  		}
+			.no-borderimage & {
+				padding-left: 96px;
+				background: {
+		  			image: url('../img/hex.png');
+		  			repeat: repeat-y;
+		  			position: 20px 0;
+		  		}
+		  	}
   		}
   	}
 }
