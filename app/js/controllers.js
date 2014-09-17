@@ -31,9 +31,11 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 				return $scope.currentSet === set;
 			};
 		}])
-		.controller('ReportCtrl', ['$scope', '$location', 'userConfirmed', function ($scope, $location, userConfirmed) {
+		.controller('ReportCtrl', ['$scope', '$location', 'userConfirmed', 'reportRequest', function ($scope, $location, userConfirmed, reportRequest) {
 			$scope.requestPending = false;
-			$scope.requestSent = false;
+			$scope.requestSent = function () {
+				return reportRequest.status;
+			};
 
 			$scope.requestReport = function () {
 				if (!userConfirmed.status) {
@@ -48,7 +50,7 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 				munchkin().munchkinFunction('visitWebPage', {
 					url: $location.absUrl(), params: 'requested_report=true'
 				});
-				$scope.requestSent = true;
+				reportRequest.confirm();
 			};
 
 			$scope.$on("REG_CONFIRMED", function () {

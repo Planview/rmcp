@@ -17,6 +17,14 @@ define(['angular', 'underscore', 'munchkin', 'chart-data', 'angularCookies'], fu
 				}
 			};
 		}])
+		.factory('reportRequest', ['$location', function ($location) {
+			return {
+				status: false,
+				confirm: function () {
+					this.status = true;
+				}
+			};
+		}])
 		.factory('MarketoInfo', ['$http', '$q', '$cookieStore', function ($http, $q, $cookieStore){
 			var object = {
 				userInfo: null,
