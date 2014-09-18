@@ -68,7 +68,7 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 				{name: "Number of Employees Worldwide", img: "/app/img/demographics/planview-rmcp-2014-employees-worldwide-850.png", alt: "Alt Text"},
 				{name: "Job Level", img: "/app/img/demographics/planview-rmcp-2014-participant-job-level-850.png", alt: "Alt Text"},
 				{name: "Role in RMCP Process", img: "/app/img/demographics/planview-rmcp-2014-role-in-rmcp-process-850.png", alt: "Alt Text"},
-				{name: "Group Responsibilities", img: "/app/img/demographics/something.png", alt: "Alt Text"},
+				{name: "Group Responsibilities", img: "/app/img/demographics/bar-group-responsibilities.png", alt: "Alt Text"},
 				{name: "Group\u2019s Scope of Responsibility", img: "/app/img/demographics/planview-rmcp-2014-group-scope-of-responsibility-850.png", alt: "Alt Text"},
 			];
 			$scope.currentDemographic = $scope.demographics[0];
