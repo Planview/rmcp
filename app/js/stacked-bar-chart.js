@@ -20,7 +20,7 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 			titleHeight: 54,
 			legendHeight: 100,
 			calloutPaddingLeft: 70,
-			otherInfoHeight: 60,
+			otherInfoHeight: 0,
 			spaceBetweenBars: 10,
 			minWidth: 650,
 			hideCallout: 940,
@@ -107,7 +107,7 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 		};
 		dimensions.width =
 			Math.max($(containerSelector).width(), dimensions.minWidth);
-		dimensions.height = Math.max(9 * dimensions.width / 16, 700);
+		dimensions.height = Math.max(9 * dimensions.width / 16, 640);
 		dimensions.showCalloutBox =
 			(typeof callout !== 'undefined') ? callout : true;
 		var hexagonPath = "M18.536,12.353L2.378,21.681c-1.234,0.714-2.755," +
@@ -123,7 +123,7 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 		var colorSet = function (number) {
 			switch (number) {
 				case 1:
-					return ['#ef7521'];
+					return ['#b9be10'];
 				case 3:
 				default:
 					return ['#203368', '#1B75BB', '#48C6EA'];

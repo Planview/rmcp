@@ -9,7 +9,7 @@
   <nav class="subnav">
 <div class="container">
     <ul class="nav nav-pills nav-justified">
-      <li ng-class="{active: isCurrentSet(view)}" ng-repeat="view in chartData.views"><a href="#" ng-click="setDataSet(view)">{{chartData[view].name}}</a></li>
+      <li ng-class="{active: isCurrentSet(view)}" ng-repeat="view in chartData.views"><a ng-click="setDataSet(view)" data-rmcp-tool-title="{{chartData[view].text}}" class="rmcp-tool-tip">{{chartData[view].name}}</a></li>
     </ul>
     </div>
   </nav>
@@ -17,14 +17,11 @@
 <div class="container">
 <main>
   <section class="callout row">
-    <p class="lead">{{currentChartData().text}}</p>
-  </section>
-  <section class="callout row">
     <div class="rmcp-bar-chart" data-chart-data="currentChartData()" data-unlocked=""></div>
   </section>
   <section class="callout row">
     <p class="text-center">
-      <a href="/report" class="btn btn-lg btn-success">Get the Report</a>
+      <a href="/report" class="btn btn-lg btn-danger">Get the Report</a>
     </p>
   </section>
 </main>

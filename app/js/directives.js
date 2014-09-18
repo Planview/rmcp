@@ -316,5 +316,15 @@ define([
 						});
 					}
 				};
+			})
+			.directive('rmcpToolTip', function () {
+				return {
+					restrict: 'C',
+					link: function (scope, element, attr) {
+						console.log(attr);
+						element.attr('data-toggle', 'tooltip')
+							.tooltip({ title: attr.rmcpToolTitle, placement: 'bottom' });
+					}
+				}
 			});
 	});

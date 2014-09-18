@@ -413,7 +413,7 @@ define([], function () {
 					isDefault: true,
 					isLocked: false,
 					group: 0,
-					sample: 478,
+					sample: 480,
 					title: "Business Risks of NOT Addressing Resource Management and Capacity Planning",
 					set: "overall",
 					dataset: [
