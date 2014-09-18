@@ -26,6 +26,7 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 			};
 			$scope.setDataSet = function (set) {
 				$scope.currentSet = set;
+				return false;
 			};
 			$scope.isCurrentSet = function (set) {
 				return $scope.currentSet === set;
@@ -44,6 +45,7 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 				} else {
 					$scope.sendRequest();
 				}
+				return false;
 			};
 
 			$scope.sendRequest = function () {
@@ -79,6 +81,7 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 
 			$scope.setDemographic = function (demographic) {
 				$scope.currentDemographic = demographic;
+				return false;
 			};
 
 			$scope.getDemographicAltText = function () {
