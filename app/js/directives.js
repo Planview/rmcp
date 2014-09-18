@@ -104,6 +104,7 @@ define([
 							});
 							scope.sendRegistration();
 							element.find('.modal').modal('hide');
+							showThankYou();
 						};
 						element.find('form').on('submit', smartforms.config(scope.internalCallback).submit);
 
@@ -321,7 +322,6 @@ define([
 				return {
 					restrict: 'C',
 					link: function (scope, element, attr) {
-						console.log(attr);
 						element.attr('data-toggle', 'tooltip')
 							.tooltip({ title: attr.rmcpToolTitle, placement: 'bottom' });
 					}
