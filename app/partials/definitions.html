@@ -1,70 +1,159 @@
 <header id="header" class="jumbotron">
 	<div class="container">
-	<h1>This is a header</h1>
-  <p>Echo Park before they sold out biodiesel art party readymade. Narwhal fap actually paleo mlkshk pour-over shabby chic vegan farm-to-table letterpress church-key pop-up.</p>
-  <ul class="list-inline">
-    <li><a class="btn btn-xs btn-default"><span class="fa fa-twitter-square"></span> <span class="share-description">Share on Twitter</span></a></li>
-    <li><a class="btn btn-xs btn-default"><span class="fa fa-facebook-square"></span> <span class="share-description">Share on Facebook</span></a></li>
-    <li><a class="btn btn-xs btn-default"><span class="fa fa-linkedin-square"></span> <span class="share-description">Share on LinkedIn</span></a></li>
-  </ul>
+	<h1>Assess Your Company&rsquo;s Maturity</h1>
+  <p>Definitions &amp; Descriptions</p>
+  <div class="rmcp-share-buttons" data-share-text="This is some text"></div>
 	</div>
 </header><!-- /header -->
 
-  <nav class="subnav">
-<div class="container">
-    <ul class="nav nav-pills nav-justified">
-      <li><a href="#first">Capacity Planning Pain Points</a></li>
-      <li><a href="#second">Resource Management Pain Points</a></li>
-      <li><a href="#third">RMCP Business Risks</a></li>
-    </ul>
-    </div>
-  </nav>
-
 <div class="container">
 <main>
-  <section id="first" class="row callout">
-   <div class="img-callout col-sm-6 col-sm-push-6 text-center">
-     <img src="http://placehold.it/400x400" alt="" class="img-responsive img-circle center-block">
-   </div>
-   <article class="col-sm-6 col-sm-pull-6" ng-controller="RegistrationCtrl">
-     <div ng-hide="haveUserInfo()">
-		Tell us a bit about yourself
-		<div class="rmcp-reg-form" model="userInfo" callback="sendRegistration()"></div>
-		</div>
-		<div ng-show="showMarketoBox()">
-			Welcome, {{marketoInfo.userInfo.FirstName}} {{marketoInfo.userInfo.LastName}}!!
-
-			<a ng-click="wrongUser()" href="#">Not you?</a>
-			<button ng-click="confirmUser()">Go to the Report</button>
-		</div>
-		<div ng-show="showCookieBox()">
-			Welcome back, {{cookie().FirstName}} {{cookie().LastName}}!!
-
-			<a ng-click="wrongUser()" href="#">Not you?</a>
-			<button ng-click="confirmUser()">Go to the Report</button>
-		</div>
-		<div ng-show="userConfirmed.status">
-		<h1>Thanks!</h1>	
-		</div>
+  <section class="row callout">
+   <article class="col-sm-12">
+     <h2>Definitions</h2>
+     <p class="lead">For the purpose of this study, please keep the following definitions of capacity planning and resource management in mind:</p>
+     <div class="row">
+     <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+               <dl>
+                 <dt class="h3">Capacity Planning</dt>
+                 <dd>The act of assessing resource availability during the project selection and prioritization process considering resource proficiency levels and potential throughput.  This ensures that the organization has the capacity to take on investments at the right time and with the right resources.</dd>
+                 <dt class="h3">Resource Management</dt>
+                 <dd>The ongoing, tactical assignment of personnel to planned and unplanned activities, the selection and identification of resources by skill, type, cost center, and/or other categories, and the maintenance of resource data.</dd>
+               </dl>
+     </div>
+          </div>
    </article>
   </section>
-  <section id="second" class="row callout">
-   <div class="img-callout col-sm-6 text-center">
-     <img src="http://placehold.it/400x400" alt="" class="img-responsive img-circle center-block">
-   </div>
-   <article class="col-sm-6">
-     <h2>Something here</h2>
-     <p class="lead">Echo Park before they sold out biodiesel art party readymade. Narwhal fap actually paleo mlkshk pour-over shabby chic vegan farm-to-table letterpress church-key pop-up. Vegan ennui plaid street art, +1 Marfa selvage. Farm-to-table before they sold out Echo Park beard, chambray single-origin coffee paleo McSweeney's blog synth stumptown.</p>
-   </article>
-  </section>
-  <section id="third" class="row callout">
-   <div class="img-callout col-sm-6 col-sm-push-6 text-center">
-     <img src="http://placehold.it/400x400" alt="" class="img-responsive img-circle center-block">
-   </div>
-   <article class="col-sm-6 col-sm-pull-6">
-     <h2>Something here</h2>
-     <p class="lead">Echo Park before they sold out biodiesel art party readymade. Narwhal fap actually paleo mlkshk pour-over shabby chic vegan farm-to-table letterpress church-key pop-up. Vegan ennui plaid street art, +1 Marfa selvage. Farm-to-table before they sold out Echo Park beard, chambray single-origin coffee paleo McSweeney's blog synth stumptown.</p>
-   </article>
+  <section class="row callout">
+    <div class="col-sm-12"><h2>Maturity Descriptions</h2>
+        <p class="lead">At the outset of the survey, participants were asked what level best describes the Capacity Planning or Resource Management Maturity Level for their group.  Level 1 is the lowest level of maturity to Level 5, the highest level of maturity.  The following are descriptions that were provided in the survey for these two disciplines.</p></div>
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2" style="margin-top: 20px;">
+        <ul class="nav-tabs nav">
+          <li ng-class="{active:isCurrentTab('cpLevels')}"><a href="#" ng-click="setCurrentTab('cpLevels')">Capacity Planning Maturity Levels</a></li>
+          <li ng-class="{active:isCurrentTab('rmLevels')}"><a href="#" ng-click="setCurrentTab('rmLevels')">Resource Management Maturity Levels</a></li>
+        </ul>
+        <table ng-show="isCurrentTab('cpLevels')" class="table table-hover" style="margin-top: 20px;">
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Level 1</th>
+              <td>
+                <ul>
+                  <li>Very limited understanding of capacity or demand</li>
+                  <li>No process for visibility</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Level 2</th>
+              <td>
+                <ul>
+                  <li>Visibility is limited and relies on ad-hoc processes</li>
+                  <li>Not feasible to consolidate resource visibility across the groups / projects</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Level 3</th>
+              <td>
+                <ul>
+                  <li>High-level visibility of how staff and contract resources align with demand</li>
+                  <li>Not a complete or repeatable process</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Level 4</th>
+              <td>
+                <ul>
+                  <li>Effective planning process with visibility of role-level demand before work is committed</li>
+                  <li>Can balance organization-wide capacity against prioritized pipeline</li>
+                  <li>Still difficult to adapt to changes and reprioritize</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Level 5</th>
+              <td>
+                <ul>
+                  <li>Our planning is continually monitored based on up-to-date capacity and demand data</li>
+                  <li>Can run scenarios to manage change and prioritization</li>
+                  <li>Can apply our most valuable resources to the highest-value projects</li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table> 
+        <table ng-show="isCurrentTab('rmLevels')" class="table table-hover" style="margin-top: 20px;">
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" class="maturity-level">Level 1</th>
+              <td>
+                <ul>
+                  <li>Unable to view workload and activities from a resource perspective</li>
+                  <li>Basic understanding how resources are grouped by role (i.e. engineer, analyst)</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row" class="maturity-level">Level 2</th>
+              <td>
+                <ul>
+                  <li>Track high-level deliverables or key milestones against a project</li>
+                  <li>Informally coordinate availability and assignment mostly by generic role, process is manual</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row" class="maturity-level">Level 3</th>
+              <td>
+                <ul>
+                  <li>Project or phase-level named resource assignment and simple role-based planning</li>
+                  <li>Visibility into the projects each person is working on / percent time allocated, no roll-off dates</li>
+                  <li>Actual time completed captured, little on upcoming assignments</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row" class="maturity-level">Level 4</th>
+              <td>
+                <ul>
+                  <li>Detailed project schedules with short-term named resource assignments</li>
+                  <li>Resource requests are at the role level</li>
+                  <li>Resource assignments are made at a task level for better visibility</li>
+                  <li>Global resource visibility, but difficult to adapt to changes and reprioritize</li>
+                  <li>Ability to select from low-cost resource pools/offshore resources</li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row" class="maturity-level">Level 5</th>
+              <td>
+                <ul>
+                  <li>Mature work and activity planning process. Detailed, task-level schedules, cost information</li>
+                  <li>Formal process to request and approve resources by role and skill, short/long term</li>
+                  <li>Adapt to change and iterate effectively</li>
+                  <li>Project managers ensure that resource assignments on projects are current and accurate, resources can provide feedback</li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>            
+          </div>
+        </div>
+
   </section>
   <section class="callout row">
     <p class="text-center">

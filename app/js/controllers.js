@@ -89,8 +89,15 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 				return $scope.currentDemographic.img;
 			};
 		}])
-		.controller('DefinitionsCtrl', [function(){
-			
+		.controller('DefinitionsCtrl', ['$scope', function ($scope) {
+			$scope.currentTab = 'cpLevels';
+			$scope.isCurrentTab = function (tab) {
+				return $scope.currentTab === tab;
+			};
+			$scope.setCurrentTab = function (tab) {
+				$scope.currentTab = tab;
+				return false;
+			};
 		}])
 		.controller('HandbookCtrl', [function(){
 			
