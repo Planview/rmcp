@@ -20,7 +20,7 @@ require.config({
 		bootstrap: '../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
 		angulartics: '../bower_components/angulartics/dist/angulartics.min',
 		angularticsGa: '../bower_components/angulartics/dist/angulartics-ga.min',
-		angularticsMarketo: '../bower_components/angulartics/dist/angulartics-marketo.min',
+		angularticsMarketo: 'angulartics-marketo.min',
 		googleAnalytics: '//www.google-analytics.com/analytics',
 		stellarjs: '../bower_components/stellar.js/jquery.stellar.min',
 		sharrre: '../bower_components/sharrre/jquery.sharrre.min'
