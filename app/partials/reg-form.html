@@ -63,24 +63,24 @@
       	      </select>
   	      </div>
 		<p>
-	     	<button ng-click="knownClose()" class="btn btn-success">Confirm Now for Full Access</button>
 			<a ng-click="wrongUser()" href="#" class="btn btn-link">Not you?</a>
 	     </p>
 	    </div>
 	    <div ng-show="showCookieBox()">
 	      <p>Welcome back, {{cookie().FirstName}} {{cookie().LastName}}!</p>
 		<p>
-	     	<button ng-click="confirmClose()"  class="btn btn-success">Confirm Now for Full Access</button>
 			<a ng-click="wrongUser()" href="#"  class="btn btn-link">Not you?</a>
 	     </p>
       </div>
 	    <div ng-show="userConfirmed.status">
-	      <p class="lead">Thank you for your interest in Resource Management and Capacity Planning.</p>
-	      <p class="lead">You now have full access to Explore the Findings and the RMCP Benchmark Study Report.</p>
+	      <p>Thank you for your interest in Resource Management and Capacity Planning.</p>
+	      <p>You now have full access to Explore the Findings and the RMCP Benchmark Study Report.</p>
       </div>
       <div class="modal-footer">
+	     	<button ng-click="knownClose()" ng-show="showMarketoBox()" class="btn btn-success">Confirm Now for Full Access</button>
+	     	<button ng-click="confirmClose()" ng-show="showCookieBox()" class="btn btn-success">Confirm Now for Full Access</button>
+		<button type="submit" class="btn btn-success" form="WEBForm" id="reg-form-submit" ng-hide="haveUserInfo()">Submit</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		<button type="submit" class="btn btn-primary" form="WEBForm" id="reg-form-submit" ng-hide="haveUserInfo()">Submit</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
