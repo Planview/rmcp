@@ -25,7 +25,7 @@ define([
 			'angulartics.google.analytics',
 			'angulartics.marketo'
 		])
-		.run(['MarketoInfo', '$rootScope', function(MarketoInfo, $rootScope){
+		.run(['MarketoInfo', '$rootScope', '$route', function(MarketoInfo, $rootScope, $route){
 			MarketoInfo.get();
 			$rootScope.$on("TRIGGER_REG", function () {
 				$rootScope.$broadcast("REG_TRIGGERED");
@@ -34,5 +34,10 @@ define([
 			$rootScope.$on("CONFIRM_REG", function () {
 				$rootScope.$broadcast("REG_CONFIRMED");
 			});
+
+			$rootScope.$on("$routeChangeSuccess", function(currentRoute, previousRoute){
+			    //Change page title, based on Route information
+			    $rootScope.title = $route.current.title;
+			  });
 		}]);
 });
