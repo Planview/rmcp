@@ -327,5 +327,20 @@ define([
 							.tooltip({ title: attr.rmcpToolTitle, placement: 'bottom' });
 					}
 				}
+			})
+			.directive('rmcpScrollTop', function () {
+				return {
+					restrict: 'C',
+					controller: ['$scope', function ($scope) {
+						$scope.$on("$routeChangeSuccess", function () {
+							$scope.scrollToTop();
+						});
+					}],
+					link: function (scope) {
+						scope.scrollToTop = function () {
+							window.scrollTo(0,0);
+						};
+					}
+				};
 			});
 	});

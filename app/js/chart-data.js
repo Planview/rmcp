@@ -198,7 +198,7 @@ define([], function () {
 		rmPain: {
 			type: "stacked", 
 			name: "Resource Management Pain Points",
-			text: "Seventy seven percent of lower maturity organizations express that their top pain point is overcommitting resources. More mature organizations are 37% less likely to do so \u2013 proof the dilemma is solvable.",
+			text: "Seventy-seven percent of lower maturity organizations express that their top pain point is overcommitting resources. More mature organizations are 37% less likely to do so \u2013 proof the dilemma is solvable.",
 			data: [
 				{
 					shortName: "Overall",
@@ -443,7 +443,7 @@ define([], function () {
 					group: 1,
 					takeaway: 'This is a takeaway 12',
 					sample: 206,
-					title: "IT Business Risks of NOT Addressing Resource Management and Capacity Planning",
+					title: "IT/EMPO Business Risks of NOT Addressing Resource Management and Capacity Planning",
 					set: "it",
 					dataset: [
 						{"datum":118,"label":"Inability to complete projects on time"},
@@ -464,11 +464,11 @@ define([], function () {
 					title: "Product Development Business Risks of NOT Addressing Resource Management and Capacity Planning",
 					set: "pd",
 					dataset: [
-						{"datum":62,"label":"Inability to complete projects on time"},
 						{"datum":62,"label":"Inability to innovate fast enough"},
+						{"datum":62,"label":"Inability to complete projects on time"},
 						{"datum":44,"label":"Missed business opportunities"},
-						{"datum":30,"label":"Dissatisfied customers or clients"},
 						{"datum":30,"label":"Compromised quality affecting customer/client satisfaction"},
+						{"datum":30,"label":"Dissatisfied customers or clients"},
 						{"datum":29,"label":"Loss of revenue"}
 					]
 				},
@@ -484,8 +484,8 @@ define([], function () {
 					dataset: [
 						{"datum":55,"label":"Loss of revenue"},
 						{"datum":54,"label":"Missed business opportunities"},
-						{"datum":47,"label":"Dissatisfied customers or clients"},
 						{"datum":47,"label":"Compromised quality affecting customer/client satisfaction"},
+						{"datum":47,"label":"Dissatisfied customers or clients"},
 						{"datum":39,"label":"Increased project costs"},
 						{"datum":32,"label":"Inability to complete projects on time"}
 					]

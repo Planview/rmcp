@@ -13,18 +13,18 @@
    <div class="img-callout col-sm-6 col-sm-push-6 text-center">
      <img src="/app/img/report-placeholder.jpg" alt="Report screenshot" class="img-responsive center-block">
    </div>
-   <article class="col-sm-6 col-sm-pull-6" ng-hide="requestSent()">
+   <article class="col-sm-6 col-sm-pull-6">
     <h2>This report will provide:</h2>
     <ul class="lead">
-     <li>Proof that organizations have made significant improvement towards solving the most common resource management and planning pain points</li>
-     <li>Actionable information about the key practices top performers share</li>
-     <li>Recommendations for implementing best practices in order to increase in maturity and achieve business benefits</li>
-     <li>Steps for assessing your organization&rsquo;s resource management and capacity planning maturity</li>
+     <li><strong>Proof</strong> that organizations have made significant improvement towards solving the most common resource management and planning pain points</li>
+     <li><strong>Recommendations</strong> for implementing best practices in order to increase in maturity and achieve business benefits</li>
+     <li><strong>Steps</strong> for assessing your organization&rsquo;s resource management and capacity planning maturity</li>
     </ul>
-    <p class="text-center"><button type="button" class="btn btn-danger btn-lg" ng-click="requestReport()">Send Me the Report</button></p>
-   </article>
-   <article class="col-sm-6 col-sm-pull-6" ng-show="requestSent()">
-   <p class="lead">Thank you! You will receive an email containing the report shortly.</p>
+    <p class="text-center"><button type="button" class="btn btn-danger btn-lg" ng-click="requestReport()"  ng-hide="requestSent()">Send Me the Report</button></p>
+	   <div class="alert alert-info" ng-show="requestSent()">
+	   <h4>Thank you!</h4>	
+	   <p>You will receive an email containing the report shortly.</p>
+	   </div>
    </article>
   </section>
 </main>

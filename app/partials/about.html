@@ -17,13 +17,23 @@
    <div class="img-callout col-sm-4 text-center">
      <div class="well">
        <img src="http://www.appleseedpartners.com/images/appleseed_logo.png" alt="Appleseed Partners" class="center-block img-responsive" style="margin-top: 20px; margin-bottom: 20px">
-       <img src="http://digmarketresearch.com/wp-content/uploads/2013/09/dig_market_research_logo5.png" alt="Dig Market Research" class="center-block img-responsive" style="margin-top: 20px; margin-bottom: 20px">
+       <img src="/app/img/dig-logo.png" alt="Dig Market Research" class="center-block img-rounded img-responsive" style="margin-top: 20px; margin-bottom: 20px; width: 210px; height: auto;">
      </div>
    </div>
    <article class="col-sm-8">
     <h2>Methodology &amp; Respondent Profile</h2>
-    <p class="lead">In May 2014, Appleseed Partners and Dig Market Research conducted an online survey of 480 resource leaders from around the globe. The online survey was preceded by qualitative phone interviews for the development of the survey. The resource leaders included executives, directors, and managers with responsibility for the resource management and/or capacity planning process at their organization. Explore the demographics and profile of respondents here.</p>
+    <p class="lead">In May 2014, Appleseed Partners and Dig Market Research conducted an online survey of 480 resource leaders from around the globe. The online survey was preceded by qualitative phone interviews for the development of the survey. The resource leaders included executives, directors, and managers with responsibility for the resource management and/or capacity planning process at their organization. Review the demographics and profile of respondents.</p>
    </article>
+  </section>
+  <section class="callout row">
+    <div class="col-xs-12"><h2>Demographics</h2></div>
+    <div class="col-sm-3">
+      <ul class="nav nav-pills nav-stacked">
+        <li ng-repeat="demographic in demographics" ng-class="{active:isCurrentDemographic(demographic)}"><a href="#" ng-click="setDemographic(demographic)">{{demographic.name}}</a></li>
+      </ul>
+    </div>
+    <div class="col-sm-9"><img ng-src="{{getDemographicImage()}}" alt="{{getDemographicAltText()}}" class="img-responsive center-block">
+    </div>
   </section>
   <section id="third" class="row callout">
    <article class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
@@ -70,18 +80,8 @@
    </article>
   </section>
   <section class="callout row">
-    <div class="col-xs-12"><h2>Demographics</h2></div>
-    <div class="col-sm-3">
-      <ul class="nav nav-pills nav-stacked">
-        <li ng-repeat="demographic in demographics" ng-class="{active:isCurrentDemographic(demographic)}"><a href="#" ng-click="setDemographic(demographic)">{{demographic.name}}</a></li>
-      </ul>
-    </div>
-    <div class="col-sm-9"><img ng-src="{{getDemographicImage()}}" alt="{{getDemographicAltText()}}" class="img-responsive center-block">
-    </div>
-  </section>
-  <section class="callout row">
     <p class="text-center">
-      <a href="#" class="btn btn-lg btn-success">Get the Report</a>
+      <a href="/report" class="btn btn-lg btn-danger">Get the Report</a>
     </p>
   </section>
 </main>
