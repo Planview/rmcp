@@ -5,31 +5,38 @@ define(['angular', 'app'], function(angular, app) {
 	return app.config(['$routeProvider', function($routeProvider) {
 		$routeProvider.when('/', {
 			templateUrl: 'app/partials/home.html',
-			controller: 'HomeCtrl'
+			controller: 'HomeCtrl',
+			title: 'State of Resource Management and Capacity Planning'
 		})
 		.when('/resource-dilemma', {
 			templateUrl: 'app/partials/infographic.html',
-			controller: 'InfographicCtrl'
+			controller: 'InfographicCtrl',
+			title: 'Infographic'
 		})
 		.when('/explore-findings', {
 			templateUrl: 'app/partials/data.html',
-			controller: 'DataCtrl'
+			controller: 'DataCtrl',
+			title: 'Explore the Findings'
 		})
 		.when('/report', {
 			templateUrl: 'app/partials/report.html',
-			controller: 'ReportCtrl'
+			controller: 'ReportCtrl',
+			title: 'Get the Report'
 		})
 		.when('/about-research', {
 			templateUrl: 'app/partials/about.html',
-			controller: 'AboutCtrl'
+			controller: 'AboutCtrl',
+			title: 'Assess Your Company’s Maturity'
 		})
 		.when('/maturity-levels', {
 			templateUrl: 'app/partials/definitions.html',
-			controller: 'DefinitionsCtrl'
+			controller: 'DefinitionsCtrl',
+			title: 'Assess Your Company’s Maturity'
 		})
 		.when('/handbook', {
 			templateUrl: 'app/partials/handbook.html',
-			controller: 'HandbookCtrl'
+			controller: 'HandbookCtrl',
+			title: 'RMCP Handbook'
 		})
 		.otherwise({redirectTo: '/'});
 	}]).config(['$locationProvider', function($locationProvider) {
