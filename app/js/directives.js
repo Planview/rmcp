@@ -174,6 +174,10 @@ define([
 						scope.navNames = function (groupId) {
 							return _.chain(scope.chartData.data).where({ group: groupId }).pluck('shortName').value();
 						};
+
+						scope.keyTakeaway = function () {
+							return _.findWhere(scope.chartData.data, {shortName: scope.currentData}).takeaway;
+						}
 					}],
 					link: function (scope, element) {
 						var chart, 
