@@ -96,7 +96,8 @@ require( [
 	'jquery',
 	'jqHeadroom',
 	'bootstrap',
-	'stellarjs'
+	'stellarjs',
+	'jquery.blueimp-gallery'
 ], function(angular, app, routes, Munchkin, $) {
 
 	$("#navbar").headroom({

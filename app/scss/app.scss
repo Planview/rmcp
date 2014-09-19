@@ -313,12 +313,6 @@ html {
 			top: 40px;
 			bottom: 40px;
 		}
-		h2 {
-			font-size: 3em;
-		}
-		p {
-			font-size: 1.1em;
-		}
 		@media screen and (min-width: $screen-sm-min) {
 			padding-top: 60px;
 			padding-bottom: 60px;
@@ -395,4 +389,16 @@ html {
 
 .maturity-level {
 	white-space: nowrap;
+}
+
+.blueimp-gallery > .slides > .slide {
+	overflow-y: auto;
+	padding: {
+		top: 50px;
+		bottom: 50px;
+	}
+	> .slide-content {
+		max-height: none;
+		position: static;
+	}
 }

@@ -7,6 +7,7 @@
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
   <link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/app/bower_components/blueimp-gallery/css/blueimp-gallery.css">
 	<link rel="stylesheet" href="/app/css/app.css"/>
 	<script src="/app/bower_components/modernizr/modernizr.js"></script>
   <script src="/app/bower_components/modernizr/feature-detects/forms-formattribute.js"></script>
@@ -90,7 +91,16 @@
         <p class="text-center">&copy; 2014 Planview, Inc., All Rights Reserved.</p>
 		</div>
 	</footer>
+  <div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
   <div class="rmcp-reg-form"></div>
-	<script data-main="app/js/main" src="/app/bower_components/requirejs/require.js"></script>		
+	<script data-main="app/js/main" src="/app/bower_components/requirejs/require.js"></script>
 </body>
 </html>

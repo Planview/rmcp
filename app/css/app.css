@@ -9081,12 +9081,6 @@ html {
   padding-top: 40px;
   padding-bottom: 40px;
 }
-.jumbotron.text-banner h2 {
-  font-size: 3em;
-}
-.jumbotron.text-banner p {
-  font-size: 1.1em;
-}
 @media screen and (min-width: 768px) {
   .jumbotron.text-banner {
     padding-top: 60px;
@@ -9143,4 +9137,14 @@ html {
 
 .maturity-level {
   white-space: nowrap;
+}
+
+.blueimp-gallery > .slides > .slide {
+  overflow-y: auto;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+.blueimp-gallery > .slides > .slide > .slide-content {
+  max-height: none;
+  position: static;
 }
