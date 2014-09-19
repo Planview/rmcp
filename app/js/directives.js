@@ -270,23 +270,20 @@ define([
 			.directive('rmcpShareButtons', function () {
 				return {
 					restrict: "C",
-					scope: {
-						shareText: "@"
-					},
 					template: '<ul class="list-inline"><li class="twitter"></li><li class="facebook"></li><li class="linkedin"></li></ul>',
 					controller: ['$scope', '$location', function ($scope, $location) {
 						$scope.url = $location.absUrl();
 					}],
-					link: function (scope, element) {
+					link: function (scope, element, attr) {
 						element.find('.twitter').sharrre({
 							share: {
 								twitter: true
 							},
-							url: scope.url,
-							text: scope.shareText,
+							url: attr.shareUrl,
+							text: attr.shareText,
 							enableHover: false,
   							template: '<a class="btn btn-xs btn-twitter" href="#"><span class="fa fa-twitter"></span>&nbsp;&nbsp;Tweet</div></a>',
-							  buttons: { twitter: {via: 'planview'}},
+							  buttons: { twitter: {via: 'planview', hashtags: attr.shareHash}},
 							  click: function(api, options){
 							    api.simulateClick();
 							    api.openPopup('twitter');
@@ -296,8 +293,8 @@ define([
 						  share: {
 						    facebook: true
 						  },
-							url: scope.url,
-							text: scope.shareText,
+							url: attr.shareUrl,
+							text: attr.shareText,
 						  template: '<a class="btn btn-xs btn-facebook" href="#"><span class="fa fa-facebook"></span>&nbsp;&nbsp;Like</div></a>',
 						  enableHover: false,
 						  buttons: { facebook: {action: 'like'}},
@@ -310,8 +307,8 @@ define([
 						  share: {
 						    linkedin: true
 						  },
-							url: scope.url,
-							text: scope.shareText,
+							url: attr.shareUrl,
+							text: attr.shareText,
 						  template: '<a class="btn btn-xs btn-linkedin" href="#"><span class="fa fa-linkedin"></span>&nbsp;&nbsp;Share</div></a>',
 						  enableHover: false,
 						  click: function(api, options){
