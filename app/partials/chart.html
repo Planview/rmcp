@@ -9,7 +9,9 @@
 	</div>
 </div>
 <div class="col-sm-9 col-md-10">
-	<div class="chart"></div>
+	<div class="chart">
+		<img ng-src="{{chartImage()}}" alt="{{chartTitle()}}" ng-show="staticCharts" class="img-responsive">
+	</div>
 <!--	<hr>
 	<div class="key-takeaway">
 		<h3>Key Takeaway</h3>

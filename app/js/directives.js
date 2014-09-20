@@ -178,22 +178,22 @@ define([
 						scope.keyTakeaway = function () {
 							return _.findWhere(scope.chartData.data, {shortName: scope.currentData}).takeaway;
 						};
+
+						scope.chartImage = function () {
+							return _.findWhere(scope.chartData.data, {shortName: scope.currentData}).img;
+						};
+
+						scope.chartTitle = function () {
+							return _.findWhere(scope.chartData.data, {shortName: scope.currentData}).title;
+						};
+
+						scope.staticCharts = !(Modernizr.inlinesvg && Modernizr.svg);
 					}],
 					link: function (scope, element) {
 						var chart, 
 							chartType = scope.chartData.type,
 							queuedData = null;
 
-						if (chartType === "stacked") {
-							chart = stackedBarChart(element.find('.chart').get(0), scope.initialData.dataset,
-													scope.initialData.sample, scope.initialData.title,
-													scope.initialData.callout);
-						} else if (chartType === "simple") {
-							chart = simpleBarChart(element.find('.chart').get(0), scope.initialData.dataset,
-													scope.initialData.sample, scope.initialData.title, scope.initialData.set);
-						}
-
-						$(window).on('resize', chart.resizeChart);
 						scope.changeData = function (shortName) {
 							var newData = _.findWhere(scope.chartData.data, {shortName: shortName});
 
@@ -201,15 +201,53 @@ define([
 								queuedData = shortName;
 								scope.$emit("TRIGGER_REG");
 							} else {
-								if (chartType === "stacked") {
-									chart.changeData(newData.dataset, newData.sample, newData.title, newData.callout);
-								} else if (chartType === "simple") {
-									chart.changeData(newData.dataset, newData.sample, newData.title, newData.set);
+								if (!scope.staticCharts) {
+									if (chartType === "stacked") {
+										chart.changeData(newData.dataset, newData.sample, newData.title, newData.callout);
+									} else if (chartType === "simple") {
+										chart.changeData(newData.dataset, newData.sample, newData.title, newData.set);
+									}
 								}
 								scope.currentData = newData.shortName;
 								queuedData = null;						
 							}
 						};
+
+						if (!scope.staticCharts) {
+							element.find('.chart').children().remove();
+
+							if (chartType === "stacked") {
+								chart = stackedBarChart(element.find('.chart').get(0), scope.initialData.dataset,
+														scope.initialData.sample, scope.initialData.title,
+														scope.initialData.callout);
+							} else if (chartType === "simple") {
+								chart = simpleBarChart(element.find('.chart').get(0), scope.initialData.dataset,
+														scope.initialData.sample, scope.initialData.title, scope.initialData.set);
+							}
+							$(window).on('resize', chart.resizeChart);
+
+
+							scope.$watch('chartData', function () {
+								var newDataName = _.findWhere(scope.chartData.data, { isDefault: true }).shortName;
+								
+								scope.currentData = newDataName;
+
+								element.find('.chart').html('');
+								chartType = scope.chartData.type;
+								var newData = _.findWhere(scope.chartData.data, {shortName: newDataName});
+
+								if (chartType === "stacked") {
+									chart = stackedBarChart(element.find('.chart').get(0), newData.dataset,
+															newData.sample, newData.title,
+															newData.callout);
+								} else if (chartType === "simple") {
+									chart = simpleBarChart(element.find('.chart').get(0), newData.dataset,
+															newData.sample, newData.title, newData.set);
+								}
+
+								$(window).on('resize', chart.resizeChart);
+							});
+						}
 
 						scope.$on("REG_CONFIRMED", function () {
 							if (queuedData !== null) {
@@ -217,26 +255,6 @@ define([
 							}
 						});
 
-						scope.$watch('chartData', function () {
-							var newDataName = _.findWhere(scope.chartData.data, { isDefault: true }).shortName;
-							
-							scope.currentData = newDataName;
-
-							element.find('.chart').html('');
-							chartType = scope.chartData.type;
-							var newData = _.findWhere(scope.chartData.data, {shortName: newDataName});
-
-							if (chartType === "stacked") {
-								chart = stackedBarChart(element.find('.chart').get(0), newData.dataset,
-														newData.sample, newData.title,
-														newData.callout);
-							} else if (chartType === "simple") {
-								chart = simpleBarChart(element.find('.chart').get(0), newData.dataset,
-														newData.sample, newData.title, newData.set);
-							}
-
-							$(window).on('resize', chart.resizeChart);
-						});
 					}
 				};
 			}])
