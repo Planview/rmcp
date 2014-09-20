@@ -34,6 +34,8 @@
     "stellar.js": "~0.6.2",
     "sharrre": "~1.3.5",
     "background-size-polyfill": "~0.2.0",
-    "blueimp-gallery": "~2.15.1"
+    "blueimp-gallery": "~2.15.1",
+    "respond": "~1.4.2",
+    "Eve.js": "Yuffster/Eve.js#~0.8.4"
   }
 }

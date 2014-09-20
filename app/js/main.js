@@ -14,7 +14,6 @@ require.config({
 		angularCookies: '../bower_components/angular-cookies/angular-cookies.min',
 		SmartForms: '//www.reachforce.com/smartforms/v3-0/SmartForms',
 		d3: '../bower_components/d3/d3.min',
-		r2d3: '../bower_components/r2d3/r2d3.min',
 		Headroom: '../bower_components/headroom.js/dist/headroom.min',
 		jqHeadroom: '../bower_components/headroom.js/dist/jQuery.headroom.min',
 		bootstrap: '../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap',
@@ -72,7 +71,8 @@ require.config({
 	},
 	priority: [
 		"angular"
-	]
+	],
+    waitSeconds: 200
 });
 
 //http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
@@ -82,7 +82,7 @@ if (!Modernizr.svg || !Modernizr.inlinesvg) {
 	require.config({
 		map: {
 			'*': {
-				'd3': 'r2d3'
+				'd3': './r2d3'
 			}
 		}
 	});

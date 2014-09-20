@@ -7,7 +7,6 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 			sampleSize = sample,
 			titleText = titleName,
 			chartObject = {};
-
 		var dimensions = {
 			height: 500,
 			width: 800,
@@ -115,11 +114,9 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 			"V-9.759c0-1.425,0.76-2.743,1.996-3.455l16.157-9.329c1.235-0.712," +
 			"2.756-0.712,3.99,0l16.158,9.329c1.234,0.712,1.994,2.3,1.994,3.455" +
 			"V8.897C20.53,10.323,19.771,11.641,18.536,12.353";
-		
 		var dataKey = function (d) {
 			return d.id;
 		};
-
 		var colorSet = function (number) {
 			switch (number) {
 				case 1:
@@ -129,7 +126,6 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 					return ['#203368', '#1B75BB', '#48C6EA'];
 			}
 		};
-
 		var svg = d3.select(containerSelector)
 			.append("svg")
 			.attr("height", dimensions.height)
@@ -156,7 +152,6 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 			.domain(d3.range(sampleSize.length))
 			.rangeRoundBands(
 				[dimensions.legendLeft(), dimensions.legendRight()], 0.1);
-
 		var percentFormat = d3.format('%');
 
 		var resizeText = function (text, width, max) {
@@ -228,6 +223,38 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 			return Math.round(number * 100) / 100;
 		};
 
+		var yAxisStyles = {
+				'text-anchor': 'end',
+				'fill': '#58585b',
+				'font-family': 'Open Sans',
+				'font-size': '14px',
+			},
+			dataLabelStyles = {
+				'font-family': 'Open Sans',
+				'fill': '#58585b',
+				'alignment-baseline': 'middle'
+			},
+			calloutTitleStyles = {
+				'fill': '#58585b',
+				'font-family': "Open Sans",
+				'font-size': '14px',
+				'text-anchor': 'middle',
+				'font-weight': 700
+			},
+			calloutNumberStyles = {
+				'fill': '#58585b',
+				'font-family': "Roboto Slab",
+				'font-size': '24px',
+				'text-anchor': 'middle',
+			};
+
+		if (!Modernizr.ie9) {
+			yAxisStyles['alignment-baseline'] = 'bottom';
+			dataLabelStyles['text-anchor'] = 'left';
+			calloutTitleStyles['alignment-baseline'] = 'top';
+			calloutNumberStyles['alignment-baseline'] = 'center';
+		}
+
 		var title = svg.append("g");
 		title.append("text")	//	Title Text
 			.text(titleText)
@@ -253,7 +280,6 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 				'stroke': '#58585b',
 				'stroke-width': '2px'
 			});
-
 		var legend = svg.append("g");
 		legend.selectAll("path").data(sampleSize).enter()
 			.append("path")
@@ -288,7 +314,6 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 				'font-size': '14px',
 				'alignment-baseline': 'middle'
 			});
-
 		var yAxisGroup = svg.append("g");
 		yAxisGroup.append("path")	//	Y-axis line
 			.attr("d", function () {
@@ -318,13 +343,8 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 			})
 			.call(wrapLines, 
 				(dimensions.yAxisWidth() - dimensions.paddingHorizontal)/1.1)
-			.style({
-				'text-anchor': 'end',
-				'fill': '#58585b',
-				'font-family': 'Open Sans',
-				'font-size': '14px',
-				'alignment-baseline': 'bottom'
-			});
+			.style(yAxisStyles);
+
 
 		var chartData = svg.append("g");
 		chartData.selectAll("g")	//	Bar Groups
@@ -333,7 +353,6 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 			.append("g")
 			.each(function (dData, iData) {
 				var group = d3.select(this);
-
 				group.selectAll("rect")
 					.data(sampleSize)
 					.enter()
@@ -384,12 +403,7 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 						return yScaleOuter(iData) + yScaleInner(i) +
 							yScaleInner.rangeBand() / 2;
 					})
-					.style({
-						'text-anchor': 'left',
-						'font-family': 'Open Sans',
-						'fill': '#58585b',
-						'alignment-baseline': 'middle'
-					})
+					.style(dataLabelStyles)
 					.style('font-size', function () {
 						return Math.min(
 								Math.round(yScaleInner.rangeBand() * 0.8),
@@ -425,14 +439,7 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 			.attr("x", dimensions.calloutCenterHorizontal())
 			.attr("y", (dimensions.legendTop() + dimensions.paddingVertical * 3))
 			.call(wrapLines, dimensions.calloutWidth() / 1.2)
-			.style({
-				'fill': '#58585b',
-				'font-family': "Open Sans",
-				'font-size': '14px',
-				'text-anchor': 'middle',
-				'alignment-baseline': 'top',
-				'font-weight': 700
-			});
+			.style(calloutTitleStyles);
 		calloutBox.selectAll("text.difference")
 			.data(dataset, dataKey)
 			.enter()
@@ -442,13 +449,7 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 			.attr("y", function (d, i) {
 				return yScaleOuter(i) + yScaleOuter.rangeBand() / 2;
 			})
-			.style({
-				'fill': '#58585b',
-				'font-family': "Roboto Slab",
-				'font-size': '24px',
-				'text-anchor': 'middle',
-				'alignment-baseline': 'center'
-			})
+			.style(calloutNumberStyles)
 			.text(function (d) {
 				var last = sampleSize.length - 1;
 				return percentFormat(percentRound(d.data[0] / sampleSize[0].quantity) -
@@ -618,12 +619,7 @@ define(['d3', 'jquery', 'bootstrap'], function (d3, $) {
 							return yScaleOuter(iData) + yScaleInner(i) +
 								yScaleInner.rangeBand() / 2;
 						})
-						.style({
-							'text-anchor': 'left',
-							'font-family': 'Open Sans',
-							'fill': '#58585b',
-							'alignment-baseline': 'middle'
-						})
+						.style(dataLabelStyles)
 						.style('font-size', function () {
 							return Math.min(
 									Math.round(yScaleInner.rangeBand() * 0.8),

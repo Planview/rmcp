@@ -206,6 +206,25 @@ define(['d3', 'jquery'], function (d3, $) {
 			wrapLines(text, width);
 		};
 
+		var yAxisStyles = {
+				'text-anchor': 'end',
+				'fill': '#58585b',
+				'font-family': 'Open Sans',
+				'font-size': '14px',
+				'opacity': 1
+			},
+			dataLabelStyles = {
+				'font-family': 'Open Sans',
+				'fill': '#58585b',
+				'alignment-baseline': 'middle',
+				'opacity': 1
+			};
+
+		if (!Modernizr.ie9) {
+			yAxisStyles['alignment-baseline'] = 'middle';
+			dataLabelStyles['text-anchor'] = 'left';
+		}
+
 		var title = svg.append("g");
 		title.append("text")	//	Title Text
 			.text(titleText)
@@ -251,14 +270,7 @@ define(['d3', 'jquery'], function (d3, $) {
 			.data(dataset)
 			.enter()
 			.append("text")
-			.style({
-				'text-anchor': 'end',
-				'fill': '#58585b',
-				'font-family': 'Open Sans',
-				'font-size': '14px',
-				'alignment-baseline': 'middle',
-				'opacity': 1
-			})
+			.style(yAxisStyles)
 			.attr("x", function () {
 				return dimensions.yAxisRight() - dimensions.paddingHorizontal;
 			})
@@ -318,13 +330,7 @@ define(['d3', 'jquery'], function (d3, $) {
 			.attr("y", function (d, i) {
 				return yScale(i) + yScale.rangeBand() / 2;
 			})
-			.style({
-				'text-anchor': 'left',
-				'font-family': 'Open Sans',
-				'fill': '#58585b',
-				'alignment-baseline': 'middle',
-				'opacity': 1
-			})
+			.style(dataLabelStyles)
 			.call(resizeText, dimensions.dataPadding, Math.min(
 					Math.round(yScale.rangeBand() * 0.8),
 					18
@@ -503,13 +509,7 @@ define(['d3', 'jquery'], function (d3, $) {
 				})
 				.attr("x", dimensions.dataLeft() +
 					dimensions.paddingHorizontal)
-				.style({
-					'text-anchor': 'left',
-					'font-family': 'Open Sans',
-					'fill': '#58585b',
-					'alignment-baseline': 'middle',
-					'opacity': 0
-				})
+				.style(dataLabelStyles)
 				.call(resizeText, dimensions.dataPadding, Math.min(
 						Math.round(yScale.rangeBand() * 0.8),
 						18
@@ -567,14 +567,7 @@ define(['d3', 'jquery'], function (d3, $) {
 				.data(newDataset)
 				.enter()
 				.append("text")
-				.style({
-					'text-anchor': 'end',
-					'fill': '#58585b',
-					'font-family': 'Open Sans',
-					'font-size': '14px',
-					'alignment-baseline': 'middle',
-					'opacity': 0
-				})
+				.style(yAxisStyles)
 				.attr("x", (-1 * dimensions.paddingHorizontal))
 				.attr("y", function (d, i) {
 					return yScale(i) + yScale.rangeBand() / 2;
