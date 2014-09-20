@@ -17,11 +17,12 @@ define([], function () {
 					takeaway: 'This is a takeaway',
 					sample: [{quantity: 480, title: "Total Sample", id:"total"}],
 					title: "Capacity Planning Pain Points",
+					img: '/app/img/charts/capacity-planning-pain-points-total.png',
 					dataset: [
 						{
 							id: "holisticView",
 							title: "Lack of a combined, holistic view of both resource capacity and pipeline demand",
-							data: [241] 
+							data: [241]
 						},
 						{
 							id: "whatIf",
@@ -37,7 +38,8 @@ define([], function () {
 							id: "resourceCapacity",
 							title: "Insufficient visibility into resource capacity",
 							data: [191]
-						},			{
+						},
+						{
 							id: "demandPrioritization",
 							title: "Ineffective demand prioritization and governance process",
 							data: [190]
@@ -53,6 +55,7 @@ define([], function () {
 					group: 0,
 					sample: [{quantity: 180, title: "Low Maturity", id: 'low'}, {quantity: 152, title: "Medium Maturity", id: 'mid'}, {quantity: 146, title:"High Maturity", id: 'high'}],
 					title: "Capacity Planning Pain Points by Maturity Level",
+					img: '/app/img/charts/capacity-planning-pain-points-maturity-level.png',
 					dataset: [
 						{
 							id: "holisticView",
@@ -90,6 +93,7 @@ define([], function () {
 					group: 1,
 					sample: [{quantity: 87, title: "Low Maturity", id: 'low'}, {quantity: 60, title: "Medium Maturity", id: 'mid'}, {quantity: 59, title:"High Maturity", id: 'high'}],
 					title: "IT/EPMO Capacity Planning Pain Points",
+					img: '/app/img/charts/capacity-planning-pain-points-itepmo.png',
 					dataset: [
 						{
 							id: "holisticView",
@@ -127,6 +131,7 @@ define([], function () {
 					group: 1,
 					sample: [{quantity: 39, title: "Low Maturity", id: 'low'}, {quantity: 45, title: "Medium Maturity", id: 'mid'}, {quantity: 31, title:"High Maturity", id: 'high'}],
 					title: "Product Development Capacity Planning Pain Points",
+					img: '/app/img/charts/capacity-planning-pain-points-pd.png',
 					dataset: [
 						{
 							id: "holisticView",
@@ -164,6 +169,7 @@ define([], function () {
 					group: 1,
 					sample: [{quantity: 41, title: "Low Maturity", id: 'low'}, {quantity: 39, title: "Medium Maturity", id: 'mid'}, {quantity: 50, title:"High Maturity", id: 'high'}],
 					title: "Services Organizations Capacity Planning Pain Points",
+					img: '/app/img/charts/capacity-planning-pain-points-srp.png',
 					dataset: [
 						{
 							id: "holisticView",
@@ -208,6 +214,7 @@ define([], function () {
 					group: 0,
 					sample: [{quantity: 480, title: "Total Sample", id:"total"}],
 					title: "Resource Management Pain Points",
+					img: '/app/img/charts/resource-management-pain-points.png',
 					dataset: [
 						
 						{
@@ -251,6 +258,7 @@ define([], function () {
 					group: 0,
 					sample: [{quantity: 142, title: "Low Maturity", id: 'low'}, {quantity: 175, title: "Medium Maturity", id: 'mid'}, {quantity: 158, title:"High Maturity", id: 'high'}],
 					title: "Resource Management Pain Points by Maturity Level",
+					img: '/app/img/charts/resource-management-pain-points-maturity-level.png',
 					dataset: [
 						{
 							id: "overcommited",
@@ -293,6 +301,7 @@ define([], function () {
 					group: 1,
 					sample: [{quantity: 65, title: "Low Maturity", id: 'low'}, {quantity: 79, title: "Medium Maturity", id: 'mid'}, {quantity: 61, title:"High Maturity", id: 'high'}],
 					title: "IT/EPMO Resource Management Pain Points",
+					img: '/app/img/charts/resource-management-pain-points-itepmo.png',
 					dataset: [
 						{
 							id: "overcommited",
@@ -335,6 +344,7 @@ define([], function () {
 					group: 1,
 					sample: [{quantity: 39, title: "Low Maturity", id: 'low'}, {quantity: 47, title: "Medium Maturity", id: 'mid'}, {quantity: 28, title:"High Maturity", id: 'high'}],
 					title: "Product Development Resource Management Pain Points",
+					img: '/app/img/charts/resource-management-pain-points-pd.png',
 					dataset: [
 						{
 							id: "overcommited",
@@ -377,6 +387,7 @@ define([], function () {
 					group: 1,
 					sample: [{quantity: 25, title: "Low Maturity", id: 'low'}, {quantity: 41, title: "Medium Maturity", id: 'mid'}, {quantity: 63, title:"High Maturity", id: 'high'}],
 					title: "Services Organizations Resource Management Pain Points",
+					img: '/app/img/charts/resource-management-pain-points-srp.png',
 					dataset: [
 						{
 							id: "overcommited",
@@ -427,6 +438,7 @@ define([], function () {
 					sample: 480,
 					title: "Business Risks of NOT Addressing Resource Management and Capacity Planning",
 					set: "overall",
+					img: '/app/img/charts/business-risks.png',
 					dataset: [
 						{"datum":219,"label":"Inability to complete projects on time"},
 						{"datum":180,"label":"Missed business opportunities"},
@@ -445,6 +457,7 @@ define([], function () {
 					sample: 206,
 					title: "IT/EMPO Business Risks of NOT Addressing Resource Management and Capacity Planning",
 					set: "it",
+					img: '/app/img/charts/business-risks-it.png',
 					dataset: [
 						{"datum":118,"label":"Inability to complete projects on time"},
 						{"datum":102,"label":"Increased project costs"},
@@ -463,6 +476,7 @@ define([], function () {
 					sample: 116,
 					title: "Product Development Business Risks of NOT Addressing Resource Management and Capacity Planning",
 					set: "pd",
+					img: '/app/img/charts/business-risks-pd.png',
 					dataset: [
 						{"datum":62,"label":"Inability to innovate fast enough"},
 						{"datum":62,"label":"Inability to complete projects on time"},
@@ -481,6 +495,7 @@ define([], function () {
 					sample: 130,
 					title: "Services Organizations Business Risks of NOT Addressing Resource Management and Capacity Planning",
 					set: "services",
+					img: '/app/img/charts/business-risks-srp.png',
 					dataset: [
 						{"datum":55,"label":"Loss of revenue"},
 						{"datum":54,"label":"Missed business opportunities"},
@@ -492,5 +507,5 @@ define([], function () {
 				}
 			]
 		}
-	}
+	};
 });
