@@ -156,6 +156,7 @@ html {
 		size: cover;
 		position: bottom;
 	}
+    -ms-behavior: url('/app/bower_components/background-size-polyfill/backgroundsize.min.htc');
   	border-bottom: 1px solid #ffffff;
 	.container {
   		max-width:730px;
@@ -166,6 +167,8 @@ html {
   		}
 		position: relative;
 		top: 50%;
+		-webkit-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
 		transform: translateY(-50%);
 	}
 	h1 {
@@ -193,8 +196,20 @@ html {
   	@media screen and (min-width: $screen-sm-min) {
 	  	.container {
 			text-align: left;
-	  		padding:42px 48px 42px 80px;
+	  		padding: {
+	  			top: 42px;
+	  			bottom: 42px;
+	  			right: 48px;
+	  			left: 20px;
+	  		}
+		  	border-style: solid; 
+		  	border-width: 0 0 0 56px; 
+		  	-moz-border-image: url(/app/img/hexborder.png) 0 0 0 56 round; 
+		  	-webkit-border-image: url(/app/img/hexborder.png) 0 0 0 56 round; 
+		  	-o-border-image: url(/app/img/hexborder.png) 0 0 0 56 round; 
+		  	border-image: url(/app/img/hexborder.png) 0 0 0 56 fill round;
 			.no-borderimage & {
+				border: 0;
 				padding-left: 96px;
 				background: {
 		  			image: url('../img/hex.png');
@@ -202,12 +217,6 @@ html {
 		  			position: 20px 0;
 		  		}
 		  	}
-	  		border-image: {
-	  			source: url('/app/img/hexborder.png');
-	  			repeat: round;
-	  			width: 0 0 0 15;
-	  			slice: 1 55;
-	  		}
 	  	}  		
   	}
 }
@@ -231,6 +240,7 @@ html {
 		margin-bottom: -114px;
 		background-size: auto;
 	}
+    -ms-behavior: url('/app/bower_components/background-size-polyfill/backgroundsize.min.htc');
 }
 
 // jump button
@@ -279,6 +289,7 @@ html {
 		attachment: fixed;
 		position: 50% 0;
 	}
+    -ms-behavior: url('/app/bower_components/background-size-polyfill/backgroundsize.min.htc');
 	&.backs-of-blurry-people, &.summer {
 		background-image: url('/app/img/backs-of-blurry-people.png');
 	}
@@ -334,6 +345,7 @@ html {
 		size: cover;
 		position: bottom;
 	}
+    -ms-behavior: url('/app/bower_components/background-size-polyfill/backgroundsize.min.htc');
   	border-bottom: 1px solid #ffffff;
   	.container {
   		margin: {
@@ -352,17 +364,19 @@ html {
   		}
   		@media screen and (min-width: $screen-sm-min) {
 	  		padding: {
-	  			left: 64px;
 	  			top: 10px;
 	  			bottom: 10px;
+	  			left: 20px;
 	  		}
-	  		border-image: {
-	  			source: url('/app/img/hexborder.png');
-	  			repeat: round;
-	  			width: 0 0 0 15;
-	  			slice: 1 55;
-	  		}
+
+		  	border-style: solid; 
+		  	border-width: 0 0 0 56px; 
+		  	-moz-border-image: url(/app/img/hexborder.png) 0 0 0 56 round; 
+		  	-webkit-border-image: url(/app/img/hexborder.png) 0 0 0 56 round; 
+		  	-o-border-image: url(/app/img/hexborder.png) 0 0 0 56 round; 
+		  	border-image: url(/app/img/hexborder.png) 0 0 0 56 fill round;
 			.no-borderimage & {
+				border: 0;
 				padding-left: 96px;
 				background: {
 		  			image: url('../img/hex.png');
