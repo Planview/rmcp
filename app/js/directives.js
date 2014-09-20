@@ -145,7 +145,7 @@ define([
 										'You now have full access to the RMCP Study Website.');
 
 							$('body').append(alert);
-						}
+						};
 
 						scope.$on("REG_TRIGGERED", function () {
 							element.find('.modal').modal('show');
@@ -177,7 +177,7 @@ define([
 
 						scope.keyTakeaway = function () {
 							return _.findWhere(scope.chartData.data, {shortName: scope.currentData}).takeaway;
-						}
+						};
 					}],
 					link: function (scope, element) {
 						var chart, 
@@ -258,6 +258,8 @@ define([
 				return {
 					restrict: 'C',
 					link: function (scope, element) {
+						if (Modernizr.ie8 || Modernizr.ie9) { return; }
+
 						$(window).data('plugin_stellar', null);
 
 						$.stellar({
@@ -326,7 +328,7 @@ define([
 						element.attr('data-toggle', 'tooltip')
 							.tooltip({ title: attr.rmcpToolTitle, placement: 'bottom' });
 					}
-				}
+				};
 			})
 			.directive('rmcpScrollTop', function () {
 				return {
@@ -343,4 +345,12 @@ define([
 					}
 				};
 			});
+			// .directive('rmcpHero', function () {
+			// 	return {
+			// 		restrict: 'C',
+			// 		link: function (scope, element) {
+
+			// 		}
+			// 	}
+			// });
 	});
