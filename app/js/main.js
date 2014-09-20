@@ -78,16 +78,6 @@ require.config({
 //http://code.angularjs.org/1.2.1/docs/guide/bootstrap#overview_deferred-bootstrap
 window.name = "NG_DEFER_BOOTSTRAP!";
 
-if (!Modernizr.svg || !Modernizr.inlinesvg) {
-	require.config({
-		map: {
-			'*': {
-				'd3': './r2d3'
-			}
-		}
-	});
-}
-
 require( [
 	'angular',
 	'app',
