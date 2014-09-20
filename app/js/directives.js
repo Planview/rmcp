@@ -105,6 +105,7 @@ define([
 							scope.sendRegistration();
 							element.find('.modal').modal('hide');
 							showThankYou();
+							$("#RFBlockFrame").remove();
 						};
 						element.find('form').on('submit', smartforms.config(scope.internalCallback).submit);
 
@@ -363,12 +364,4 @@ define([
 					}
 				};
 			});
-			// .directive('rmcpHero', function () {
-			// 	return {
-			// 		restrict: 'C',
-			// 		link: function (scope, element) {
-
-			// 		}
-			// 	}
-			// });
 	});
