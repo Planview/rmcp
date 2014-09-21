@@ -7,11 +7,8 @@
 	<meta name="description" content="The information in the 2014 Benchmark Study will help companies better deliver on their business goals with the most efficient and intelligent use of their resources.">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
   <link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/app/bower_components/blueimp-gallery/css/blueimp-gallery.css">
+  <link rel="stylesheet" href="/app/bower_components/blueimp-gallery/css/blueimp-gallery.min.css">
 	<link rel="stylesheet" href="/app/css/app.css"/>
-  <!--[if IE]>
-  <script src="/app/js/ie-shims.js"></script>
-  <![endif]-->
   <!--[if lt IE 9]>
   <script src="/app/bower_components/respond/dest/respond.min.js"></script>
   <![endif]-->
@@ -101,24 +98,26 @@
   <div id="blueimp-gallery" class="blueimp-gallery">
     <div class="slides"></div>
     <h3 class="title"></h3>
-    <a class="prev">‹</a>
-    <a class="next">›</a>
     <a class="close">×</a>
-    <a class="play-pause"></a>
     <ol class="indicator"></ol>
-</div>
+  </div>
   <div class="rmcp-reg-form"></div>
 	<script src="/app/bower_components/requirejs/require.js"></script>
   <script>
-  var mainPath = 'app/js/main';
+  var mainPath = 'main';
 
   if (Modernizr.inlinesvg && Modernizr.svg) {
-    mainPath = 'app/js/main-built';
+    mainPath = 'main-built';
   } else {
-    mainPath = 'app/js/main-nod3';
+    mainPath = 'main-nod3';
   }
 
-  require.config({ paths: { "main": mainPath } });
+  require.config({
+    baseUrl: "app/js",
+    paths: { 
+      "main": mainPath,
+    },
+  });
   require(["main"]);
   </script>
 </body>
