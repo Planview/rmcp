@@ -20,7 +20,9 @@
 		angularticsMarketo: 'angulartics-marketo.min',
 		googleAnalytics: 'empty:',
 		stellarjs: '../bower_components/stellar.js/jquery.stellar.min',
-		sharrre: '../bower_components/sharrre/jquery.sharrre.min'
+		sharrre: '../bower_components/sharrre/jquery.sharrre.min',
+		'stacked-bar-chart': 'charts-blank',
+		'simple-bar-chart': 'charts-blank2'
 	},
 	shim: {
 		'angular' : {
@@ -68,7 +70,7 @@
 		}
 	},
     name: "main",
-    out: "app/js/main-built.js",
+    out: "app/js/main-nod3.js",
     generateSourceMaps: true,
     preserveLicenseComments: false,
     optimize: 'uglify2'
