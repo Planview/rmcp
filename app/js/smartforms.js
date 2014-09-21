@@ -2,6 +2,7 @@ define(['SmartForms', 'jquery'], function (sf$, $) {
 	// Required values: Customer specific values
 	sf$.token="351"; // planview.com
 
+	sf$.doSetup = false;
 	sf$.showSmartFormAlerts=false;
 	sf$.showCriticalAlerts=false;
 
