@@ -192,7 +192,7 @@ html {
 
   	@media screen and (min-width: $screen-sm-min) {
   		padding: 160px 0;
-  		.cssvhunit.csstransforms & {
+  		.cssvhunit.csstransforms:not(.ios) & {
 			height: 101vh;
 			padding: 0;
   			.container {
