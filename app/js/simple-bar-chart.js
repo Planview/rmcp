@@ -1,7 +1,5 @@
 'use strict';
-if (!Modernizr.svg || !Modernizr.inlinesvg) {
-	define([], function () { return false; });
-} else {
+
 define(['d3', 'jquery'], function (d3, $) {
 	var drawRMCPChart = function (container, data, sample, titleName, set) {
 		var containerSelector = container,
@@ -669,4 +667,3 @@ define(['d3', 'jquery'], function (d3, $) {
 		return drawRMCPChart(container, data, sample, titleName, set);
 	};
 });
-}

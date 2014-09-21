@@ -69,9 +69,6 @@ require.config({
 			deps: ['jquery']
 		}
 	},
-	priority: [
-		"angular"
-	],
     waitSeconds: 200
 });
 
@@ -100,7 +97,7 @@ require( [
 	var $html = angular.element(document.getElementsByTagName('html')[0]);
 
 	angular.element().ready(function() {
-		angular.resumeBootstrap([app['name']]);
+		angular.resumeBootstrap([app.name]);
 	});
 
       $('html').on('click', 'a[href*=#]:not([href=#])', function(event) {

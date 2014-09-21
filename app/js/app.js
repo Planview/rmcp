@@ -2,7 +2,6 @@
 
 define([
 	'angular',
-	'filters',
 	'services',
 	'directives',
 	'controllers',
@@ -16,7 +15,6 @@ define([
 		
 		return angular.module('myApp', [
 			'ngRoute',
-			'myApp.filters',
 			'myApp.services',
 			'myApp.directives',
 			'myApp.controllers',
