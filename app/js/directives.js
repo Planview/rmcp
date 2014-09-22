@@ -99,6 +99,24 @@ define([
 					}],
 					link: function (scope, element)  {
 						scope.internalCallback = function () {
+							if (!window.Modernizr.formvalidation) {
+								var requiredFieldsComplete = true;
+								element.find('input[required],select[required]').each(function () {
+									var $this = $(this);
+									if (!$this.val() || !$this.hasClass("ng-valid")) {
+										$this.addClass("has-error");
+										requiredFieldsComplete = false;
+										var alert = $("<span />")
+											.addClass("label")
+											.addClass("label-danger")
+											.text("This field is required");
+										$this.parents('.form-group').append(alert);
+									}
+								});
+								if (!requiredFieldsComplete) {
+									return;
+								}
+							}
 							element.find('input[type=hidden]').each(function () {
 								scope.userInfo[$(this).attr('name')] = $(this).val();
 							});
