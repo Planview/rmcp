@@ -121,8 +121,8 @@ define([
 								scope.userInfo[$(this).attr('name')] = $(this).val();
 							});
 							scope.sendRegistration();
-							element.find('.modal').modal('hide');
-							showThankYou();
+							// element.find('.modal').modal('hide');
+							// showThankYou();
 							$("#RFBlockFrame").remove();
 						};
 						element.find('form').on('submit', smartforms.config(scope.internalCallback).submit);
@@ -136,35 +136,35 @@ define([
 
 						scope.confirmClose = function () {
 							scope.confirmUser();
-							element.find('.modal').modal('hide');
-							showThankYou();
+							// element.find('.modal').modal('hide');
+							// showThankYou();
 						};
 
 						scope.knownClose = function () {
 							scope.knownSubmit();
-							element.find('.modal').modal('hide');
-							showThankYou();
+							// element.find('.modal').modal('hide');
+							// showThankYou();
 						};
 
-						var showThankYou = function () {
-							var alert = $('<div />').addClass('alert')
-									.addClass('alert-danger')
-									.addClass('alert-dismissable')
-									.addClass('pull-right')
-									.attr('role', 'alert')
-									.css({
-										'position': 'fixed',
-										'top': 10,
-										'right': 10,
-										'z-index': 999,
-									})
-									.html('<button type="button" class="close" data-dismiss="alert">' +
-										'<span aria-hidden="true">&times;</span><span class="sr-only">' +
-										'Close</span></button><h4>Thanks for registering!</h4> ' +
-										'You now have full access to the RMCP Study Website.');
+						// var showThankYou = function () {
+						// 	var alert = $('<div />').addClass('alert')
+						// 			.addClass('alert-danger')
+						// 			.addClass('alert-dismissable')
+						// 			.addClass('pull-right')
+						// 			.attr('role', 'alert')
+						// 			.css({
+						// 				'position': 'fixed',
+						// 				'top': 10,
+						// 				'right': 10,
+						// 				'z-index': 999,
+						// 			})
+						// 			.html('<button type="button" class="close" data-dismiss="alert">' +
+						// 				'<span aria-hidden="true">&times;</span><span class="sr-only">' +
+						// 				'Close</span></button><h4>Thanks for registering!</h4> ' +
+						// 				'You now have full access to the RMCP Study Website.');
 
-							$('body').append(alert);
-						};
+						// 	$('body').append(alert);
+						// };
 
 						scope.$on("REG_TRIGGERED", function () {
 							element.find('.modal').modal('show');
