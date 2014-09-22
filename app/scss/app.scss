@@ -430,3 +430,10 @@ html {
 		margin-bottom: 10px;
 	}
 }
+.browsehappy {
+	position: absolute;
+	top: $navbar-height + 10px;
+	width: 400px;
+	left: 50%;
+	margin: -200px;
+}
