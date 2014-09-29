@@ -10,3 +10,5 @@ config.codekit
 .sass-cache
 app/js/min
 *.log
+/*.html
+!/index.html
