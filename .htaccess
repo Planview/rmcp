@@ -809,13 +809,13 @@ FileETag None
 
 
 <IfModule mod_rewrite.c>
-	RewriteEngine On
-	RewriteBase /
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule ^(.*)$ #!/$1 [L,R,NE]
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ #!/$1 [L,R,NE]
 </IfModule>
 <FilesMatch "\.(?i:pdf)$">
-	ForceType application/octet-stream
-	Header set Content-Disposition attachment
+    ForceType application/octet-stream
+    Header set Content-Disposition attachment
 </FilesMatch>

@@ -216,10 +216,10 @@ define([
 						scope.changeData = function (shortName) {
 							var newData = _.findWhere(scope.chartData.data, {shortName: shortName});
 
-							if (newData.isLocked && !scope.userConfirmed.status) {
-								queuedData = shortName;
-								scope.$emit("TRIGGER_REG");
-							} else {
+							// if (newData.isLocked && !scope.userConfirmed.status) {
+							// 	queuedData = shortName;
+							// 	scope.$emit("TRIGGER_REG");
+							// } else {
 								if (!scope.staticCharts) {
 									if (chartType === "stacked") {
 										chart.changeData(newData.dataset, newData.sample, newData.title, newData.callout);
@@ -228,8 +228,8 @@ define([
 									}
 								}
 								scope.currentData = newData.shortName;
-								queuedData = null;						
-							}
+							// 	queuedData = null;						
+							// }
 						};
 
 						if (!scope.staticCharts) {
@@ -268,11 +268,11 @@ define([
 							});
 						}
 
-						scope.$on("REG_CONFIRMED", function () {
-							if (queuedData !== null) {
-								scope.changeData(queuedData);
-							}
-						});
+						// scope.$on("REG_CONFIRMED", function () {
+						// 	if (queuedData !== null) {
+						// 		scope.changeData(queuedData);
+						// 	}
+						// });
 
 					}
 				};
