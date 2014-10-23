@@ -6,18 +6,12 @@ define(['SmartForms', 'jquery'], function (sf$, $) {
 	sf$.showSmartFormAlerts=false;
 	sf$.showCriticalAlerts=false;
 
-	// Required mapping: Field ID mapping for required input company data
+	// Required mapping: Field ID mapping for user input company data
 	sf$.companyNameFieldAlias="Company";
-
-	// Optional mappings: Field ID mappings for additional input company data
-	sf$.addr1FieldAlias="Address1"; //unisfair field
-	sf$.cityFieldAlias="City"; //unisfair field
-	sf$.stateFieldAlias="Region";
-	sf$.zipFieldAlias="PostalCode"; //unisfair field
+	sf$.cityFieldAlias="City";
+	sf$.stateFieldAlias="State";
 	sf$.countryFieldAlias="Country";
-	sf$.phoneFieldAlias="WorkPhone";
-
-	// Optional mappings: Field ID mappings for additional data that can be used in the remediation process
+	sf$.phoneFieldAlias="MainPhone";
 	sf$.firstNameFieldAlias="FirstName";
 	sf$.lastNameFieldAlias="LastName";
 	sf$.emailFieldAlias="EmailAddress";
@@ -40,9 +34,12 @@ define(['SmartForms', 'jquery'], function (sf$, $) {
 	sf$.mSicNameFieldAlias="Matched_SIC_Name__c";
 	sf$.mNaicsFieldAlias="Matched_NAICS__c";
 	sf$.mNaicsNameFieldAlias="Matched_NAICS_Name__c";
-	sf$.mAltNaicsFieldAlias = "Matched_Company_Duns_Industry__c";
+	sf$.mAltSicFieldAlias="Matched_Duns_Industry__c";
 	sf$.mUrlFieldAlias="Matched_URL__c";
 	sf$.mLocationTypeFieldAlias="Matched_Location_Type__c";  // Headquarter, Single Location, or Branch location ('HQP', 'SL', or 'BR')
+	sf$.mEmplyeeHereFieldAlias="Matched_Employee_Here__c";
+	sf$.mSubsidiaryFieldAlias="Matched_Subsidiary__c";
+	sf$.mCompXIDFieldAlias="Matched_Company_XID__c";
 
 	// Optional mappings: Field ID mappings for matched company data headquarter location
 	sf$.hqCompanyNameFieldAlias="HQ_Company__c";
@@ -64,6 +61,9 @@ define(['SmartForms', 'jquery'], function (sf$, $) {
 	sf$.hqNaicsNameFieldAlias="HQ_NAICS_Name__c";
 	sf$.hqUrlFieldAlias="HQ_URL__c";
 	sf$.hqLocationTypeFieldAlias="HQ_Location_Type__c";
+	sf$.hqEmplyeeHereFieldAlias="HQ_Employee_Here__c";
+	sf$.hqSubsidiaryFieldAlias="HQ_Subsidiary__c";
+	sf$.hqCompXIDFieldAlias="HQ_Company_XID__c";
 
 	// Optional mappings: Field ID mappings for matched company data domestic headquarter location
 	sf$.dhqCompanyNameFieldAlias="DHQ_Company__c";
@@ -85,6 +85,9 @@ define(['SmartForms', 'jquery'], function (sf$, $) {
 	sf$.dhqNaicsNameFieldAlias="DHQ_NAICS_Name__c";
 	sf$.dhqUrlFieldAlias="DHQ_URL__c";
 	sf$.dhqLocationTypeFieldAlias="DHQ_Location_Type__c";
+	sf$.dhqEmplyeeHereFieldAlias="DHQ_Employee_Here__c";
+	sf$.dhqSubsidiaryFieldAlias="DHQ_Subsidiary__c";
+	sf$.dhqCompXIDFieldAlias="DHQ_Company_XID__c";
 
 	// Optional mappings: Field ID mappings for matched company data global headquarter location
 	sf$.ghqCompanyNameFieldAlias="GHQ_Company__c";
@@ -104,14 +107,17 @@ define(['SmartForms', 'jquery'], function (sf$, $) {
 	sf$.ghqSicNameFieldAlias="GHQ_SIC_Name__c";
 	sf$.ghqNaicsFieldAlias="GHQ_NAICS__c";
 	sf$.ghqNaicsNameFieldAlias="GHQ_NAICS_Name__c";
-	sf$.ghqAltNaicsFieldAlias = "GHQ_Duns_Industry__c";
+	sf$.ghqAltSicFieldAlias="GHQ_Duns_Industry__c";
 	sf$.ghqUrlFieldAlias="GHQ_URL__c";
 	sf$.ghqLocationTypeFieldAlias="GHQ_Location_Type__c";
+	sf$.ghqEmplyeeHereFieldAlias="GHQ_Employee_Here__c";
+	sf$.ghqSubsidiaryFieldAlias="GHQ_Subsidiary__c";
+	sf$.ghqCompXIDFieldAlias="GHQ_Company_XID__c";
 
-	// Optional mappings: Field ID mappings for custom ID fields that you want us to keep with a given record
-	//sf$.uid1FieldAlias="Custom1";
-	//sf$.uid2FieldAlias="Custom2";
-	//sf$.uid3FieldAlias="Custom3";
+	// inferred geo-location append mappings
+	sf$.inferredCityFieldAlias="my_geoIP_cityID__c";
+	sf$.inferredStateFieldAlias="my_geoIP_stateID__c";
+	sf$.inferredCountryFieldAlias="my_geoIP_countryID__c";
 
 	// Required mappings:
 	sf$.smartFormID="WEBForm"; // ID of the form if available, needed if more than one form is on the page, or if using progressive profiling
@@ -123,215 +129,150 @@ define(['SmartForms', 'jquery'], function (sf$, $) {
 	sf$.selectListColor2="#ffffff"; // RGB color for background of alternate rows in select list
 	sf$.selectListHoverColor="#8eb2d3"; // RGB color of the row with the mouse over it.
 	sf$.searchResultCount=10; // 1-10. defaults to 5
-	sf$.usePhoneFilter=true; // true = use phone number for localized search; false = do not use phone in search (default false)
 	sf$.selectListHeightAdjust=60;
 
 	// Required values: Remediate unmatched or edited company information
-	sf$.remediateCompany=true; // true = perform a remediation on companies not selected from the company select list; false = no remediation  (default true)
 	sf$.remediateCompanyLevel="all"; // What level of remediation should be delivered ("all" = pass, review, fail; "review" = pass, review; "pass" = pass)
 
-	// new fields added 04/27/2012
-	sf$.mCompXIDFieldAlias="Matched_Company_XID__c";
-	sf$.mEmplyeeHereFieldAlias="Matched_Employee_Here__c";
-	sf$.mSubsidiaryFieldAlias="Matched_Subsidiary__c";
-	sf$.hqCompXIDFieldAlias="HQ_Company_XID__c";
-	sf$.hqEmplyeeHereFieldAlias="HQ_Employee_Here__c";
-	sf$.hqSubsidiaryFieldAlias="HQ_Subsidiary__c";
-	sf$.dhqCompXIDFieldAlias="DHQ_Company_XID__c";
-	sf$.dhqEmplyeeHereFieldAlias="DHQ_Employee_Here__c";
-	sf$.dhqSubsidiaryFieldAlias="DHQ_Subsidiary__c";
-	sf$.ghqCompXIDFieldAlias="GHQ_Company_XID__c";
-	sf$.ghqEmplyeeHereFieldAlias="GHQ_Employee_Here__c";
-	sf$.ghqSubsidiaryFieldAlias="GHQ_Subsidiary__c";
-
-	// new fields added 06/20/2013
-	sf$.inferredCityFieldAlias="my_geoIP_cityID__c";
-	sf$.inferredStateFieldAlias="my_geoIP_stateID__c";
-	sf$.inferredCountryFieldAlias="my_geoIP_countryID__c";
-
-	// Translates NAICS code and returns custom Duns_Industry name to the SmartForms variable AltNaics on all levels of the hierarchy.
-	sf$.translateAltNaics = function(val) {
+	// Translates SIC code and returns custom Duns_Industry name to the SmartForms variable AltSic on all levels of the hierarchy.
+	sf$.translateAltSic = function (val) {
 	    try {
 	        if (undefined != val && val != null && val.length > 0) {
 	            var subval = val.substr(0,4);
-	            var translation = sf$.naicsCodeMap[subval];
+	            var translation = sf$.sicCodeMap[subval];
 	            if (translation == null) {
 	                subval = val.substr(0,3);
-	                translation = sf$.naicsCodeMap[subval];
+	                translation = sf$.sicCodeMap[subval];
 	                if (translation == null) {
 	                    subval = val.substr(0,2);
-	                    translation = sf$.naicsCodeMap[subval];
+	                    translation = sf$.sicCodeMap[subval];
 	                }
 	            }
 	            val = (translation == null) ? val : translation;
 	        }
 	    } catch(e) {}
 	    return val;
-	}
-	sf$.naicsCodeMap = {
-		"11" : "Agriculture",
-		"211" : "Energy and Utilities",
-		"212" : "Mining",
-		"213" : "Energy and Utilities",
-		"22" : "Energy and Utilities",
-		"23" : "Construction",
-		"311" : "Manuf - Consumer Fast Goods",
-		"312" : "Manuf - Consumer Fast Goods",
-		"313" : "Manuf - Consumer Soft Goods",
-		"314" : "Manuf - Consumer Soft Goods",
-		"315" : "Manuf - Consumer Soft Goods",
-		"316" : "Manuf - Consumer Soft Goods",
-		"321" : "Manuf - Mfg Parts",
-		"322" : "Manuf - Mfg Materials",
-		"323" : "Media and Publishing",
-		"324" : "Manuf - Chemical and Related",
-		"3254" : "Manuf - Pharma",
-		"3256" : "Manuf - Consumer Fast Goods",
-		"325" : "Manuf - Chemical and Related",
-		"326291" : "Manuf - Commercial Durable Goods",
-		"3262" : "Manuf - Consumer Durable Goods",
-		"326" : "Manuf - Chemical and Related",
-		"3271" : "Manuf - Mfg Materials",
-		"3272" : "Manuf - Mfg Parts",
-		"3273" : "Manuf - Mfg Materials",
-		"3274" : "Manuf - Mfg Materials",
-		"3279" : "Manuf - Mfg Materials",
-		"3311" : "Manuf - Mfg Materials",
-		"3312" : "Manuf - Mfg Materials",
-		"3313" : "Manuf - Mfg Materials",
-		"3314" : "Manuf - Mfg Materials",
-		"3315" : "Manuf - Mfg Materials",
-		"3321" : "Manuf - Mfg Materials",
-		"3322" : "Manuf - Consumer Durable Goods",
-		"3323" : "Manuf - Mfg Materials",
-		"3324" : "Manuf - Heavy Machinery",
-		"3325" : "Manuf - Mfg Materials",
-		"3326" : "Manuf - Mfg Materials",
-		"3327" : "Manuf - Mfg Services",
-		"3328" : "Manuf - Mfg Services",
-		"3329" : "Manuf - Mfg Materials",
-		"333112" : "Manuf - Consumer Durable Goods",
-		"3331" : "Manuf - Heavy Machinery",
-		"3332" : "Manuf - Heavy Machinery",
-		"3333" : "Manuf - Commercial Durable Goods",
-		"3334" : "Manuf - Commercial Durable Goods",
-		"3335" : "Manuf - Heavy Machinery",
-		"333611" : "Manuf - Heavy Machinery",
-		"3336" : "Manuf - Mfg Parts",
-		"333991" : "Manuf - Consumer Durable Goods",
-		"333993" : "Manuf - Heavy Machinery",
-		"333994" : "Manuf - Heavy Machinery",
-		"33392" : "Manuf - Heavy Machinery",
-		"3339" : "Manuf - Commercial Durable Goods",
-		"3341" : "Manuf - Technology",
-		"3342" : "Manuf - Technology",
-		"3343" : "Manuf - Technology",
-		"3344" : "Manuf - Technology",
-		"334510" : "Manuf - Medical Products",
-		"334515" : "Manuf - Technology",
-		"334516" : "Manuf - Medical Products",
-		"334517" : "Manuf - Medical Products",
-		"334519" : "Manuf - Commercial Durable Goods",
-		"3345" : "Manuf - Commercial Durable Goods",
-		"3346" : "Manuf - Consumer Soft Goods",
-		"3351" : "Manuf - Consumer Durable Goods",
-		"3352" : "Manuf - Consumer Durable Goods",
-		"3353" : "Manuf - Commercial Durable Goods",
-		"3359" : "Manuf - Technology",
-		"336120" : "Manuf - Heavy Machinery",
-		"3361" : "Manuf - Consumer Durable Goods",
-		"336211" : "Manuf - Mfg Parts",
-		"336212" : "Manuf - Commercial Durable Goods",
-		"336213" : "Manuf - Consumer Durable Goods",
-		"336214" : "Manuf - Consumer Durable Goods",
-		"336370" : "Manuf - Mfg Materials",
-		"3363" : "Manuf - Mfg Parts",
-		"3364" : "Manuf - Heavy Machinery",
-		"3365" : "Manuf - Heavy Machinery",
-		"3366" : "Manuf - Heavy Machinery",
-		"336991" : "Manuf - Mfg Parts",
-		"336992" : "Manuf - Heavy Machinery",
-		"336999" : "Manuf - Consumer Durable Goods",
-		"337" : "Manuf - Consumer Durable Goods",
-		"3391" : "Manuf - Medical Products",
-		"339920" : "Manuf - Consumer Soft Goods",
-		"33994" : "Manuf - Consumer Soft Goods",
-		"33995" : "Manuf - Consumer Soft Goods",
-		"33999" : "Manuf - Consumer Soft Goods",
-		"3399" : "Manuf - Consumer Durable Goods",
-		"42" : "Wholesale Trade",
-		"44" : "Retail",
-		"45" : "Retail",
-		"486" : "Energy and Utilities",
-		"487" : "Personal Services",
-		"48" : "Transportation",
-		"491110" : "Business and Professional Services",
-		"492110" : "Business and Professional Services",
-		"492210" : "Business and Professional Services",
-		"493" : "Personal Services",
-		"511210" : "Software Publishers",
-		"517110" : "Telecommunications Services",
-		"517210" : "Telecommunications Services",
-		"517410" : "Telecommunications",
-		"517911" : "Telecommunications",
-		"517919" : "Telecommunications",
-		"518210" : "Business and Professional Services - SRP",
-		"51" : "Media and Publishing",
-		"524114" : "Healthcare Payers",
-		"524" : "Insurance",
-		"52" : "Financial Services (Banking)",
-		"533110" : "Personal Services",
-		"5313" : "Business and Professional Services",
-		"53" : "Real Estate",
-		"541110" : "Law Firms",
-		"541219" : "Business and Professional Services - SRP",
-		"541330" : "Business and Professional Services - SRP",
-		"541380" : "Business and Professional Services - SRP",
-		"541511" : "IT and Development Services",
-		"541512" : "IT and Development Services",
-		"541513" : "IT and Development Services",
-		"541519" : "IT and Development Services",
-		"5416" : "Business and Professional Services - SRP",
-		"541711" : "Life Science - CRO",
-		"541712" : "Life Science - Other",
-		"541720" : "Life Science - Other",
-		"541810" : "Business and Professional Services - SRP",
-		"541820" : "Business and Professional Services - SRP",
-		"541890" : "Business and Professional Services - SRP",
-		"541910" : "Business and Professional Services - SRP",
-		"541990" : "Business and Professional Services - SRP",
-		"54" : "Business and Professional Services",
-		"55" : "Holding Company",
-		"561621" : "Business and Professional Services - SRP",
-		"5615" : "Personal Services",
-		"56" : "Business and Professional Services",
-		"611110" : "Other",
-		"6116" : "Other",
-		"611710" : "Business and Professional Services",
-		"61" : "Higher Education",
-		"6241" : "Personal Services",
-		"6242" : "Non-Profit",
-		"624310" : "Personal Services",
-		"624410" : "Personal Services",
-		"62" : "Healthcare Providers",
-		"711410" : "Personal Services",
-		"713210" : "Personal Services",
-		"71" : "Other",
-		"721" : "Personal Services",
-		"722" : "Retail",
-		"8112" : "Business and Professional Services",
-		"8113" : "Business and Professional Services",
-		"812331" : "Business and Professional Services",
-		"812332" : "Business and Professional Services",
-		"8131" : "Non-Profit",
-		"8132" : "Non-Profit",
-		"8133" : "Non-Profit",
-		"8134" : "Non-Profit",
-		"8139" : "Other",
-		"8141" : "Other",
-		"81" : "Personal Services",
-		"92" : "Public Sector"
-	}
+	};
+
+	sf$.sicCodeMap = {
+		"01" : "Agriculture",
+		"02" : "Agriculture",
+		"07" : "Agriculture",
+		"08" : "Agriculture",
+		"09" : "Agriculture",
+		"10" : "Other",
+		"12" : "Other",
+		"13" : "Energy & Utilities",
+		"14" : "Other",
+		"15" : "Other",
+		"16" : "Other",
+		"17" : "Other",
+		"20" : "Consumer Products",
+		"21" : "Consumer Products",
+		"22" : "Consumer Products",
+		"23" : "Consumer Products",
+		"24" : "Manufacturing",
+		"25" : "Consumer Products",
+		"26" : "Manufacturing",
+		"27" : "Media & Publishing",
+		"283" : "Life Sciences - Pharma",
+		"28" : "Manufacturing",
+		"29" : "Manufacturing",
+		"30" : "Manufacturing",
+		"31" : "Consumer Products",
+		"32" : "Manufacturing",
+		"33" : "Manufacturing",
+		"34" : "Consumer Products",
+		"35" : "Technology",
+		"361" : "Manufacturing",
+		"362" : "Manufacturing",
+		"363" : "Consumer Products",
+		"364" : "Manufacturing",
+		"365" : "Consumer Products",
+		"366" : "Technology",
+		"367" : "Technology",
+		"369" : "Manufacturing",
+		"37" : "Consumer Products",
+		"3812" : "Technology",
+		"384" : "Life Sciences - Medical Products",
+		"385" : "Life Sciences - Medical Products",
+		"386" : "Consumer Products",
+		"38" : "Manufacturing",
+		"39" : "Consumer Products",
+		"40" : "Transportation",
+		"41" : "Transportation",
+		"42" : "Transportation",
+		"43" : "Transportation",
+		"44" : "Transportation",
+		"45" : "Transportation",
+		"46" : "Energy & Utilities",
+		"47" : "Transportation",
+		"48" : "Telecommunications",
+		"49" : "Energy & Utilities",
+		"50" : "Wholesale Trade",
+		"51" : "Wholesale Trade",
+		"52" : "Retail",
+		"53" : "Retail",
+		"54" : "Retail",
+		"55" : "Retail",
+		"56" : "Retail",
+		"57" : "Retail",
+		"58" : "Retail",
+		"59" : "Retail",
+		"60" : "Financial Services (Banking)",
+		"61" : "Financial Services (Banking)",
+		"62" : "Financial Services (Banking)",
+		"631" : "Insurance",
+		"632" : "Healthcare Payers",
+		"63" : "Insurance",
+		"64" : "Insurance",
+		"65" : "Other",
+		"673" : "Non-Profit",
+		"67" : "Other",
+		"7011" : "Retail",
+		"72" : "Other",
+		"7371" : "IT & Development Services",
+		"7372" : "Technology",
+		"7373" : "IT & Development Services",
+		"7376" : "IT & Development Services",
+		"7383" : "Media & Publishing",
+		"731" : "Ad/PR/Mkt Research",
+		"73" : "Business & Professional Services",
+		"75" : "Other",
+		"769" : "Business & Professional Services",
+		"76" : "Other",
+		"781" : "Media & Publishing",
+		"782" : "Media & Publishing",
+		"783" : "Retail",
+		"784" : "Retail",
+		"79" : "Other",
+		"80" : "Healthcare Providers",
+		"81" : "Other",
+		"822" : "Higher Education",
+		"824" : "Higher Education",
+		"82" : "Other",
+		"8399" : "Non-Profit",
+		"83" : "Other",
+		"84" : "Other",
+		"86" : "Other",
+		"8731" : "Life Sciences - CRO",
+		"8732" : "Ad/PR/Mkt Research",
+		"8733" : "Life Sciences - Other",
+		"8734" : "Life Sciences - CRO",
+		"8743" : "Ad/PR/Mkt Research",
+		"87" : "Business & Professional Services",
+		"88" : "Other",
+		"89" : "Business & Professional Services",
+		"91" : "Public Sector",
+		"92" : "Public Sector",
+		"93" : "Public Sector",
+		"94" : "Public Sector",
+		"95" : "Public Sector",
+		"96" : "Public Sector",
+		"97" : "Public Sector",
+		"99" : "Other"
+	};
+
 
 	//noinspection JSUndeclaredVariable
 	var sfcc$ = window.sfcc$ = {};
