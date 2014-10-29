@@ -34,30 +34,49 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 		}])
 		.controller('ReportCtrl', ['$scope', '$location', 'userConfirmed', 'reportRequest', function ($scope, $location, userConfirmed, reportRequest) {
 			$scope.requestPending = false;
-			$scope.requestSent = function () {
-				return reportRequest.status;
+			$scope.requestSent = function (report) {
+				return reportRequest[report];
 			};
 
-			$scope.requestReport = function () {
+			$scope.primers = [
+				{
+					id: 'it',
+					name: 'IT and EPMO',
+					img: 'http://placehold.it/400x300'
+				},
+				{
+					id: 'pd',
+					name: 'Product Development',
+					img: 'http://placehold.it/400x300'
+				},
+				{
+					id: 'srp',
+					name: 'Services Organizations',
+					img: 'http://placehold.it/400x300'
+				}
+			];
+
+			$scope.requestReport = function (report) {
 				if (!userConfirmed.status) {
-					$scope.requestPending = true;
+					$scope.requestPending = report || 'full';
 					$scope.$emit("TRIGGER_REG");
 				} else {
-					$scope.sendRequest();
+					$scope.sendRequest(report);
 				}
 				return false;
 			};
 
-			$scope.sendRequest = function () {
+			$scope.sendRequest = function (report) {
+				var queryVal = report === 'full' ? 'true' : report;
 				munchkin().munchkinFunction('visitWebPage', {
-					url: $location.absUrl(), params: 'requested_report=true'
+					url: $location.absUrl(), params: 'requested_report=' + queryVal
 				});
-				reportRequest.confirm();
+				reportRequest.confirm(report);
 			};
 
 			$scope.$on("REG_CONFIRMED", function () {
-				if ($scope.requestPending) {
-					$scope.sendRequest();
+				if ($scope.requestPending !== false) {
+					$scope.sendRequest($scope.requestPending);
 					$scope.requestPending = false;
 				}
 			});

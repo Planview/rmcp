@@ -1,7 +1,12 @@
 <header id="header" class="jumbotron">
 	<div class="container">
 	<h1>Get the Report<br><small class="text-danger">Benchmark Study 2014</small></h1>
-  <p>The information in this report will help companies better deliver on their business goals with the most efficient and intelligent use of their resources.</p>
+  <p>In the 2014 benchmark study on Resource Management and Capacity Planning, 480 planning and resource leaders from around the globe assessed their maturity in each of these two areas. The information in this report, and the individual market reports below, will help companies better deliver on their business goals with the most efficient and intelligent use of their resources.</p>
+  <p ng-hide="requestSent('full')"><button class="btn btn-lg btn-danger" ng-click="requestReport('full')">Get the Full Report</button></p>
+     <div class="alert alert-info" ng-show="requestSent('full')">
+     <h4>Thank you!</h4>  
+     <p>You will receive an email containing the report shortly.</p>
+     </div>
   <div class="rmcp-share-buttons" data-share-text="Download The 2014 Resource Management and Capacity Planning Report today!" data-share-hash="#PMOT,#Proddev,#ProfessionalServices" data-share-url="http://bit.ly/1v0lMS5"></div>
 	</div>
 </header><!-- /header -->
@@ -10,22 +15,15 @@
 <div class="container">
 <main>
   <section id="first" class="row callout">
-   <div class="img-callout col-sm-6 col-sm-push-6 text-center">
-     <img src="/app/img/report-placeholder.jpg" alt="Report screenshot" class="img-responsive center-block">
-   </div>
-   <article class="col-sm-6 col-sm-pull-6">
-    <h2>This report will provide:</h2>
-    <ul class="lead">
-     <li><strong>Proof</strong> that organizations have made significant improvement towards solving the most common resource management and planning pain points</li>
-     <li><strong>Recommendations</strong> for implementing best practices in order to increase in maturity and achieve business benefits</li>
-     <li><strong>Steps</strong> for assessing your organization&rsquo;s resource management and capacity planning maturity</li>
-    </ul>
-    <p class="text-center"><button type="button" class="btn btn-danger btn-lg" ng-click="requestReport()"  ng-hide="requestSent()">Send Me the Report</button></p>
-	   <div class="alert alert-info" ng-show="requestSent()">
-	   <h4>Thank you!</h4>	
-	   <p>You will receive an email containing the report shortly.</p>
-	   </div>
-   </article>
+    <div class="col-sm-12"><h2>What area of interest best fits your organization?</h2></div>
+    <div class="col-sm-4" ng-repeat="primer in primers">
+      <img alt="{{ primer.name }}" class="center-block img-responsive" ng-src="{{ primer.img }}" style="margin-bottom: 10px;">
+      <p class="text-center" ng-hide="requestSent(primer.id)"><button class="btn btn-success" ng-click="requestReport(primer.id)" style="white-space:normal;">Get the {{primer.name}} Report</button></p>
+     <div class="alert alert-info" ng-show="requestSent(primer.id)">
+     <h4>Thank you!</h4>  
+     <p>You will receive an email containing the {{primer.name}} report shortly.</p>
+     </div>
+    </div>
   </section>
 </main>
 </div>
