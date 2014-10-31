@@ -1,0 +1,23 @@
+<header id="header" class="jumbotron">
+	<div class="container">
+	<h1>About the Research</h1><p>Research Methodology, Demographics and Participant Profile</p>
+  <div class="rmcp-share-buttons" data-share-text="Learn more about Resource Management and Capacity Planning Report’s methodology, demographics, profiles" data-share-hash="#pmot,#proddev" data-share-url="http://bit.ly/Xvmw6d"></div>
+	</div>
+</header><!-- /header -->
+
+<nav class="subnav">
+<div class="container">
+    <ul class="nav nav-pills nav-justified">
+      <li ng-class="{active: isCurrentSet(market.id)}" ng-repeat="market in webcasts"><a ng-href="/webcasts/{{market.id}}">{{market.name}}</a></li>
+    </ul>
+    </div>
+  </nav>
+<div class="container">
+<main>
+  <section id="first" class="row callout">
+   <article class="col-sm-12 col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
+    <div class="rmcp-webcast" data-video-id="{{currentSet().video}}" data-image-url="{{currentSet().image}}" data-show-video="userConfirmed.status" data-click-callback="register()"></div>
+   </article>
+  </section>
+</main>
+</div>

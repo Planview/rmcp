@@ -49,6 +49,28 @@ define(['angular', 'underscore', 'munchkin', 'chart-data', 'angularCookies'], fu
 		}])
 		.factory("ChartData", [function () {
 			return chartData;
+		}])
+		.factory('Webcast', [function () {
+			return [
+				{
+					'id': 'it',
+					'name': "IT and EPMO", 
+					'video': '17435676e9e8449587c31c52d09c2b72',
+					'image': '/app/img/webcasts/it.png'
+				},
+				{
+					'id': 'pd',
+					'name': "Product Development", 
+					'video': '3e12cb8b54c54bdeb3238878ea0afd7e',
+					'image': '/app/img/webcasts/pd.png'
+				},
+				{
+					'id': 'srp',
+					'name': "Services Organizations", 
+					'video': '1df21150beab4c039b5269c2a9155007',
+					'image': '/app/img/webcasts/srp.png'
+				}
+			]
 		}]);
 
 });

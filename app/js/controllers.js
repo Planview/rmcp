@@ -1,6 +1,6 @@
 'use strict';
 
-define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookies, munchkin) {
+define(['angular', 'Cookies', 'munchkin', 'underscore', 'services'], function (angular, Cookies, munchkin, _) {
 
 	/* Controllers */
 	
@@ -104,5 +104,23 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 		}])
 		.controller('HandbookCtrl', [function(){
 			
+		}])
+		.controller('WebcastsCtrl', ['$scope', 'Webcast', 'userConfirmed', '$routeParams', function ($scope, Webcast, userConfirmed, $routeParams) {
+			$scope.webcasts = Webcast;
+			$scope.userConfirmed = userConfirmed;
+			$scope.currentSetId = $routeParams.marketId;
+
+			$scope.isCurrentSet = function (set) {
+				return $scope.currentSetId === set;
+			};
+
+			$scope.currentSet = function () {
+				return _.findWhere($scope.webcasts, { 'id': $scope.currentSetId });
+			};
+
+			$scope.register = function () {
+				$scope.$emit("TRIGGER_REG");
+			}
+
 		}]);
 });

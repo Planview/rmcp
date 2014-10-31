@@ -22,7 +22,8 @@ require.config({
 		angularticsMarketo: 'angulartics-marketo.min',
 		googleAnalytics: ['//www.google-analytics.com/analytics', 'ga-fb'],
 		stellarjs: '../bower_components/stellar.js/jquery.stellar.min',
-		sharrre: '../bower_components/sharrre/jquery.sharrre.min'
+		sharrre: '../bower_components/sharrre/jquery.sharrre.min',
+		limelight: '//video.limelight.com/player/embed.js'
 	},
 	shim: {
 		'angular' : {
@@ -84,7 +85,8 @@ require( [
 	'jqHeadroom',
 	'bootstrap',
 	'stellarjs',
-	'jquery.blueimp-gallery'
+	'jquery.blueimp-gallery',
+	'limelight'
 ], function(angular, app, routes, Munchkin, $) {
 
 	$("#navbar").headroom({
