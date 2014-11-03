@@ -8,7 +8,8 @@ define(['angular', 'Cookies', 'munchkin', 'underscore', 'services'], function (a
 		// Sample controller where service is being used
 		.controller('NavbarCtrl', ['$scope', '$location', function($scope, $location) {
 			$scope.isActive = function (route) {
-				return route === $location.path();
+				return route === $location.path() ||
+					($location.path().indexOf(route) > -1 && route !== '/');
 			};
 		}])
 		.controller('HomeCtrl', [function(){
