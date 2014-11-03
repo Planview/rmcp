@@ -1,7 +1,7 @@
 <header id="header" class="jumbotron">
 	<div class="container">
-	<h1>Get the Report<br><small class="text-danger">Benchmark Study 2014</small></h1>
-  <p>In the 2014 benchmark study on Resource Management and Capacity Planning, 480 planning and resource leaders from around the globe assessed their maturity in each of these two areas. The information in this report, and the individual market reports below, will help companies better deliver on their business goals with the most efficient and intelligent use of their resources.</p>
+	<h1>Get the Report</h1>
+  <p>The information in this report, and the individual market reports below, will help companies better deliver on their business goals with the most efficient and intelligent use of their resources.</p>
   <p ng-hide="requestSent('full')"><button class="btn btn-lg btn-danger" ng-click="requestReport('full')">Get the Full Report</button></p>
      <div class="alert alert-info" ng-show="requestSent('full')">
      <h4>Thank you!</h4>  
@@ -17,8 +17,9 @@
   <section id="first" class="row callout">
     <div class="col-sm-12"><h2>What area of interest best fits your organization?</h2></div>
     <div class="col-sm-4" ng-repeat="primer in primers">
-      <img alt="{{ primer.name }}" class="center-block img-responsive" ng-src="{{ primer.img }}" style="margin-bottom: 10px;">
-      <p class="text-center" ng-hide="requestSent(primer.id)"><button class="btn btn-success" ng-click="requestReport(primer.id)" style="white-space:normal;">Get the {{primer.name}} Report</button></p>
+      <img alt="{{ primer.name }}" class="center-block img-responsive" ng-src="{{ primer.img }}" style="margin-bottom: 10px; margin-top: 20px; max-width: 180px;">
+      <h4 class="text-muted text-center">{{ primer.title }}</h4>
+      <p class="text-center" ng-hide="requestSent(primer.id)"><button class="btn btn-lg btn-success" ng-click="requestReport(primer.id)" style="white-space:normal;">Get the Report</button></p>
      <div class="alert alert-info" ng-show="requestSent(primer.id)">
      <h4>Thank you!</h4>  
      <p>You will receive an email containing the {{primer.name}} report shortly.</p>

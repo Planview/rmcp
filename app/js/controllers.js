@@ -42,17 +42,20 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 				{
 					id: 'it',
 					name: 'IT and EPMO',
-					img: 'http://placehold.it/400x300'
+					title: 'Moving from Managing Risk to Proactive Planning',
+					img: '/app/img/reports/hex-it-epmo-250.png'
 				},
 				{
 					id: 'pd',
 					name: 'Product Development',
-					img: 'http://placehold.it/400x300'
+					title: 'A Panoramic View of Pipleing Demand and Resource Capacity Gives Top Performers an Advantage',
+					img: '/app/img/reports/hex-product-development-250.png'
 				},
 				{
 					id: 'srp',
 					name: 'Services Organizations',
-					img: 'http://placehold.it/400x300'
+					title: 'Maintaining Margins by Aligning Resources to High Value Projects',
+					img: '/app/img/reports/hex-services-250.png'
 				}
 			];
 
