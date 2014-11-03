@@ -43,6 +43,7 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'HandbookCtrl',
 			title: 'RMCP Handbook'
 		})
+		.when('/webcasts', {redirectTo: '/webcasts/it'})
 		.otherwise({redirectTo: '/'});
 	}]).config(['$locationProvider', function($locationProvider) {
 		$locationProvider.html5Mode(true);

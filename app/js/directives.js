@@ -399,9 +399,12 @@ define([
 						var embedPlayer = function () {
 							if (videoExists) return;
 							videoExists = true;
-							element.find('img').remove();
+							element.find('.webcast-link').remove();
 							window.LimelightPlayerUtil.embedPlayer(
-								'playerForm=HoverPlayer&amp;mediaId=' + scope.videoId,
+								{
+									'playerForm': 'HoverPlayer',
+									'mediaId': scope.videoId
+								},
 								480,
 								270,
 								{'wmode': 'transparent'},
