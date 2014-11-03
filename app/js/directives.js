@@ -281,7 +281,7 @@ define([
 				return {
 					template: '<div id="cta-banner"><div class="container">' +
 						'<a class="btn btn-danger btn-lg" href="/explore-findings">Explore the Findings</a>' +
-						'<a class="btn btn-danger btn-lg" href="/report">Get the Report</a></div></div>',
+						'<a class="btn btn-danger btn-lg" href="/report">Get the Reports</a></div></div>',
 					restrict: "C",
 					replace: true,
 					link: function (s, element) {
