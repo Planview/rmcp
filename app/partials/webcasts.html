@@ -1,0 +1,23 @@
+<header id="header" class="jumbotron">
+	<div class="container">
+	<h1>Watch the Webcasts</h1><p>These webcasts contain strategic insights for IT/EPMO, Product Development, and Services based organizations.</p>
+  <div class="rmcp-share-buttons" data-share-text="{{currentSet().tweet.text}}" data-share-hash="" data-share-url="{{currentSet().tweet.url}}"></div>
+	</div>
+</header><!-- /header -->
+
+<nav class="subnav">
+<div class="container">
+    <ul class="nav nav-pills nav-justified">
+      <li ng-class="{active: isCurrentSet(market.id)}" ng-repeat="market in webcasts"><a ng-href="/webcasts/{{market.id}}">{{market.name}}</a></li>
+    </ul>
+    </div>
+  </nav>
+<div class="container">
+<main>
+  <section id="first" class="row callout">
+   <article class="col-sm-12 col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
+    <div class="rmcp-webcast" data-video-id="{{currentSet().video}}" data-image-url="{{currentSet().image}}" data-show-video="userConfirmed.status" data-click-callback="register()"></div>
+   </article>
+  </section>
+</main>
+</div>

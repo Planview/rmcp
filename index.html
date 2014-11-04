@@ -31,13 +31,14 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <div class="navbar-right">
       <ul class="nav navbar-nav navbar-right">
-        <li ng-class="{active:isActive('/resource-dilemma')}"><a href="/resource-dilemma" title="">Infographic</a></li>
+        <li ng-class="{active:isActive('/webcasts')}"><a href="/webcasts" title="">Watch the Webcasts</a></li>
         <li ng-class="{active:isActive('/explore-findings')}"><a href="/explore-findings" title="">Explore the Findings</a></li>
         <li ng-class="{active:isActive('/report')}"><a href="/report" title="">Get the Reports</a></li>
         <li ng-class="{active:isActive('/maturity-levels')}"><a href="/maturity-levels">Assess Your Maturity</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">More <span class="fa fa-chevron-down"></span></a>
           <ul class="dropdown-menu" role="menu">
+            <li ng-class="{active:isActive('/resource-dilemma')}"><a href="/resource-dilemma" title="">Infographic</a></li>
             <li ng-class="{active:isActive('/about-research')}"><a href="/about-research">About the Research</a></li>
           	<li ng-class="{active:isActive('/handbook')}"><a href="/handbook" title="">RMCP Handbook</a></li>
             <li class="divider"></li>
@@ -68,6 +69,7 @@
           <ul class="list-inline" ng-controller="NavbarCtrl">
             <li><a href="/" ng-class="{active:isActive('/')}">Home</a></li>
             <li><a href="/resource-dilemma" ng-class="{active:isActive('/resource-dilemma')}">Infographic</a></li>
+            <li><a href="/webcasts" ng-class="{active:isActive('/webcasts')}" title="">Watch the Webcasts</a></li>
             <li><a href="/explore-findings" ng-class="{active:isActive('/explore-findings')}">Explore the Findings</a></li>
             <li><a href="/report" ng-class="{active:isActive('/report')}">Get the Reports</a></li>
             <li><a href="/handbook" ng-class="{active:isActive('/handbook')}">RMCP Handbook</a></li>
@@ -92,6 +94,7 @@
         <p class="text-center">&copy; 2014 Planview, Inc., All Rights Reserved.</p>
 		</div>
 	</footer>
+<div class="rmcp-reg-form"></div>
 	<script src="/app/bower_components/requirejs/require.js"></script>
   <script>
   var mainPath = 'main';

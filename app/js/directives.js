@@ -16,7 +16,9 @@ define([
 	'angularCookies',
 	'jqHeadroom',
 	'stellarjs',
-	'sharrre'],
+	'sharrre',
+	'limelight'
+	],
 	function (angular, services, smartforms, sfFields, $, simpleBarChart, stackedBarChart, _, munchkin, countries) {
 		/* Directives */
 		
@@ -24,7 +26,7 @@ define([
 			.directive('rmcpRegForm', [function () {
 
 				return {
-					templateUrl: 'app/partials/reg-form.html',
+					templateUrl: '/app/partials/reg-form.html',
 					restrict: 'C',
 					//replace: true,
 					controller: ['$scope', 'MarketoInfo', 'userConfirmed', 'MunckinHash', '$cookieStore', function ($scope, MarketoInfo, userConfirmed, MunckinHash, $cookieStore) {
@@ -174,7 +176,7 @@ define([
 			}])
 			.directive('rmcpBarChart', ['userConfirmed', function (userConfirmed) {
 				return {
-					templateUrl: 'app/partials/chart.html',
+					templateUrl: '/app/partials/chart.html',
 					restrict: 'C',
 					scope: {
 						chartData: '=',
@@ -381,5 +383,66 @@ define([
 						};
 					}
 				};
+			})
+			.directive('rmcpWebcast', function () {
+				return {
+					restrict: 'C',
+					scope: {
+						videoId: '@',
+						imageUrl: '@',
+						showVideo: '=',
+						clickCallback: '&'
+					},
+					templateUrl: '/app/partials/webcast.html',
+					link: function (scope, element) {
+						var videoExists = false;
+						var embedPlayer = function () {
+							if (videoExists) return;
+							videoExists = true;
+							element.find('.webcast-link').remove();
+							window.LimelightPlayerUtil.embedPlayer(
+								{
+									'playerForm': 'HoverPlayer',
+									'mediaId': scope.videoId
+								},
+								480,
+								270,
+								{'wmode': 'transparent'},
+								'webcast'
+							);
+
+							$(window).trigger('resize');
+						};
+
+						if (scope.showVideo) embedPlayer();
+
+						scope.$watch('showVideo', function () {
+							if (scope.showVideo) embedPlayer();
+						});
+
+						$(window).on('resize', function(e) {
+						     var $wrapper = element,
+						          $video = element.find('*[width]'),
+						          controlsHeight = element.data('controlsHeight') || 0,
+						          controlsWidth = element.data('controlsWidth') || 0,
+						          newHeight,
+						          newWidth;
+
+						      //  See if we have the aspect ratio already
+						      if ( ! $wrapper.data('aspectRatio') ) {
+						        var aspectRatio = ( $video.attr('height') - controlsHeight ) /
+						          ( $video.attr('width') - controlsWidth );
+						        $wrapper.data('aspectRatio', aspectRatio );
+						      }
+
+						      newWidth = $wrapper.width();
+						      newHeight = (newWidth - controlsWidth) * $wrapper.data('aspectRatio') + controlsHeight;
+
+						      $video.attr('height', newHeight);
+						      $video.attr('width', newWidth)
+						});
+						$(window).trigger('resize');
+					}
+				}
 			});
 	});

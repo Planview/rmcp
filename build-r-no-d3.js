@@ -22,7 +22,8 @@
 		stellarjs: '../bower_components/stellar.js/jquery.stellar.min',
 		sharrre: '../bower_components/sharrre/jquery.sharrre.min',
 		'stacked-bar-chart': 'charts-blank',
-		'simple-bar-chart': 'charts-blank2'
+		'simple-bar-chart': 'charts-blank2',
+		limelight: 'empty:'
 	},
 	shim: {
 		'angular' : {

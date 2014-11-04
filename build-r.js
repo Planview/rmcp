@@ -20,7 +20,8 @@
 		angularticsMarketo: 'angulartics-marketo.min',
 		googleAnalytics: 'empty:',
 		stellarjs: '../bower_components/stellar.js/jquery.stellar.min',
-		sharrre: '../bower_components/sharrre/jquery.sharrre.min'
+		sharrre: '../bower_components/sharrre/jquery.sharrre.min',
+		limelight: 'empty:'
 	},
 	shim: {
 		'angular' : {
