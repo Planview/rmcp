@@ -56,19 +56,31 @@ define(['angular', 'underscore', 'munchkin', 'chart-data', 'angularCookies'], fu
 					'id': 'it',
 					'name': "IT and EPMO", 
 					'video': '17435676e9e8449587c31c52d09c2b72',
-					'image': '/app/img/webcasts/it.png'
+					'image': '/app/img/webcasts/it.png',
+					'tweet': {
+						text: "Watch the #webcast highlighting the State of #ResourceMgmt and #CapacityPlanning in #Enterprise #PMOT",
+						url: "http://bit.ly/1wvas3q"
+					}
 				},
 				{
 					'id': 'pd',
 					'name': "Product Development", 
 					'video': '3e12cb8b54c54bdeb3238878ea0afd7e',
-					'image': '/app/img/webcasts/pd.png'
+					'image': '/app/img/webcasts/pd.png',
+					'tweet': {
+						text: "Listen to the #webcast highlighting the State of #ResourceMgmt and #CapacityPlanning in #Proddev",
+						url: "http://bit.ly/1s08Zf0"
+					}
 				},
 				{
 					'id': 'srp',
 					'name': "Services Organizations", 
 					'video': '1df21150beab4c039b5269c2a9155007',
-					'image': '/app/img/webcasts/srp.png'
+					'image': '/app/img/webcasts/srp.png',
+					'tweet': {
+						text: "View the #webcast highlighting the State of #ResourceMgmt and #CapacityPlanning in #ProfessionalServices",
+						url: "http://bit.ly/13Ew8PU"
+					}
 				}
 			]
 		}]);
