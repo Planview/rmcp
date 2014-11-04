@@ -34,30 +34,52 @@ define(['angular', 'Cookies', 'munchkin', 'services'], function (angular, Cookie
 		}])
 		.controller('ReportCtrl', ['$scope', '$location', 'userConfirmed', 'reportRequest', function ($scope, $location, userConfirmed, reportRequest) {
 			$scope.requestPending = false;
-			$scope.requestSent = function () {
-				return reportRequest.status;
+			$scope.requestSent = function (report) {
+				return reportRequest[report];
 			};
 
-			$scope.requestReport = function () {
+			$scope.primers = [
+				{
+					id: 'it',
+					name: 'IT and EPMO',
+					title: 'Moving from Managing Risk to Proactive Planning',
+					img: '/app/img/reports/hex-it-epmo-250.png'
+				},
+				{
+					id: 'pd',
+					name: 'Product Development',
+					title: 'A Panoramic View of Pipleing Demand and Resource Capacity Gives Top Performers an Advantage',
+					img: '/app/img/reports/hex-product-development-250.png'
+				},
+				{
+					id: 'srp',
+					name: 'Services Organizations',
+					title: 'Maintaining Margins by Aligning Resources to High Value Projects',
+					img: '/app/img/reports/hex-services-250.png'
+				}
+			];
+
+			$scope.requestReport = function (report) {
 				if (!userConfirmed.status) {
-					$scope.requestPending = true;
+					$scope.requestPending = report || 'full';
 					$scope.$emit("TRIGGER_REG");
 				} else {
-					$scope.sendRequest();
+					$scope.sendRequest(report);
 				}
 				return false;
 			};
 
-			$scope.sendRequest = function () {
+			$scope.sendRequest = function (report) {
+				var queryVal = report === 'full' ? 'true' : report;
 				munchkin().munchkinFunction('visitWebPage', {
-					url: $location.absUrl(), params: 'requested_report=true'
+					url: $location.absUrl(), params: 'requested_report=' + queryVal
 				});
-				reportRequest.confirm();
+				reportRequest.confirm(report);
 			};
 
 			$scope.$on("REG_CONFIRMED", function () {
-				if ($scope.requestPending) {
-					$scope.sendRequest();
+				if ($scope.requestPending !== false) {
+					$scope.sendRequest($scope.requestPending);
 					$scope.requestPending = false;
 				}
 			});

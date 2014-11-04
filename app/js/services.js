@@ -19,9 +19,12 @@ define(['angular', 'underscore', 'munchkin', 'chart-data', 'angularCookies'], fu
 		}])
 		.factory('reportRequest', ['$location', function ($location) {
 			return {
-				status: false,
-				confirm: function () {
-					this.status = true;
+				full: false,
+				it: false,
+				pd: false,
+				srp: false,
+				confirm: function (report) {
+					this[report] = true;
 				}
 			};
 		}])

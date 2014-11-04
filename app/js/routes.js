@@ -18,7 +18,7 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'DataCtrl',
 			title: 'Explore the Findings'
 		})
-		.when('/report', {
+		.when('/reports', {
 			templateUrl: 'app/partials/report.html',
 			controller: 'ReportCtrl',
 			title: 'Get the Report'
@@ -38,6 +38,7 @@ define(['angular', 'app'], function(angular, app) {
 			controller: 'HandbookCtrl',
 			title: 'RMCP Handbook'
 		})
+		.when('/report', {redirectTo: '/reports'})
 		.otherwise({redirectTo: '/'});
 	}]).config(['$locationProvider', function($locationProvider) {
 		$locationProvider.html5Mode(true);
