@@ -12,3 +12,5 @@ app/js/min
 *.log
 /*.html
 !/index.html
+prepros.cfg
+prepros.cfg
