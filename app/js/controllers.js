@@ -49,7 +49,7 @@ define(['angular', 'Cookies', 'munchkin', 'underscore', 'services'], function (a
 				{
 					id: 'pd',
 					name: 'Product Development',
-					title: 'A Panoramic View of Pipleing Demand and Resource Capacity Gives Top Performers an Advantage',
+					title: 'A Panoramic View of Pipeline Demand and Resource Capacity Gives Top Performers an Advantage',
 					img: '/app/img/reports/hex-product-development-250.png'
 				},
 				{
