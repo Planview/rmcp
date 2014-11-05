@@ -18,7 +18,7 @@
     <div class="col-sm-12"><h2>What area of interest best fits your organization?</h2></div>
     <div class="col-sm-4" ng-repeat="primer in primers">
       <img alt="{{ primer.name }}" class="center-block img-responsive" ng-src="{{ primer.img }}" style="margin-bottom: 10px; margin-top: 20px; max-width: 180px;">
-      <h4 class="text-muted text-center">{{ primer.title }}</h4>
+      <h4 class="text-muted text-center report-title" ng-class="primer.id">{{ primer.title }}</h4>
       <p class="text-center" ng-hide="requestSent(primer.id)"><button class="btn btn-lg btn-success" ng-click="requestReport(primer.id)" style="white-space:normal;">Get the Report</button></p>
      <div class="alert alert-info" ng-show="requestSent(primer.id)">
      <h4>Thank you!</h4>  

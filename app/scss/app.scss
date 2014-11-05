@@ -462,3 +462,12 @@ html {
 		opacity: 0.5;
 	}
 }
+
+.report-title.it {
+	@media screen and (min-width: $screen-lg-min) {
+		padding: {
+			left: 10px;
+			right: 10px;
+		}
+	}
+}
