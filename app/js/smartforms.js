@@ -132,7 +132,7 @@ define(['SmartForms', 'jquery'], function (sf$, $) {
 	sf$.selectListHeightAdjust=60;
 
 	// Required values: Remediate unmatched or edited company information
-	sf$.remediateCompanyLevel="all"; // What level of remediation should be delivered ("all" = pass, review, fail; "review" = pass, review; "pass" = pass)
+	sf$.remediateCompanyLevel="pass"; // What level of remediation should be delivered ("all" = pass, review, fail; "review" = pass, review; "pass" = pass)
 
 	// Translates SIC code and returns custom Duns_Industry name to the SmartForms variable AltSic on all levels of the hierarchy.
 	sf$.translateAltSic = function (val) {
