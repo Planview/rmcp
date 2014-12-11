@@ -34,7 +34,7 @@ define(['SmartForms', 'jquery'], function (sf$, $) {
 	sf$.mSicNameFieldAlias="Matched_SIC_Name__c";
 	sf$.mNaicsFieldAlias="Matched_NAICS__c";
 	sf$.mNaicsNameFieldAlias="Matched_NAICS_Name__c";
-	sf$.mAltSicFieldAlias="Matched_Duns_Industry__c";
+	sf$.mAltSicFieldAlias="matchedDunsIndustry";
 	sf$.mUrlFieldAlias="Matched_URL__c";
 	sf$.mLocationTypeFieldAlias="Matched_Location_Type__c";  // Headquarter, Single Location, or Branch location ('HQP', 'SL', or 'BR')
 	sf$.mEmplyeeHereFieldAlias="Matched_Employee_Here__c";
