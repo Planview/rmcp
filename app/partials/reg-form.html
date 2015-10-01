@@ -45,8 +45,8 @@
       	      	<option value="PD">Driving product development, innovation and time-to-market</option>
       	      	<option value="SRP">Delivering services to maximize resources, revenue and margins</option>
       	      </select>
-  	      </div>	
-
+  	      </div>
+  	      	<input class="form-control" type="hidden" id="Product_Line_PV__c" name="Product_Line_PV__c" value="1" ng-model="userInfo.Product_Line_PV__c">
 			<input class="form-control" type="hidden" id="{{field}}" ng-repeat="field in sfFields" name="{{field}}" value="" ng-model="userInfo[field]">
 		</form>
 
