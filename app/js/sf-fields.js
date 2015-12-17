@@ -18,7 +18,7 @@ define([], function () {
 		"Matched_SIC_Name__c",
 		"Matched_NAICS__c",
 		"Matched_NAICS_Name__c",
-		"matchedDunsIndustry",
+		"Matched_Duns_Industry__c",
 		"Matched_URL__c",
 		"Matched_Location_Type__c",
 		"Matched_Employee_Here__c",
