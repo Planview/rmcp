@@ -18,7 +18,7 @@ define([], function () {
 		"Matched_SIC_Name__c",
 		"Matched_NAICS__c",
 		"Matched_NAICS_Name__c",
-		"Matched_Duns_Industry__c",
+		"matchedDunsIndustry",
 		"Matched_URL__c",
 		"Matched_Location_Type__c",
 		"Matched_Employee_Here__c",
@@ -93,6 +93,11 @@ define([], function () {
 		"GHQ_Company_XID__c",
 		"my_geoIP_cityID__c",
 		"my_geoIP_stateID__c",
-		"my_geoIP_countryID__c"
+		"my_geoIP_countryID__c",
+		"inferredIndustry",
+		"inferredPublic",
+		"inferredRevenue",
+		"inferredEmployees",
+		"confidenceDescription"
 	]
 });
