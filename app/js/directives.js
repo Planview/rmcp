@@ -62,7 +62,27 @@ define([
 
 						$scope.sendRegistration = function () {
 							MunckinHash.get($scope.userInfo.Email).success(function (data) {
-								munchkin().munchkinFunction('associateLead', $scope.userInfo, data.hashSig);
+								// Munchkin submits via GET, and the $scope.userInfo URL string is too long
+								// Therefore, we need to split the submit into two parts (using 3 steps)
+								// 1. Make 2 deep copies of the userInfo object
+								var userInfoCopy01 = jQuery.extend(true, {}, $scope.userInfo);
+								var userInfoCopy02 = jQuery.extend(true, {}, $scope.userInfo);
+								// 2. Split the SmartForms hidden fields in the userInfo properties between these 2 objects
+								for (var i = 0; i < $scope.sfFields.length; i++) {
+									if ($scope.sfFields[i].indexOf('DHQ_') == 0 || $scope.sfFields[i].indexOf('GHQ_') == 0) {
+										if (userInfoCopy01.hasOwnProperty($scope.sfFields[i])) {
+											delete userInfoCopy01[$scope.sfFields[i]];
+										}
+									} else {
+										if (userInfoCopy02.hasOwnProperty($scope.sfFields[i])) {
+											delete userInfoCopy02[$scope.sfFields[i]];
+										}
+									}
+								}
+								// 3. Submit the userInfo in 2 parts
+								//munchkin().munchkinFunction('associateLead', $scope.userInfo, data.hashSig);
+								munchkin().munchkinFunction('associateLead', userInfoCopy01, data.hashSig);
+								munchkin().munchkinFunction('associateLead', userInfoCopy02, data.hashSig);
 								$cookieStore.put("RMCPRegistered", {
 									'Email': $scope.userInfo.Email,
 									'FirstName': $scope.userInfo.FirstName,
@@ -92,7 +112,6 @@ define([
 
 						$scope.knownSubmit = function () {
 							$scope.userInfo.Email = $scope.marketoInfo.userInfo.Email;
-							console.log($scope.userInfo);
 							MunckinHash.get($scope.userInfo.Email).success(function (data) {
 								munchkin().munchkinFunction('associateLead', $scope.userInfo, data.hashSig);
 							});
