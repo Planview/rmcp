@@ -128,10 +128,16 @@ define(['angular', 'Cookies', 'munchkin', 'underscore', 'services'], function (a
 		.controller('HandbookCtrl', [function(){
 			
 		}])
-		.controller('WebcastsCtrl', ['$scope', 'Webcast', 'userConfirmed', '$routeParams', function ($scope, Webcast, userConfirmed, $routeParams) {
+		.controller('WebcastsCtrl', ['$scope', 'Webcast', 'userConfirmed', '$routeParams', '$location', 'reportRequest', function ($scope, Webcast, userConfirmed, $routeParams, $location, reportRequest) {
+//		.controller('WebcastsCtrl', ['$scope', 'Webcast', 'userConfirmed', '$routeParams', function ($scope, Webcast, userConfirmed, $routeParams) {
 			$scope.webcasts = Webcast;
 			$scope.userConfirmed = userConfirmed;
 			$scope.currentSetId = $routeParams.marketId;
+
+            $scope.requestPending = false;
+			$scope.requestSent = function (report) {
+				return reportRequest[report];
+			};
 
 			$scope.isCurrentSet = function (set) {
 				return $scope.currentSetId === set;
@@ -144,6 +150,31 @@ define(['angular', 'Cookies', 'munchkin', 'underscore', 'services'], function (a
 			$scope.register = function () {
 				$scope.$emit("TRIGGER_REG");
 			}
+
+			$scope.requestReport = function (report) {
+				if (!userConfirmed.status) {
+					$scope.requestPending = report || 'full';
+					$scope.$emit("TRIGGER_REG");
+				} else {
+					$scope.sendRequest(report);
+				}
+				return false;
+			};
+
+			$scope.sendRequest = function (report) {
+				var queryVal = report === 'full' ? 'true' : report;
+				munchkin().munchkinFunction('visitWebPage', {
+					url: $location.absUrl(), params: 'requested_report=' + queryVal
+				});
+				reportRequest.confirm(report);
+			};
+
+			$scope.$on("REG_CONFIRMED", function () {
+				if ($scope.requestPending !== false) {
+					$scope.sendRequest($scope.requestPending);
+					$scope.requestPending = false;
+				}
+			});
 
 		}]);
 });

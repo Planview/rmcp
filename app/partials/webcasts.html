@@ -1,23 +1,39 @@
 <header id="header" class="jumbotron">
-	<div class="container">
-	<h1>Watch the Webcasts</h1><p>These webcasts contain strategic insights for IT/EPMO, Product Development, and Services based organizations.</p>
-  <div class="rmcp-share-buttons" data-share-text="{{currentSet().tweet.text}}" data-share-hash="" data-share-url="{{currentSet().tweet.url}}"></div>
-	</div>
-</header><!-- /header -->
+    <div class="container">
+        <h1>Watch the Webcasts</h1>
+        <p>These webcasts contain strategic insights for IT/EPMO, Product Development, and Services based organizations.</p>
+        <div class="rmcp-share-buttons" data-share-text="{{currentSet().tweet.text}}" data-share-hash="" data-share-url="{{currentSet().tweet.url}}"></div>
+    </div>
+</header>
+<!-- /header -->
 
 <nav class="subnav">
-<div class="container">
-    <ul class="nav nav-pills nav-justified">
-      <li ng-class="{active: isCurrentSet(market.id)}" ng-repeat="market in webcasts"><a ng-href="/webcasts/{{market.id}}">{{market.name}}</a></li>
-    </ul>
+    <div class="container">
+        <ul class="nav nav-pills nav-justified">
+            <li ng-class="{active: isCurrentSet(market.id)}" ng-repeat="market in webcasts"><a ng-href="/webcasts/{{market.id}}">{{market.name}}</a>
+            </li>
+        </ul>
     </div>
-  </nav>
+</nav>
 <div class="container">
-<main>
-  <section id="first" class="row callout">
-   <article class="col-sm-12 col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
-    <div class="rmcp-webcast" data-video-id="{{currentSet().video}}" data-image-url="{{currentSet().image}}" data-show-video="userConfirmed.status" data-click-callback="register()"></div>
-   </article>
-  </section>
-</main>
+    <main>
+        <section id="first" class="row callout">
+            <article class="col-sm-12 col-md-8">
+                <div class="rmcp-webcast" data-video-id="{{currentSet().video}}" data-image-url="{{currentSet().image}}" data-show-video="userConfirmed.status" data-click-callback="register()"></div>
+            </article>
+            <aside class="col-sm-12 col-md-4">
+
+                <img alt="{{currentSet().name}}" class="center-block img-responsive" ng-src="{{currentSet().reportImg}}" style="margin-bottom: 10px; margin-top: 20px; max-width: 180px;">
+                <h4 class="text-muted text-center report-title" ng-class="currentSet().id">{{currentSet().reportTitle}}</h4>
+                <p class="text-center" ng-hide="requestSent(currentSet().id)">
+                    <button class="btn btn-lg btn-success" ng-click="requestReport(currentSet().id)" style="white-space:normal;">Get the Report</button>
+                </p>
+                <div class="alert alert-info" ng-show="requestSent(currentSet().id)">
+                    <h4>Thank you!</h4>
+                    <p>You will receive an email containing the {{currentSet().name}} report shortly.</p>
+                </div>
+
+            </aside>
+        </section>
+    </main>
 </div>

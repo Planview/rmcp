@@ -63,7 +63,9 @@ define(['angular', 'underscore', 'munchkin', 'chart-data', 'angularCookies'], fu
 					'tweet': {
 						text: "Watch the #webcast highlighting the State of #ResourceMgmt and #CapacityPlanning in #Enterprise #PMOT",
 						url: "http://bit.ly/1wvas3q"
-					}
+					},
+					reportTitle: 'Moving from Managing Risk to Proactive Planning',
+					reportImg: '/app/img/reports/hex-it-epmo-250.png'
 				},
 				{
 					'id': 'pd',
@@ -73,7 +75,9 @@ define(['angular', 'underscore', 'munchkin', 'chart-data', 'angularCookies'], fu
 					'tweet': {
 						text: "Listen to the #webcast highlighting the State of #ResourceMgmt and #CapacityPlanning in #Proddev",
 						url: "http://bit.ly/1s08Zf0"
-					}
+					},
+					reportTitle: 'A Panoramic View of Pipeline Demand and Resource Capacity Gives Top Performers an Advantage',
+					reportImg: '/app/img/reports/hex-product-development-250.png'
 				},
 				{
 					'id': 'srp',
@@ -83,7 +87,9 @@ define(['angular', 'underscore', 'munchkin', 'chart-data', 'angularCookies'], fu
 					'tweet': {
 						text: "View the #webcast highlighting the State of #ResourceMgmt and #CapacityPlanning in #ProfessionalServices",
 						url: "http://bit.ly/13Ew8PU"
-					}
+					},
+					reportTitle: 'Maintaining Margins by Aligning Resources to High Value Projects',
+					reportImg: '/app/img/reports/hex-services-250.png'
 				}
 			]
 		}]);
